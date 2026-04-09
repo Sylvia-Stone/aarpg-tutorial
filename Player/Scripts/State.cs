@@ -5,6 +5,7 @@ namespace AARPGtutorial.Player.Scripts;
 public abstract partial class State : Node, IState
 {
     public Player Player { get; set; }
+    public PlayerStateMachine StateMachine { get; set; }
 
     public virtual void Enter() { }
     public virtual void Exit() { }

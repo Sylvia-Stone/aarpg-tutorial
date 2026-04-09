@@ -38,6 +38,7 @@ public partial class PlayerStateMachine : Node
             if (child is State state)
             {
                 state.Player = player;
+                state.StateMachine = this;
                 states.Add(state);
             }
         }
@@ -49,6 +50,8 @@ public partial class PlayerStateMachine : Node
         }
     }
     
+    public T GetState<T>() where T : State => states.OfType<T>().FirstOrDefault();
+
     public void ChangeState(State newState)
     {
         if (newState == null || newState == _currentState)
