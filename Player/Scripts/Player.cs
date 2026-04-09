@@ -5,26 +5,35 @@ namespace AARPGtutorial.Player.Scripts;
 
 public partial class Player : CharacterBody2D
 {
+	private const string AnimPlayerNode = "AnimationPlayer";
+	private const string SpriteNode     = "Sprite2D";
+	private const string StateMachineNode = "StateMachine";
+
+	private const string ActionRight = "right";
+	private const string ActionLeft  = "left";
+	private const string ActionDown  = "down";
+	private const string ActionUp    = "up";
+
 	private Vector2 _cardinalDirection = Vector2.Down;
 	public Vector2 Direction = Vector2.Zero;
 	private AnimationPlayer _animationPlayer;
 	private Sprite2D _sprite;
 	private PlayerStateMachine _stateMachine;
-	
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		_animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer"); 
-		_sprite = GetNode<Sprite2D>("Sprite2D");
-		_stateMachine = GetNode<PlayerStateMachine>("StateMachine");
-		
+		_animationPlayer = GetNode<AnimationPlayer>(AnimPlayerNode);
+		_sprite = GetNode<Sprite2D>(SpriteNode);
+		_stateMachine = GetNode<PlayerStateMachine>(StateMachineNode);
+
 		_stateMachine.Initialize(this);
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Direction.X = Input.GetActionStrength("right") - Input.GetActionStrength("left");
-		Direction.Y = Input.GetActionStrength("down") - Input.GetActionStrength("up");
+		Direction.X = Input.GetActionStrength(ActionRight) - Input.GetActionStrength(ActionLeft);
+		Direction.Y = Input.GetActionStrength(ActionDown)  - Input.GetActionStrength(ActionUp);
 		MoveAndSlide();
 	}
 
