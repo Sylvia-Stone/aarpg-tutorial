@@ -3,5 +3,6 @@ namespace AARPGtutorial.Player.Scripts;
 public enum PlayerState
 {
     Idle,
-    Walk
+    Walk,
+    Attack
 }

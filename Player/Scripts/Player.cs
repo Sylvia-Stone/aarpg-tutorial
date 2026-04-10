@@ -32,8 +32,10 @@ public partial class Player : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Direction.X = Input.GetActionStrength(ActionRight) - Input.GetActionStrength(ActionLeft);
-		Direction.Y = Input.GetActionStrength(ActionDown)  - Input.GetActionStrength(ActionUp);
+		Direction = new Vector2(
+			Input.GetAxis(ActionLeft, ActionRight),
+			Input.GetAxis(ActionUp, ActionDown)
+		).Normalized();
 		MoveAndSlide();
 	}
 
@@ -45,13 +47,13 @@ public partial class Player : CharacterBody2D
 			: (Direction.Y > 0 ? Vector2.Down  : Vector2.Up);
 		if (_cardinalDirection == newDirection) return false;
 		_cardinalDirection = newDirection;
+		_sprite.Scale = new Vector2(_cardinalDirection == Vector2.Left ? -1 : 1, 1);
 		return true;
 	}
 	
 	public void UpdateAnimation(PlayerState state)
 	{
-		_sprite.FlipH = _cardinalDirection == Vector2.Left;
-		_animationPlayer.Play($"{state}{AnimDirection()}");
+		_animationPlayer.Play($"{state}{GetAnimDirection()}");
 	}
 
 	private static readonly Dictionary<Vector2, AnimationDirection> DirectionAnimations = new()
@@ -62,6 +64,6 @@ public partial class Player : CharacterBody2D
 		{ Vector2.Right, AnimationDirection.Side },
 	};
 
-	private AnimationDirection AnimDirection() =>
+	public AnimationDirection GetAnimDirection() =>
 		DirectionAnimations.GetValueOrDefault(_cardinalDirection, AnimationDirection.Down);
 }
