@@ -11,7 +11,7 @@ public partial class StateIdle : State
 
     public override State Process(double delta)
     {
-        if (Input.IsActionJustPressed("Attack")) return StateMachine.GetState<StateAttack>();
+        if (Input.IsActionJustPressed(InputActions.Attack)) return StateMachine.GetState<StateAttack>();
         if (Player.Direction != Vector2.Zero) return StateMachine.GetState<StateWalk>();
         Player.Velocity = Vector2.Zero;
         return null;

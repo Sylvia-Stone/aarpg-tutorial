@@ -5,4 +5,7 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>AARPGtutorial</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Props\Sprites\" />
+  </ItemGroup>
 </Project>
