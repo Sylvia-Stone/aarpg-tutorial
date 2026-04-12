@@ -9,7 +9,6 @@ public partial class Player : CharacterBody2D
 	private const string SpriteNode     = "Sprite2D";
 	private const string StateMachineNode = "StateMachine";
 
-
 	private Vector2 _cardinalDirection = Vector2.Down;
 	public Vector2 Direction = Vector2.Zero;
 	
@@ -48,7 +47,6 @@ public partial class Player : CharacterBody2D
 			: (Direction.Y > 0 ? Vector2.Down  : Vector2.Up);
 		
 		if (_cardinalDirection == newDirection) return false;
-		
 		
 		_cardinalDirection = newDirection;
 		EmitSignal(SignalName.DirectionChanged, newDirection);

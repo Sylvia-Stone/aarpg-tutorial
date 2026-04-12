@@ -106,7 +106,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, 10)]
+"values": [Vector2(0, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -158,7 +158,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, 10)]
+"values": [Vector2(2, -1)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -245,6 +245,9 @@ _data = {
 &"RESET": SubResource("Animation_dkpta")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_apopc"]
+radius = 20.0
+
 [sub_resource type="Animation" id="Animation_00tjw"]
 resource_name = "AttackDown"
 length = 0.3
@@ -259,6 +262,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [21, 23]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/HurtBox:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0001),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 36), Vector2(0, 36)]
 }
 
 [sub_resource type="Animation" id="Animation_x3vf3"]
@@ -276,6 +291,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [27, 29]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/HurtBox:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(8, 17)]
+}
 
 [sub_resource type="Animation" id="Animation_apopc"]
 resource_name = "AttackUp"
@@ -291,6 +318,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [24, 26]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/HurtBox:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2, 8)]
 }
 
 [sub_resource type="Animation" id="Animation_4ntmi"]
@@ -358,6 +397,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/HurtBox:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 36)]
+}
 
 [sub_resource type="Animation" id="Animation_fhl08"]
 resource_name = "WalkDown"
@@ -424,9 +475,6 @@ _data = {
 &"WalkUp": SubResource("Animation_od3ui")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_apopc"]
-radius = 20.0
-
 [node name="Player" type="CharacterBody2D" unique_id=2142681847]
 collision_mask = 16
 script = ExtResource("1_4ntmi")
@@ -455,6 +503,15 @@ show_behind_parent = true
 position = Vector2(0, 20)
 texture = ExtResource("4_00tjw")
 
+[node name="HurtBox" parent="Sprite2D" unique_id=1940142066 instance=ExtResource("10_x3vf3")]
+position = Vector2(0, 36)
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/HurtBox" unique_id=448114596]
+position = Vector2(0, -17)
+shape = SubResource("CircleShape2D_apopc")
+debug_color = Color(0.94509804, 0.15686275, 0.05490196, 0.41960785)
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1187532018]
 libraries/ = SubResource("AnimationLibrary_00tjw")
 
@@ -474,7 +531,7 @@ _decelerationRate = 5.0
 _playerAnimationPlayer = NodePath("../../AnimationPlayer")
 _attackAnimationPlayer = NodePath("../../Sprite2D/AttackEffectSprite/AnimationPlayer")
 _audioStreamPlayer2D = NodePath("../../Audio/AudioStreamPlayer2D")
-_hurtBox = NodePath("../../Interactions/HurtBox")
+_hurtBox = NodePath("../../Sprite2D/HurtBox")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=402321107]
 
@@ -486,11 +543,3 @@ max_polyphony = 4
 [node name="Interactions" type="Node2D" parent="." unique_id=674457378 node_paths=PackedStringArray("_player")]
 script = ExtResource("10_apopc")
 _player = NodePath("..")
-
-[node name="HurtBox" parent="Interactions" unique_id=1940142066 instance=ExtResource("10_x3vf3")]
-position = Vector2(0, 16)
-monitoring = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/HurtBox" unique_id=448114596]
-shape = SubResource("CircleShape2D_apopc")
-debug_color = Color(0.94509804, 0.15686275, 0.05490196, 0.41960785)
