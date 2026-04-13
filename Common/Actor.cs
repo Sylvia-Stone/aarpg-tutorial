@@ -6,19 +6,29 @@ namespace AarpgTutorial.Common;
 
 public abstract partial class Actor : CharacterBody2D
 {
+    #region Signals
+
     [Signal]
     public delegate void DirectionChangedEventHandler(Vector2 direction);
 
+    #endregion
+
+    #region Exports
+
     [Export]
     private AnimationPlayer _animationPlayer;
-
     public AnimationPlayer AnimationPlayer => _animationPlayer;
+
     [Export]
     private Sprite2D _sprite;
 
+    #endregion
+
+    #region Fields
+
     private Vector2 _cardinalDirection = Vector2.Down;
     public Vector2 Direction = Vector2.Zero;
-    
+
     public static readonly Vector2[] CardinalDirections =
         [Vector2.Up, Vector2.Down, Vector2.Left, Vector2.Right];
 
@@ -30,10 +40,18 @@ public abstract partial class Actor : CharacterBody2D
         { Vector2.Right, AnimationDirection.Side },
     };
 
+    #endregion
+
+    #region Lifecycle
+
     public override void _PhysicsProcess(double delta)
     {
         MoveAndSlide();
     }
+
+    #endregion
+
+    #region Public Methods
 
     public bool SetDirection(Vector2 direction)
     {
@@ -60,4 +78,6 @@ public abstract partial class Actor : CharacterBody2D
 
     public AnimationDirection GetAnimDirection() =>
         DirectionAnimations.GetValueOrDefault(_cardinalDirection, AnimationDirection.Down);
+
+    #endregion
 }

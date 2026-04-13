@@ -1,5 +1,4 @@
 using AarpgTutorial.Common;
-using AARPGtutorial.Common;
 using AarpgTutorial.Player.States;
 using Godot;
 
@@ -7,8 +6,14 @@ namespace AarpgTutorial.Player.Scripts;
 
 public partial class PlayerCharacter : Actor
 {
+    #region Exports
+
     [Export]
     private PlayerStateMachine _stateMachine;
+
+    #endregion
+
+    #region Lifecycle
 
     public override void _Ready()
     {
@@ -24,4 +29,6 @@ public partial class PlayerCharacter : Actor
         ).Normalized();
         base._PhysicsProcess(delta);
     }
+
+    #endregion
 }

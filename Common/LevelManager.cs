@@ -1,22 +1,37 @@
 using Godot;
-using GodotVector2Array = Godot.Collections.Array<Godot.Vector2>; 
 
 namespace AarpgTutorial.Common;
 
 public partial class LevelManager : Node
 {
-	public GodotVector2Array CurrentTileMapBounds;
-	
+	#region Signals
+
 	[Signal]
-	public delegate void TileMapBoundsChangedEventHandler(GodotVector2Array tileMapBounds);
-	
+	public delegate void TileMapBoundsChangedEventHandler(Bounds bounds);
+
+	#endregion
+
+	#region Fields
+
+	public Bounds CurrentTileMapBounds;
+
 	public static LevelManager Instance { get; private set; }
+
+	#endregion
+
+	#region Lifecycle
 
 	public override void _Ready() => Instance = this;
 
-	public void ChangeTileMapBounds(GodotVector2Array tileMapBounds)
+	#endregion
+
+	#region Public Methods
+
+	public void ChangeTileMapBounds(Bounds bounds)
 	{
-		CurrentTileMapBounds = tileMapBounds;
-		EmitSignalTileMapBoundsChanged(tileMapBounds);
+		CurrentTileMapBounds = bounds;
+		EmitSignalTileMapBoundsChanged(bounds);
 	}
+
+	#endregion
 }

@@ -5,9 +5,17 @@ namespace AarpgTutorial.Common;
 
 public partial class PlayerManager : Node
 {
+    #region Fields
+
     public Player.Scripts.PlayerCharacter PlayerCharacter;
-    
+
     public static PlayerManager Instance { get; private set; }
 
+    #endregion
+
+    #region Lifecycle
+
     public override void _Ready() => Instance = this;
+
+    #endregion
 }

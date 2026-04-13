@@ -5,6 +5,8 @@ namespace AarpgTutorial.Player.States;
 
 public partial class Attack : PlayerState
 {
+    #region Exports
+
     [Export]
     private AudioStream _attackSound;
     [Export(PropertyHint.Range, "1,20,.5")]
@@ -18,7 +20,15 @@ public partial class Attack : PlayerState
     [Export]
     private Area2D _hurtBox;
 
+    #endregion
+
+    #region Fields
+
     private bool _attacking;
+
+    #endregion
+
+    #region Lifecycle
 
     public override async void Enter()
     {
@@ -52,8 +62,14 @@ public partial class Attack : PlayerState
             : StateMachine.GetState<Move>();
     }
 
+    #endregion
+
+    #region Private Methods
+
     private void EndAttack(StringName _)
     {
         _attacking = false;
     }
+
+    #endregion
 }

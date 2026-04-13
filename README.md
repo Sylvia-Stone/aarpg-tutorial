@@ -1,17 +1,16 @@
 # AARPG Tutorial: C# Translation
 
-A C# translation of [Michael Games' AARPG tutorial series](https://www.youtube.com/@MichaelGamesOfficial) built in Godot 4. The series starts [here](https://youtu.be/QPeycNt29tY?si=Viehkem9jw0uMWAk).
+A C# translation of [Michael Games' AARPG tutorial series](https://www.youtube.com/@MichaelGamesOfficial) built in Godot 4. The series starts [here](https://youtu.be/QPeycNt29tY?si=Viehkem9jw0uMWAk). Michael's GitHub link to the tutorial is [here](https://github.com/michaelmalaska/aarpg-tutorial)
 
 The original tutorial uses GDScript. I follow the same episodes but implement everything in idiomatic C#, with some structural differences noted below.
 
+> **Note:** I am doing this for fun and to learn Godot game development. I am a professional C# developer, but work in web development, so there are things about Godot and game development conventions/patterns that I am learning! That's why I'm here!
 ---
 
 ## Differences from the GDScript Tutorial
 
 ### General C# Idioms
-These are general C# patterns that apply throughout rather than episode-specific decisions:
-- State methods return `null` to mean "stay in current state", GDScript returns `self`
-- `GetValueOrDefault` used for dictionary lookups with a fallback value, GDScript handles missing keys implicitly with `null`
+- There are many things you are going to find different from the tutorial if you're following along. A lot of this has to do with C# conventions. Like, passing raw strings is usually frowned upon, and enums preferred. I'm not new to C#, but I am new to game development and Godot, so you'll find I update things at certain points if I find a better way to do it. Like switching EmitSignal(SignalName.Damaged... blah blah) to EmitSignalDamaged();
 - GDScript's `@onready` has no direct C# equivalent. If you want to follow Michael's approach more closely, assign node references in `_Ready()` instead of using `[Export]`:
   ```csharp
   private AnimationPlayer _animationPlayer;
@@ -21,7 +20,10 @@ These are general C# patterns that apply throughout rather than episode-specific
       _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
   }
   ```
-
+- This bothered me greatly. LOOSE STRINGS. So now every time Michael adds an @onready variable, I instead export it and wire it up in the editor (just drag and drop the node/animationplayer etc. to the relevant export). See [Editor Wiring](#editor-wiring)
+  - There are pros and cons to this approach. 
+    - Pros: better for refactoring. References will stay linked when moving files around the tree. 
+    - Cons: If you edit the export variable, rename it or move the code file, you will need to rewire everything again, so keep that in mind. 
 ### Episode 1
 - **Enums over strings:** Player state and animation direction are defined as proper C# `enum` types rather than raw strings
 - **SetDirection:** Used `Vector2.Abs()` dominant-axis comparison instead of raw direction checks, which avoids the moonwalk bug Michael fixes in Episode 7
@@ -32,15 +34,13 @@ These are general C# patterns that apply throughout rather than episode-specific
 ### Episode 3
 - **`StateMachine.GetState<T>()`:** State transitions use a generic method rather than returning string names. This is type-safe and prevents typos: `StateMachine.GetState<Attack>()` instead of `return "Attack"`. This was originally paired with an `IState` interface, which was later replaced in Episode 9.
 
-### Episode 5
-- **Signal subscriptions:** `AnimationFinished += EndAttack` / `-=` is used instead of GDScript's `connect`/`disconnect`. The `+=` pattern requires manual cleanup with `-=` (done in `Exit()`), which is easy to forget compared to GDScript's more explicit `disconnect`. Note: `AnimationFinished` is a built-in Godot signal, so no `[Signal]` delegate needed here.
-- **Custom signals:** Follow the C# Godot convention: `[Signal]` on a delegate ending in `EventHandler`, emitted via `EmitSignal(SignalName.X)` rather than GDScript's `signal name(params)` / `name.emit()`. The `EventHandler` suffix is required: Godot strips it to derive the signal name, so `DamagedEventHandler` becomes the `Damaged` signal.
+### Episodes 4-5
+- I mostly kept everything to the way Michael had it. 
 
 ### Episode 6
 - **Naming:** The shared nodes folder is named `Common/` instead of `GeneralNodes/`, and `PlayerInteractionsHost` is named `PlayerInteractionsManager`
 - **Node references as exports:** Rather than using hardcoded `GetNode("../../Some/Path")` strings, node references are exposed as `[Export]` properties and assigned by dragging nodes into Inspector slots in the editor. This makes the code resilient to scene tree restructuring. See [Editor Wiring](#editor-wiring) below for the full mapping.
 - **`InputActions.cs`:** Input action strings centralized in a static class instead of scattered string literals
-- **Pattern matching:** Switch expressions and `is` type casts used where applicable (e.g. `area is HitBox hitBox` in HurtBox, direction mapping in `PlayerInteractionsManager`)
 - **`async void Enter()`:** `StateAttack.Enter()` uses `async void` with `await ToSignal()` to delay hitbox activation. GDScript handles this inline with `yield`. `async void` is generally discouraged in C# but is the accepted pattern for Godot lifecycle methods that need to await
 
 ### Episode 7
@@ -51,14 +51,8 @@ These are general C# patterns that apply throughout rather than episode-specific
 ### Episode 8
 - **Globals folder:** Michael creates a `Globals/` folder with a `GlobalLevelManager.gd` script. I use the existing `Common/` folder for shared/global scripts instead
 - **Autoload access:** GDScript autoloads are accessible like static methods anywhere in the project. In C#, `GlobalLevelManager` exposes a static `Instance` property set in `_Ready()`, so it can be accessed as `GlobalLevelManager.Instance` without `GetNode` calls
-- **Nullable return types:** `State.Process()`, `Physics()`, and `HandleInput()` are marked `State?` to explicitly declare that returning `null` ("stay in current state") is intentional
-- **Collection expressions:** `List<State>` initialized with `[]` instead of `new List<State>()` (C# 12 collection expression syntax)
-- **Non-null pattern:** `FirstOrDefault() is { }` used instead of `is State` type check, which is more precise since it matches any non-null value rather than checking the type
-- **Type alias for namespace conflict:** `HurtBox.cs` uses `using HitboxArea2D = AARPGtutorial.Common.HitBox.HitBox;` to resolve the ambiguity between the `HitBox` namespace and `HitBox` class, a consequence of the namespace and class sharing the same name
-- **`using` aliases:** Used to shorten verbose Godot types, e.g. `using GodotVector2Array = Godot.Collections.Array<Godot.Vector2>;`. `List<T>` is generally preferred in C#, but Godot signal parameters require Godot's own array types.
 
 ### Episode 9
-- **Attribute placement:** `[Export]`, `[Signal]`, and other attributes are placed on their own line above the declaration rather than inline (standard C# formatting convention)
 - **Player node references as exports:** `AnimationPlayer`, `Sprite2D`, and `PlayerStateMachine` in `PlayerCharacter.cs` were still using `GetNode` with string constants from earlier episodes. Converted to `[Export]` properties to match the pattern established in Episode 6.
 - **Enemy node references as exports:** `AnimationPlayer`, `Sprite2D`, and `EnemyStateMachine` in `Enemy.cs` wired up as `[Export]` properties, consistent with the Episode 6 pattern.
 - **Player renamed to PlayerCharacter:** `Player` is both the class name and a namespace, causing ambiguity. Renamed the class to `PlayerCharacter` to resolve it.
@@ -78,8 +72,16 @@ State files were also reorganized:
 > **Note for anyone following along:** This refactor changes class names, file paths, and wiring for all state scripts. It's a significant divergence from Michael's structure. I will try to keep it closer to the tutorial in the future, but for this episode you might be better off pulling down this commit and looking through it than replicating it step by step. See [Editor Wiring](#editor-wiring) for current mappings.
 
 ### Episode 10
-- **Typed signal emitters:** All `EmitSignal(SignalName.X, ...)` calls replaced with Godot's source-generated typed wrappers (e.g. `EmitSignalEnemyDamaged()`). The untyped form silently fails if argument count or types don't match; the typed form is a compile error.
+- **Realization:** I think there was more to Michael's restructure than I can see, as there is some behavior that differs, like the overlapping hitbox/hurtbox causing issues for me, but not for Michael. 
+  - I'll still get everything in the same playable state at the end of episodes, but his repo did not get pushed up to Github until episode 14.
+  - I will go through his repo and make sure we're 1:1 (except for abstraction layers) when we get to episode 14. 
 - **Slime HurtBox removed:** The slime scene had both a HitBox and a HurtBox. The HurtBox was causing the slime to immediately register as hit on startup due to area overlap. It has been removed for now and will be re-added when enemy contact damage is implemented.
+
+### Post-Episode 10 (Light Housekeeping)
+All existing functionality is unchanged. No scene wiring was affected.
+- **`Organization`** Reorganized classes to have a consistent structure and use #regions. I also changed AARPGTutorial to AarpgTutorial because Rider was annoying me.
+  - I'm using Rider for development, and the regions are really nice when looking at the structure tab.
+- **`Bounds` class:** `Common/Bounds.cs` is a `RefCounted` subclass holding `Left`, `Top`, `Right`, `Bottom` as `int` properties. Replaces the `GodotVector2Array` that was threaded between `LevelTileMap`, `LevelManager`, and `PlayerCamera`. `RefCounted` objects are reference-counted and free themselves automatically when no longer referenced, so no `QueueFree()` is needed. The `using GodotVector2Array = ...` alias in those files is gone.
 
 ---
 
@@ -179,4 +181,5 @@ Because node references use `[Export]` rather than hardcoded `GetNode` paths, yo
 | `e5bb347` | 8        | HitBox type alias fix: resolved namespace/class name conflict in `HurtBox.cs`          |
 | `3e93eda` | 9        | Episode 9: Implemented slime enemy and major refactor of states, actors, statemachines |
 | `3cb50b9` | -        | Updated README for Episode 9                                                           |
-| `Latest`  | 10       | Updated Slime to take damage                                                           |
+| `37f62d9` | 10       | Updated Slime to take damage                                                           |
+| `Latest`  | -        | Light housekeeping: namespace casing, region organization, `Bounds` class              |

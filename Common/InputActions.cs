@@ -1,4 +1,4 @@
-namespace AARPGtutorial.Common;
+namespace AarpgTutorial.Common;
 
 public static class InputActions
 {

@@ -4,13 +4,23 @@ namespace AarpgTutorial.Player.Scripts;
 
 public partial class PlayerInteractionsManager : Node2D
 {
+    #region Exports
+
     [Export]
     private PlayerCharacter _playerCharacter;
+
+    #endregion
+
+    #region Lifecycle
 
     public override void _Ready()
     {
         _playerCharacter.DirectionChanged += UpdateDirection;
     }
+
+    #endregion
+
+    #region Private Methods
 
     private void UpdateDirection(Vector2 newDirection)
     {
@@ -23,4 +33,6 @@ public partial class PlayerInteractionsManager : Node2D
             _ => 0
         };
     }
+
+    #endregion
 }

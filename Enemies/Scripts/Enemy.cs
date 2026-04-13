@@ -7,10 +7,16 @@ namespace AarpgTutorial.Enemies.Scripts;
 
 public partial class Enemy : Actor
 {
+    #region Signals
+
     [Signal]
     public delegate void EnemyDamagedEventHandler();
     [Signal]
     public delegate void EnemyDestroyedEventHandler();
+
+    #endregion
+
+    #region Exports
 
     [Export]
     private int _hp = 3;
@@ -19,8 +25,16 @@ public partial class Enemy : Actor
     [Export]
     private HitBox _hitBox;
 
+    #endregion
+
+    #region Fields
+
     public bool IsInvulnerable;
     public Player.Scripts.PlayerCharacter PlayerCharacter;
+
+    #endregion
+
+    #region Lifecycle
 
     public override void _Ready()
     {
@@ -28,6 +42,10 @@ public partial class Enemy : Actor
         PlayerCharacter = PlayerManager.Instance.PlayerCharacter;
         _hitBox.Damaged += OnTakeDamage;
     }
+
+    #endregion
+
+    #region Public Methods
 
     public void OnTakeDamage(int damage)
     {
@@ -43,4 +61,6 @@ public partial class Enemy : Actor
             EmitSignalEnemyDestroyed();
         }
     }
+
+    #endregion
 }

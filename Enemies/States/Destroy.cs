@@ -2,7 +2,7 @@ using AarpgTutorial.Common.Enums;
 using AarpgTutorial.Enemies.States;
 using Godot;
 
-namespace AARPGtutorial.Enemies.States;
+namespace AarpgTutorial.Enemies.States;
 
 public partial class Destroy : EnemyState
 {
@@ -17,13 +17,13 @@ public partial class Destroy : EnemyState
 
     #endregion
 
-    #region Private Fields
+    #region Fields
 
     private Vector2 _direction;
 
     #endregion
 
-    #region Public Methods
+    #region Lifecycle
 
     public override void Init()
     {

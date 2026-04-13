@@ -7,9 +7,15 @@ namespace AarpgTutorial.Common.States;
 public abstract partial class StateMachine<TActor, TState> : Node
     where TState : State
 {
+    #region Fields
+
     protected readonly List<TState> States = [];
     protected TState? CurrentState;
     protected TState? PreviousState;
+
+    #endregion
+
+    #region Lifecycle
 
     public override void _Ready()
     {
@@ -31,6 +37,10 @@ public abstract partial class StateMachine<TActor, TState> : Node
             ChangeState(next);
     }
 
+    #endregion
+
+    #region Public Methods
+
     public TState? GetState<T>() where T : TState => States.OfType<T>().FirstOrDefault();
 
     public void ChangeState(TState? newState)
@@ -43,4 +53,6 @@ public abstract partial class StateMachine<TActor, TState> : Node
     }
 
     public abstract void Initialize(TActor actor);
+
+    #endregion
 }

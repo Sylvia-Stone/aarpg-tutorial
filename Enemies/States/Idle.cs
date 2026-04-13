@@ -5,6 +5,8 @@ namespace AarpgTutorial.Enemies.States;
 
 public partial class Idle : EnemyState
 {
+    #region Exports
+
     [Export]
     private StateType _animationStateType = StateType.Idle;
 
@@ -16,7 +18,15 @@ public partial class Idle : EnemyState
     [Export]
     private EnemyState? _nextState;
 
+    #endregion
+
+    #region Fields
+
     private double _timer;
+
+    #endregion
+
+    #region Lifecycle
 
     public override void Enter()
     {
@@ -30,4 +40,6 @@ public partial class Idle : EnemyState
         _timer -= delta;
         return _timer <= 0 ? _nextState : null;
     }
+
+    #endregion
 }

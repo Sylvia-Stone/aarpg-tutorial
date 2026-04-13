@@ -1,4 +1,4 @@
-using AARPGtutorial.Common;
+using AarpgTutorial.Common;
 using AarpgTutorial.Common.Enums;
 using AarpgTutorial.Player.Scripts;
 using Godot;
@@ -7,8 +7,14 @@ namespace AarpgTutorial.Player.States;
 
 public partial class Move : PlayerState
 {
+    #region Exports
+
     [Export]
     public float MoveSpeed { get; set; } = 100;
+
+    #endregion
+
+    #region Lifecycle
 
     public override void Enter()
     {
@@ -27,4 +33,6 @@ public partial class Move : PlayerState
 
         return null;
     }
+
+    #endregion
 }

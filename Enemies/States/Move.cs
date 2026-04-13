@@ -6,6 +6,8 @@ namespace AarpgTutorial.Enemies.States;
 
 public partial class Move : EnemyState
 {
+    #region Exports
+
     [Export]
     private StateType _animationStateType = StateType.Walk;
     [Export]
@@ -21,8 +23,16 @@ public partial class Move : EnemyState
     [Export]
     private EnemyState? _nextState;
 
+    #endregion
+
+    #region Fields
+
     private double _timer;
     private Vector2 _direction;
+
+    #endregion
+
+    #region Lifecycle
 
     public override void Enter()
     {
@@ -38,4 +48,6 @@ public partial class Move : EnemyState
         _timer -= delta;
         return _timer < 0 ? _nextState : null;
     }
+
+    #endregion
 }

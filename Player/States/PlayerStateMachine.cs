@@ -7,11 +7,17 @@ namespace AarpgTutorial.Player.States;
 
 public partial class PlayerStateMachine : StateMachine<Scripts.PlayerCharacter, PlayerState>
 {
+    #region Lifecycle
+
     public override void _UnhandledInput(InputEvent @event)
     {
         if (CurrentState?.HandleInput(@event) is PlayerState next)
             ChangeState(next);
     }
+
+    #endregion
+
+    #region Public Methods
 
     public override void Initialize(Scripts.PlayerCharacter playerCharacter)
     {
@@ -27,4 +33,6 @@ public partial class PlayerStateMachine : StateMachine<Scripts.PlayerCharacter, 
             ProcessMode = ProcessModeEnum.Inherit;
         }
     }
+
+    #endregion
 }

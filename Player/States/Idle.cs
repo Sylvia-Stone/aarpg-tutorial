@@ -1,4 +1,4 @@
-using AARPGtutorial.Common;
+using AarpgTutorial.Common;
 using AarpgTutorial.Common.Enums;
 using AarpgTutorial.Player.Scripts;
 using Godot;
@@ -7,6 +7,8 @@ namespace AarpgTutorial.Player.States;
 
 public partial class Idle : PlayerState
 {
+    #region Lifecycle
+
     public override void Enter()
     {
         PlayerCharacter.UpdateAnimation(StateType.Idle);
@@ -19,4 +21,6 @@ public partial class Idle : PlayerState
         PlayerCharacter.Velocity = Vector2.Zero;
         return null;
     }
+
+    #endregion
 }

@@ -7,6 +7,8 @@ namespace AarpgTutorial.Enemies.States;
 
 public partial class EnemyStateMachine : StateMachine<Enemy, EnemyState>
 {
+    #region Public Methods
+
     public override void Initialize(Enemy enemy)
     {
         foreach (var state in States)
@@ -22,4 +24,6 @@ public partial class EnemyStateMachine : StateMachine<Enemy, EnemyState>
             ProcessMode = ProcessModeEnum.Inherit;
         }
     }
+
+    #endregion
 }

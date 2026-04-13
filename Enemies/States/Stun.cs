@@ -21,14 +21,14 @@ public partial class Stun : EnemyState
 
     #endregion
 
-    #region Private Fields
+    #region Fields
 
     private Vector2 _direction;
     private bool _animationFinished;
 
     #endregion
 
-    #region Public Methods
+    #region Lifecycle
 
     public override void Init()
     {
