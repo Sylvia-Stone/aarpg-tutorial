@@ -97,5 +97,5 @@ Because node references use `[Export]` rather than hardcoded `GetNode` paths (ad
 | `c3ea106` | 4–5      | Attack state, terrain tilemap, terrain collisions                                |
 | `e88bbe8` | 6        | HitBox/HurtBox system, shrubs/plants, `PlayerInteractionsManager`, export wiring |
 | `774a925` | 7        | Episode 7 cleanup — moonwalk fix not needed, export wiring                       |
-| `b2e0ba8` | —        | Added README                                                                     |
+| `eaa51c5` | 8        | Epidode 8 - Auto Camera Limits + small refactors                                 |
 
