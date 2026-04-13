@@ -1,11 +1,12 @@
 using Godot;
-using HitBoxArea2D = AARPGtutorial.Common.HitBox.HitBox;
+using HitBoxArea2D = AarpgTutorial.Common.HitBox.HitBox;
 
-namespace AARPGtutorial.Common.HurtBox;
+namespace AarpgTutorial.Common.HurtBox;
 
 public partial class HurtBox : Area2D
 {
-    [Export] private int Damage { get; set; } = 1;
+    [Export]
+    private int Damage { get; set; } = 1;
 
     public override void _Ready()
     {
@@ -14,7 +15,7 @@ public partial class HurtBox : Area2D
 
     private void OnAreaEntered(Area2D area)
     {
-        if (area is HitBoxArea2D hitBox)
+        if (area is HitBox.HitBox hitBox)
         {
             hitBox.TakeDamage(Damage);
         }

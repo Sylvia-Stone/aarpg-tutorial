@@ -1,14 +1,14 @@
-using AARPGtutorial.Common;
+using AarpgTutorial.Common;
 using Godot;
 using GodotVector2Array = Godot.Collections.Array<Godot.Vector2>;
 
-namespace AARPGtutorial.Tile_Maps;
+namespace AarpgTutorial.Tile_Maps;
 
 public partial class LevelTileMap : TileMapLayer
 {
 	public override void _Ready()
 	{
-		GlobalLevelManager.Instance.ChangeTileMapBounds(GetTileMapBounds());
+		LevelManager.Instance.ChangeTileMapBounds(GetTileMapBounds());
 	}
 
 	private GodotVector2Array GetTileMapBounds() =>

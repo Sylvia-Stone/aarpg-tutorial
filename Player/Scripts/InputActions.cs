@@ -1,4 +1,4 @@
-namespace AARPGtutorial.Player.Scripts;
+namespace AarpgTutorial.Player.Scripts;
 
 public static class InputActions
 {

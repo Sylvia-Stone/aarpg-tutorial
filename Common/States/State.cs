@@ -1,12 +1,10 @@
 using Godot;
 
-namespace AARPGtutorial.Player.Scripts;
+namespace AarpgTutorial.Common.States;
 
-public abstract partial class State : Node, IState
+public abstract partial class State : Node
 {
-    public Player Player { get; set; }
-    public PlayerStateMachine StateMachine { get; set; }
-
+    public virtual void Init() { }
     public virtual void Enter() { }
     public virtual void Exit() { }
     public virtual State? Process(double delta) => null;

@@ -1,14 +1,15 @@
 using Godot;
 
-namespace AARPGtutorial.Player.Scripts;
+namespace AarpgTutorial.Player.Scripts;
 
 public partial class PlayerInteractionsManager : Node2D
 {
-    [Export] private Player _player;
+    [Export]
+    private PlayerCharacter _playerCharacter;
 
     public override void _Ready()
     {
-        _player.DirectionChanged += UpdateDirection;
+        _playerCharacter.DirectionChanged += UpdateDirection;
     }
 
     private void UpdateDirection(Vector2 newDirection)

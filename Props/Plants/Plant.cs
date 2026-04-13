@@ -1,11 +1,12 @@
+using AarpgTutorial.Common.HitBox;
 using Godot;
-using AARPGtutorial.Common.HitBox;
 
-namespace AARPGtutorial.Props.Plants;
+namespace AarpgTutorial.Props.Plants;
 
 public partial class Plant : Node2D
 {
-    [Export] private HitBox _hitBox;
+    [Export]
+    private HitBox _hitBox;
 
     public override void _Ready()
     {

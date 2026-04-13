@@ -1,4 +1,4 @@
-namespace AARPGtutorial.Player.Scripts;
+namespace AarpgTutorial.Common.Enums;
 
 public enum AnimationDirection
 {

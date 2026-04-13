@@ -1,6 +1,6 @@
 using Godot;
 
-namespace AARPGtutorial.Common.HitBox;
+namespace AarpgTutorial.Common.HitBox;
 
 public partial class HitBox : Area2D
 {

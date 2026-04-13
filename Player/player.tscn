@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://bkvd1rkqkbtxl"]
 
-[ext_resource type="Script" uid="uid://bvu8p8cws2ur" path="res://Player/Scripts/Player.cs" id="1_4ntmi"]
+[ext_resource type="Script" uid="uid://bvu8p8cws2ur" path="res://Player/Scripts/PlayerCharacter.cs" id="1_5htga"]
 [ext_resource type="Texture2D" uid="uid://d0d5jv15f8soe" path="res://Player/Sprites/PlayerSprite02.png" id="2_k53q1"]
-[ext_resource type="Script" uid="uid://bjo0iqkh1qr0g" path="res://Player/Scripts/PlayerStateMachine.cs" id="3_btcbx"]
 [ext_resource type="Texture2D" uid="uid://4tix1tle1x6w" path="res://Player/Sprites/AttackSprite01.png" id="3_vtle1"]
 [ext_resource type="Texture2D" uid="uid://dlm6s0qc7kstp" path="res://Player/Sprites/Shadow.png" id="4_00tjw"]
-[ext_resource type="Script" uid="uid://bkfwo1t3vbib0" path="res://Player/Scripts/StateIdle.cs" id="4_gwnis"]
-[ext_resource type="Script" uid="uid://nycr8827hf2p" path="res://Player/Scripts/StateWalk.cs" id="5_k53q1"]
-[ext_resource type="Script" uid="uid://dul8loat7oyf6" path="res://Player/Scripts/StateAttack.cs" id="6_fhl08"]
+[ext_resource type="Script" uid="uid://8dvivfo5hdf7" path="res://Player/States/PlayerStateMachine.cs" id="6_p5o4e"]
+[ext_resource type="Script" uid="uid://ciuvq5u44h0im" path="res://Player/States/Idle.cs" id="7_gu6f8"]
+[ext_resource type="Script" uid="uid://ce388053b11gk" path="res://Player/States/Move.cs" id="8_dkpta"]
 [ext_resource type="AudioStream" uid="uid://bfk6sy116k48x" path="res://Player/Audio/SwordSwoosh.wav" id="8_od3ui"]
+[ext_resource type="Script" uid="uid://bxsq3ro5lj7eg" path="res://Player/States/Attack.cs" id="9_lfmf2"]
 [ext_resource type="Script" uid="uid://dg6rjvbigb0md" path="res://Player/Scripts/PlayerInteractionsManager.cs" id="10_apopc"]
 [ext_resource type="PackedScene" uid="uid://dvlduvdn8j750" path="res://Common/HurtBox/HurtBox.tscn" id="10_x3vf3"]
 [ext_resource type="Script" uid="uid://cp21vdbfpkkt4" path="res://Player/Scripts/PlayerCamera.cs" id="11_5htga"]
@@ -476,9 +476,12 @@ _data = {
 &"WalkUp": SubResource("Animation_od3ui")
 }
 
-[node name="Player" type="CharacterBody2D" unique_id=2142681847]
+[node name="Player" type="CharacterBody2D" unique_id=2142681847 node_paths=PackedStringArray("_stateMachine", "_animationPlayer", "_sprite")]
 collision_mask = 16
-script = ExtResource("1_4ntmi")
+script = ExtResource("1_5htga")
+_stateMachine = NodePath("StateMachine")
+_animationPlayer = NodePath("AnimationPlayer")
+_sprite = NodePath("Sprite2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=926846773]
 shape = SubResource("CircleShape2D_edjgo")
@@ -499,7 +502,7 @@ libraries/ = SubResource("AnimationLibrary_lfmf2")
 autoplay = &"AttackNone"
 
 [node name="ShadowSprite" type="Sprite2D" parent="Sprite2D" unique_id=1217164711]
-modulate = Color(0, 0, 0, 1)
+modulate = Color(0.30692276, 0.30692267, 0.30692264, 1)
 show_behind_parent = true
 position = Vector2(0, 20)
 texture = ExtResource("4_00tjw")
@@ -517,16 +520,16 @@ debug_color = Color(0.94509804, 0.15686275, 0.05490196, 0.41960785)
 libraries/ = SubResource("AnimationLibrary_00tjw")
 
 [node name="StateMachine" type="Node" parent="." unique_id=1972113165]
-script = ExtResource("3_btcbx")
+script = ExtResource("6_p5o4e")
 
 [node name="Idle" type="Node" parent="StateMachine" unique_id=1427504205]
-script = ExtResource("4_gwnis")
+script = ExtResource("7_gu6f8")
 
 [node name="Walk" type="Node" parent="StateMachine" unique_id=1889189729]
-script = ExtResource("5_k53q1")
+script = ExtResource("8_dkpta")
 
 [node name="Attack" type="Node" parent="StateMachine" unique_id=1546077289 node_paths=PackedStringArray("_playerAnimationPlayer", "_attackAnimationPlayer", "_audioStreamPlayer2D", "_hurtBox")]
-script = ExtResource("6_fhl08")
+script = ExtResource("9_lfmf2")
 _attackSound = ExtResource("8_od3ui")
 _decelerationRate = 5.0
 _playerAnimationPlayer = NodePath("../../AnimationPlayer")
@@ -543,6 +546,6 @@ script = ExtResource("11_5htga")
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Audio" unique_id=836896377]
 max_polyphony = 4
 
-[node name="Interactions" type="Node2D" parent="." unique_id=674457378 node_paths=PackedStringArray("_player")]
+[node name="Interactions" type="Node2D" parent="." unique_id=674457378 node_paths=PackedStringArray("_playerCharacter")]
 script = ExtResource("10_apopc")
-_player = NodePath("..")
+_playerCharacter = NodePath("..")
