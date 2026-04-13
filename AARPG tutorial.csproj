@@ -8,4 +8,7 @@
   <ItemGroup>
     <Folder Include="Props\Sprites\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="README.md" />
+  </ItemGroup>
 </Project>

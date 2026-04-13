@@ -1,4 +1,5 @@
 using Godot;
+using AARPGtutorial.Common.HitBox;
 
 namespace AARPGtutorial.Common.HurtBox;
 
@@ -13,7 +14,7 @@ public partial class HurtBox : Area2D
 
     private void OnAreaEntered(Area2D area)
     {
-        if (area is HitBox.HitBox hitBox)
+        if (area is HitBox hitBox)
         {
             hitBox.TakeDamage(Damage);
         }
