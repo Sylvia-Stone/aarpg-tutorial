@@ -56,7 +56,7 @@ These are general C# patterns that apply throughout rather than episode-specific
 - **Nullable return types:** `State.Process()`, `Physics()`, and `HandleInput()` are marked `State?` to explicitly declare that returning `null` ("stay in current state") is intentional
 - **Collection expressions:** `List<State>` initialized with `[]` instead of `new List<State>()` — C# 12 collection expression syntax
 - **Non-null pattern:** `FirstOrDefault() is { }` used instead of `is State` type check — more precise since it matches any non-null value rather than checking the type
-- **Simplified type reference:** `HurtBox.cs` uses `HitBox` directly via a `using` statement instead of the fully qualified `HitBox.HitBox`
+- **Type alias for namespace conflict:** `HurtBox.cs` uses `using HitboxArea2D = AARPGtutorial.Common.HitBox.HitBox;` to resolve the ambiguity between the `HitBox` namespace and `HitBox` class — a consequence of the namespace and class sharing the same name
 - **`using` aliases:** Used to shorten verbose Godot types, e.g. `using GodotVector2Array = Godot.Collections.Array<Godot.Vector2>;` — `List<T>` is generally preferred in C#, but Godot signal parameters require Godot's own array types.
 
 ---
