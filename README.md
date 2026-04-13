@@ -75,7 +75,7 @@ State files were also reorganized:
 - Class names drop the actor prefix (`PlayerStateIdle` -> `Idle`) since the namespace implies context
 - `PlayerStateWalk` and `EnemyStateWander` unified as `Move`
 
-> **Note for anyone following along:** This refactor changes class names, file paths, and wiring for all state scripts. It's a significant divergence from Michael's structure. If you want to stay closer to the tutorial, you may be better off referencing the commit just before this point rather than trying to replicate it step by step. See [Editor Wiring](#editor-wiring) for current mappings.
+> **Note for anyone following along:** This refactor changes class names, file paths, and wiring for all state scripts. It's a significant divergence from Michael's structure. I will try to keep it closer to the tutorial in the future, but for this episode you might be better off pulling down this commit and looking through it than replicating it step by step. See [Editor Wiring](#editor-wiring) for current mappings.
 
 ---
 
@@ -155,16 +155,17 @@ Because node references use `[Export]` rather than hardcoded `GetNode` paths, yo
 
 > **Note:** This wasn't originally intended to be shared, so the first few commits cover multiple episodes. Going forward commits map to individual episodes.
 
-| Commit    | Episodes | Description                                                                      |
-|-----------|----------|----------------------------------------------------------------------------------|
-| `4cf93fd` | 1-3      | Initial setup: player movement and state machine                                 |
-| `a070345` | -        | Refactor: moved shared state logic into base `State` class                       |
-| `f7e64b1` | -        | Refactor: moved enums into dedicated `Player/Enum/` folder                       |
-| `c3ea106` | 4-5      | Attack state, terrain tilemap, terrain collisions                                |
-| `e88bbe8` | 6        | HitBox/HurtBox system, shrubs/plants, `PlayerInteractionsManager`, export wiring |
-| `774a925` | 7        | Episode 7 cleanup: moonwalk fix not needed, export wiring                        |
-| `b2e0ba8` | -        | Added README                                                                     |
-| `eaa51c5` | 8        | Episode 8: Auto Camera Limits + small refactors                                  |
-| `246a62d` | -        | Updated README for Episode 8                                                     |
-| `e5bb347` | 8        | HitBox type alias fix: resolved namespace/class name conflict in `HurtBox.cs`    |
-| TBD       | 9        | Episode 9: major architecture refactor, Actor/State/StateMachine base classes    |
+| Commit    | Episodes | Description                                                                            |
+|-----------|----------|----------------------------------------------------------------------------------------|
+| `4cf93fd` | 1-3      | Initial setup: player movement and state machine                                       |
+| `a070345` | -        | Refactor: moved shared state logic into base `State` class                             |
+| `f7e64b1` | -        | Refactor: moved enums into dedicated `Player/Enum/` folder                             |
+| `c3ea106` | 4-5      | Attack state, terrain tilemap, terrain collisions                                      |
+| `e88bbe8` | 6        | HitBox/HurtBox system, shrubs/plants, `PlayerInteractionsManager`, export wiring       |
+| `774a925` | 7        | Episode 7 cleanup: moonwalk fix not needed, export wiring                              |
+| `b2e0ba8` | -        | Added README                                                                           |
+| `eaa51c5` | 8        | Episode 8: Auto Camera Limits + small refactors                                        |
+| `246a62d` | -        | Updated README for Episode 8                                                           |
+| `e5bb347` | 8        | HitBox type alias fix: resolved namespace/class name conflict in `HurtBox.cs`          |
+| `3e93eda` | 9        | Episode 9: Implemented slime enemy and major refactor of states, actors, statemachines |
+| TBD       | -        | Update README                                                                          | 
