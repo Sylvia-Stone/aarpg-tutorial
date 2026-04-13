@@ -9,6 +9,6 @@ public partial class HitBox : Area2D
     public void TakeDamage(int damage)
     {
         GD.Print($"Damage Taken: {damage}");
-        EmitSignal(SignalName.Damaged, damage);
+        EmitSignalDamaged(damage);
     }
 }

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bkvd1rkqkbtxl"]
 
-[ext_resource type="Script" uid="uid://bvu8p8cws2ur" path="res://Player/Scripts/PlayerCharacter.cs" id="1_5htga"]
+[ext_resource type="Script" uid="uid://bispomyjubrj3" path="res://Player/Scripts/PlayerCharacter.cs" id="1_5htga"]
 [ext_resource type="Texture2D" uid="uid://d0d5jv15f8soe" path="res://Player/Sprites/PlayerSprite02.png" id="2_k53q1"]
 [ext_resource type="Texture2D" uid="uid://4tix1tle1x6w" path="res://Player/Sprites/AttackSprite01.png" id="3_vtle1"]
 [ext_resource type="Texture2D" uid="uid://dlm6s0qc7kstp" path="res://Player/Sprites/Shadow.png" id="4_00tjw"]

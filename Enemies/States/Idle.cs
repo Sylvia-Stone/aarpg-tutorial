@@ -14,7 +14,7 @@ public partial class Idle : EnemyState
     [Export]
     private double _stateDurationMax = 1.5;
     [Export]
-    private EnemyState _nextState;
+    private EnemyState? _nextState;
 
     private double _timer;
 

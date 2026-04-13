@@ -17,6 +17,6 @@ public partial class LevelManager : Node
 	public void ChangeTileMapBounds(GodotVector2Array tileMapBounds)
 	{
 		CurrentTileMapBounds = tileMapBounds;
-		EmitSignal(SignalName.TileMapBoundsChanged, tileMapBounds);
+		EmitSignalTileMapBoundsChanged(tileMapBounds);
 	}
 }

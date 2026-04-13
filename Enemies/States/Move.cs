@@ -1,3 +1,4 @@
+using AarpgTutorial.Common;
 using AarpgTutorial.Common.Enums;
 using Godot;
 
@@ -18,7 +19,7 @@ public partial class Move : EnemyState
     [Export]
     private int _stateCyclesMax = 3;
     [Export]
-    private EnemyState _nextState;
+    private EnemyState? _nextState;
 
     private double _timer;
     private Vector2 _direction;
@@ -26,8 +27,7 @@ public partial class Move : EnemyState
     public override void Enter()
     {
         _timer = GD.RandRange(_stateCyclesMin, _stateCyclesMax) * _stateAnimationDuration;
-        var directions = new[] { Vector2.Up, Vector2.Down, Vector2.Left, Vector2.Right };
-        _direction = directions[GD.Randi() % directions.Length];
+        _direction = Actor.CardinalDirections[GD.Randi() % Actor.CardinalDirections.Length];
         Enemy.Velocity = _direction * (float)_wanderSpeed;
         Enemy.SetDirection(_direction);
         Enemy.UpdateAnimation(_animationStateType);

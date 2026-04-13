@@ -4,5 +4,7 @@ public enum StateType
 {
     Idle,
     Walk,
-    Attack
+    Attack,
+    Destroy,
+    Stun
 }

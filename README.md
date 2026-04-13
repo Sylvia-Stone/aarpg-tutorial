@@ -77,6 +77,10 @@ State files were also reorganized:
 
 > **Note for anyone following along:** This refactor changes class names, file paths, and wiring for all state scripts. It's a significant divergence from Michael's structure. I will try to keep it closer to the tutorial in the future, but for this episode you might be better off pulling down this commit and looking through it than replicating it step by step. See [Editor Wiring](#editor-wiring) for current mappings.
 
+### Episode 10
+- **Typed signal emitters:** All `EmitSignal(SignalName.X, ...)` calls replaced with Godot's source-generated typed wrappers (e.g. `EmitSignalEnemyDamaged()`). The untyped form silently fails if argument count or types don't match; the typed form is a compile error.
+- **Slime HurtBox removed:** The slime scene had both a HitBox and a HurtBox. The HurtBox was causing the slime to immediately register as hit on startup due to area overlap. It has been removed for now and will be re-added when enemy contact damage is implemented.
+
 ---
 
 ## Editor Wiring
@@ -133,6 +137,7 @@ Because node references use `[Export]` rather than hardcoded `GetNode` paths, yo
 | Animation Player | `AnimationPlayer` |
 | Sprite 2D        | `Sprite2D`        |
 | State Machine    | `StateMachine`    |
+| Hit Box          | `HitBox`          |
 
 #### `Slime.tscn` - Idle state node (`StateMachine > Idle`)
 | Property   | Node to assign      |
@@ -143,6 +148,11 @@ Because node references use `[Export]` rather than hardcoded `GetNode` paths, yo
 | Property   | Node to assign      |
 |------------|---------------------|
 | Next State | `StateMachine/Idle` |
+
+#### `Slime.tscn` - Stun state node (`StateMachine > Stun`)
+| Property   | Node to assign       |
+|------------|----------------------|
+| Next State | `StateMachine/Idle`  |
 
 #### `Plant.tscn`
 | Property | Node to assign |
@@ -168,4 +178,5 @@ Because node references use `[Export]` rather than hardcoded `GetNode` paths, yo
 | `246a62d` | -        | Updated README for Episode 8                                                           |
 | `e5bb347` | 8        | HitBox type alias fix: resolved namespace/class name conflict in `HurtBox.cs`          |
 | `3e93eda` | 9        | Episode 9: Implemented slime enemy and major refactor of states, actors, statemachines |
-| TBD       | -        | Update README                                                                          | 
+| `3cb50b9` | -        | Updated README for Episode 9                                                           |
+| `Latest`  | 10       | Updated Slime to take damage                                                           |
