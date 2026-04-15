@@ -4,6 +4,10 @@ using Godot;
 
 namespace AarpgTutorial.Enemies.States;
 
+/// <summary>
+/// Enemy wander state. The enemy walks in a random cardinal direction for a random
+/// number of animation cycles before transitioning to the next state.
+/// </summary>
 public partial class Move : EnemyState
 {
     #region Exports
@@ -34,6 +38,9 @@ public partial class Move : EnemyState
 
     #region Lifecycle
 
+    /// <summary>
+    /// Picks a random cardinal direction and a random wander duration, then sets velocity.
+    /// </summary>
     public override void Enter()
     {
         _timer = GD.RandRange(_stateCyclesMin, _stateCyclesMax) * _stateAnimationDuration;
@@ -43,6 +50,9 @@ public partial class Move : EnemyState
         Enemy.UpdateAnimation(_animationStateType);
     }
 
+    /// <summary>
+    /// Counts down the wander timer. Transitions to <c>_nextState</c> when it expires.
+    /// </summary>
     public override EnemyState? Process(double delta)
     {
         _timer -= delta;

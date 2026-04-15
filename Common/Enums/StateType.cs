@@ -6,5 +6,6 @@ public enum StateType
     Walk,
     Attack,
     Destroy,
-    Stun
+    Stun,
+    Damaged
 }

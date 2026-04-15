@@ -23,7 +23,19 @@ The original tutorial uses GDScript. I follow the same episodes but implement ev
 - This bothered me greatly. LOOSE STRINGS. So now every time Michael adds an @onready variable, I instead export it and wire it up in the editor (just drag and drop the node/animationplayer etc. to the relevant export). See [Editor Wiring](#editor-wiring)
   - There are pros and cons to this approach. 
     - Pros: better for refactoring. References will stay linked when moving files around the tree. 
-    - Cons: If you edit the export variable, rename it or move the code file, you will need to rewire everything again, so keep that in mind. 
+    - Cons: If you edit the export variable, rename it or move the code file, you will need to rewire everything again, so keep that in mind.
+
+#### Godot Memory Management
+Godot signals only accept **Variant-compatible types** (no custom C# classes!), which in practice means anything that inherits from `GodotObject`. For custom C# classes, that means picking the right base to inherit from:
+
+| Base class             | Memory management                                                      | When to use                                   |
+|------------------------|------------------------------------------------------------------------|-----------------------------------------------|
+| `RefCounted`           | Automatic - freed when ref count hits zero                             | Code-only data carriers (DTOs, value objects) |
+| `Node`                 | Freed with parent when in scene tree; call `QueueFree()` if outside it | Anything with scene presence                  |
+| `GodotObject` directly | Manual `Free()` required, no safety net                                | Avoid unless you have a specific reason       |
+
+If you need to pass a custom object through a signal, inherit `RefCounted` and you're done.
+
 ### Episode 1
 - **Enums over strings:** Player state and animation direction are defined as proper C# `enum` types rather than raw strings
 - **SetDirection:** Used `Vector2.Abs()` dominant-axis comparison instead of raw direction checks, which avoids the moonwalk bug Michael fixes in Episode 7
@@ -83,6 +95,11 @@ All existing functionality is unchanged. No scene wiring was affected.
   - I'm using Rider for development, and the regions are really nice when looking at the structure tab.
 - **`Bounds` class:** `Common/Bounds.cs` is a `RefCounted` subclass holding `Left`, `Top`, `Right`, `Bottom` as `int` properties. Replaces the `GodotVector2Array` that was threaded between `LevelTileMap`, `LevelManager`, and `PlayerCamera`. `RefCounted` objects are reference-counted and free themselves automatically when no longer referenced, so no `QueueFree()` is needed. The `using GodotVector2Array = ...` alias in those files is gone.
 
+### Episode 11
+- I kept fairly close to the tutorial for this episode.
+- **State abstraction:** I moved the `Init(TActor actor)` call and the `Initialize` implementation up into the base `StateMachine<TActor, TState>` as `PlayerStateMachine` and `EnemyStateMachine` were pretty much the same class. I've been having fun as Micheal moves the state logic all over the place. 
+- **Folder and class rename:** I renamed the `Player/` folder to `PlayerCharacter/` and the `PlayerCharacter` class back to `Player`, to bring it closer to Michael's naming. This also resolves the namespace/class collision that forced the rename in Episode 9.
+- **XML documentation:** I added XML doc comments to all classes and non-trivial methods. I find it helps me keep things organized.
 ---
 
 ## Editor Wiring
@@ -111,7 +128,7 @@ Because node references use `[Export]` rather than hardcoded `GetNode` paths, yo
 
 ---
 
-### Episode 9+
+### Episode 9-10
 
 #### `player.tscn` - PlayerCharacter node (root)
 | Property         | Node to assign    |
@@ -152,14 +169,51 @@ Because node references use `[Export]` rather than hardcoded `GetNode` paths, yo
 | Next State | `StateMachine/Idle` |
 
 #### `Slime.tscn` - Stun state node (`StateMachine > Stun`)
-| Property   | Node to assign       |
-|------------|----------------------|
-| Next State | `StateMachine/Idle`  |
+| Property   | Node to assign      |
+|------------|---------------------|
+| Next State | `StateMachine/Idle` |
 
 #### `Plant.tscn`
 | Property | Node to assign |
 |----------|----------------|
 | Hit Box  | `HitBox`       |
+
+---
+
+### Episode 11+
+
+Scene moved from `Player/player.tscn` to `PlayerCharacter/player.tscn`. Root node renamed from `PlayerCharacter` to `Player`.
+
+#### `PlayerCharacter/player.tscn` - Player node (root)
+| Property                 | Node to assign          |
+|--------------------------|-------------------------|
+| Animation Player         | `AnimationPlayer`       |
+| Sprite 2D                | `Sprite2D`              |
+| State Machine            | `StateMachine`          |
+| Effect Animation Player  | `EffectAnimationPlayer` |
+| Hit Box                  | `HitBox`                |
+
+#### `PlayerCharacter/player.tscn` - Attack state node (`StateMachine > Attack`)
+| Property                | Node to assign                                |
+|-------------------------|-----------------------------------------------|
+| Player Animation Player | `AnimationPlayer`                             |
+| Attack Animation Player | `Sprite2D/AttackEffectSprite/AnimationPlayer` |
+| Audio Stream Player 2D  | `Audio/AudioStreamPlayer2D`                   |
+| Hurt Box                | `Sprite2D/HurtBox`                            |
+
+#### `PlayerCharacter/player.tscn` - Stun state node (`StateMachine > Stun`)
+| Property   | Node to assign      |
+|------------|---------------------|
+| Idle State | `StateMachine/Idle` |
+
+#### `PlayerCharacter/player.tscn` - Interactions node (`Interactions`)
+| Property | Node to assign       |
+|----------|----------------------|
+| Player   | `Player` (root node) |
+
+#### `Slime.tscn` - unchanged from Episode 9-10
+
+#### `Plant.tscn` - unchanged from Episode 9-10
 
 ---
 
@@ -182,4 +236,5 @@ Because node references use `[Export]` rather than hardcoded `GetNode` paths, yo
 | `3e93eda` | 9        | Episode 9: Implemented slime enemy and major refactor of states, actors, statemachines |
 | `3cb50b9` | -        | Updated README for Episode 9                                                           |
 | `37f62d9` | 10       | Updated Slime to take damage                                                           |
-| `Latest`  | -        | Light housekeeping: namespace casing, region organization, `Bounds` class              |
+| `e2b1228` | -        | Light housekeeping: namespace casing, region organization, `Bounds` class              |
+| `Latest`  | 11       | Player stun state, health system, damage flash, folder/class rename to match tutorial  |

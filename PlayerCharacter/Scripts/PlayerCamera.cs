@@ -3,6 +3,10 @@ using Godot;
 
 namespace AarpgTutorial.Player.Scripts;
 
+/// <summary>
+/// Follows the player and constrains the viewport to the current tile map's bounds,
+/// preventing the camera from showing areas outside the level.
+/// </summary>
 public partial class PlayerCamera : Camera2D
 {
 	#region Lifecycle
@@ -17,6 +21,10 @@ public partial class PlayerCamera : Camera2D
 
 	#region Public Methods
 
+	/// <summary>
+	/// Applies the four edges of <paramref name="bounds"/> to the camera's limit properties,
+	/// constraining the viewport to the current tile map area.
+	/// </summary>
 	private void UpdateLimits(Bounds? bounds)
 	{
 		if (bounds is null) return;

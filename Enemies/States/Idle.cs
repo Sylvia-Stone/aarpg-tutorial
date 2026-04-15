@@ -3,20 +3,22 @@ using Godot;
 
 namespace AarpgTutorial.Enemies.States;
 
+/// <summary>
+/// Enemy idle state. The enemy stands still for a random duration within
+/// [<c>_stateDurationMin</c>, <c>_stateDurationMax</c>] before transitioning.
+/// </summary>
 public partial class Idle : EnemyState
 {
     #region Exports
 
     [Export]
     private StateType _animationStateType = StateType.Idle;
-
-    [ExportCategory("AI")]
     [Export]
-    private double _stateDurationMin = .5;
+    private EnemyState? _nextState;
     [Export]
     private double _stateDurationMax = 1.5;
     [Export]
-    private EnemyState? _nextState;
+    private double _stateDurationMin = .5;
 
     #endregion
 
@@ -28,6 +30,9 @@ public partial class Idle : EnemyState
 
     #region Lifecycle
 
+    /// <summary>
+    /// Stops the enemy and picks a random duration to remain idle.
+    /// </summary>
     public override void Enter()
     {
         Enemy.Velocity = Vector2.Zero;
@@ -35,6 +40,9 @@ public partial class Idle : EnemyState
         Enemy.UpdateAnimation(_animationStateType);
     }
 
+    /// <summary>
+    /// Counts down the idle timer. Transitions to <c>_nextState</c> when it expires.
+    /// </summary>
     public override EnemyState? Process(double delta)
     {
         _timer -= delta;

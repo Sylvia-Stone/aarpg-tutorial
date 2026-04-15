@@ -1,9 +1,14 @@
 using System.Collections.Generic;
 using AarpgTutorial.Common.Enums;
+using AarpgTutorial.Common.States;
 using Godot;
 
 namespace AarpgTutorial.Common;
 
+/// <summary>
+/// Abstract base for all actors (player and enemies).
+/// Handles physics movement, sprite direction flipping, and animation keying.
+/// </summary>
 public abstract partial class Actor : CharacterBody2D
 {
     #region Signals
@@ -18,7 +23,6 @@ public abstract partial class Actor : CharacterBody2D
     [Export]
     private AnimationPlayer _animationPlayer;
     public AnimationPlayer AnimationPlayer => _animationPlayer;
-
     [Export]
     private Sprite2D _sprite;
 
@@ -26,8 +30,10 @@ public abstract partial class Actor : CharacterBody2D
 
     #region Fields
 
-    private Vector2 _cardinalDirection = Vector2.Down;
     public Vector2 Direction = Vector2.Zero;
+    public bool IsInvulnerable;
+
+    private Vector2 _cardinalDirection = Vector2.Down;
 
     public static readonly Vector2[] CardinalDirections =
         [Vector2.Up, Vector2.Down, Vector2.Left, Vector2.Right];
@@ -53,6 +59,11 @@ public abstract partial class Actor : CharacterBody2D
 
     #region Public Methods
 
+    /// <summary>
+    /// Snaps <paramref name="direction"/> to the nearest cardinal direction, flips the sprite
+    /// for left-facing movement, and emits <see cref="DirectionChanged"/> if the cardinal changed.
+    /// Returns <c>true</c> if the cardinal direction actually changed, <c>false</c> otherwise.
+    /// </summary>
     public bool SetDirection(Vector2 direction)
     {
         Direction = direction;
@@ -70,12 +81,20 @@ public abstract partial class Actor : CharacterBody2D
         return true;
     }
 
+    /// <summary>
+    /// Plays the animation for <paramref name="stateType"/> in the current facing direction,
+    /// using the combined key format <c>"{StateType}{AnimationDirection}"</c>.
+    /// </summary>
     public void UpdateAnimation(StateType stateType)
     {
         GD.Print($"{stateType}{GetAnimDirection()}");
         _animationPlayer.Play($"{stateType}{GetAnimDirection()}");
     }
 
+    /// <summary>
+    /// Returns the <see cref="AnimationDirection"/> that corresponds to the current cardinal direction,
+    /// used to build animation keys in <see cref="UpdateAnimation"/>.
+    /// </summary>
     public AnimationDirection GetAnimDirection() =>
         DirectionAnimations.GetValueOrDefault(_cardinalDirection, AnimationDirection.Down);
 

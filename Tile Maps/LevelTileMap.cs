@@ -3,6 +3,10 @@ using Godot;
 
 namespace AarpgTutorial.Tile_Maps;
 
+/// <summary>
+/// Tile map that publishes its world-space bounds to <see cref="LevelManager"/> on ready,
+/// used to constrain the camera to the playable area.
+/// </summary>
 public partial class LevelTileMap : TileMapLayer
 {
 	#region Lifecycle
@@ -16,6 +20,10 @@ public partial class LevelTileMap : TileMapLayer
 
 	#region Private Methods
 
+	/// <summary>
+	/// Computes world-space pixel bounds from the tile map's used rect,
+	/// accounting for the rendering quadrant size.
+	/// </summary>
 	private Bounds GetTileMapBounds()
 	{
 		var position = GetUsedRect().Position * RenderingQuadrantSize;

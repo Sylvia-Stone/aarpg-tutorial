@@ -2,12 +2,16 @@ using Godot;
 
 namespace AarpgTutorial.Player.Scripts;
 
+/// <summary>
+/// Rotates the player's interaction area (attacks, pickups, etc.) to match the
+/// player's cardinal facing direction so hit detection stays aligned.
+/// </summary>
 public partial class PlayerInteractionsManager : Node2D
 {
     #region Exports
 
     [Export]
-    private PlayerCharacter _playerCharacter;
+    private Player _player;
 
     #endregion
 
@@ -15,13 +19,17 @@ public partial class PlayerInteractionsManager : Node2D
 
     public override void _Ready()
     {
-        _playerCharacter.DirectionChanged += UpdateDirection;
+        _player.DirectionChanged += UpdateDirection;
     }
 
     #endregion
 
     #region Private Methods
 
+    /// <summary>
+    /// Rotates the interaction area to face the player's current cardinal direction,
+    /// so hit detection stays aligned with the player's facing angle.
+    /// </summary>
     private void UpdateDirection(Vector2 newDirection)
     {
         RotationDegrees = newDirection switch

@@ -1,25 +1,30 @@
 using AarpgTutorial.Common;
 using AarpgTutorial.Common.HitBox;
+using AarpgTutorial.Common.HurtBox;
 using AarpgTutorial.Enemies.States;
 using Godot;
 
 namespace AarpgTutorial.Enemies.Scripts;
 
+/// <summary>
+/// Base enemy actor. Manages health and routes incoming damage to the state machine
+/// via <see cref="EnemyDamaged"/> and <see cref="EnemyDestroyed"/> signals.
+/// </summary>
 public partial class Enemy : Actor
 {
     #region Signals
 
     [Signal]
-    public delegate void EnemyDamagedEventHandler();
+    public delegate void EnemyDamagedEventHandler(HurtBox hurtBox);
     [Signal]
-    public delegate void EnemyDestroyedEventHandler();
+    public delegate void EnemyDestroyedEventHandler(HurtBox hurtBox);
 
     #endregion
 
     #region Exports
 
     [Export]
-    private int _hp = 3;
+    public int CurrentHealth = 3;
     [Export]
     private EnemyStateMachine _stateMachine;
     [Export]
@@ -29,8 +34,7 @@ public partial class Enemy : Actor
 
     #region Fields
 
-    public bool IsInvulnerable;
-    public Player.Scripts.PlayerCharacter PlayerCharacter;
+    public Player.Scripts.Player Player;
 
     #endregion
 
@@ -39,7 +43,7 @@ public partial class Enemy : Actor
     public override void _Ready()
     {
         _stateMachine.Initialize(this);
-        PlayerCharacter = PlayerManager.Instance.PlayerCharacter;
+        Player = PlayerManager.Instance.Player;
         _hitBox.Damaged += OnTakeDamage;
     }
 
@@ -47,18 +51,22 @@ public partial class Enemy : Actor
 
     #region Public Methods
 
-    public void OnTakeDamage(int damage)
+    /// <summary>
+    /// Applies damage from <paramref name="hurtBox"/> if not currently invulnerable.
+    /// Emits <see cref="EnemyDamaged"/> while health remains, or <see cref="EnemyDestroyed"/>
+    /// when health reaches zero.
+    /// </summary>
+    public void OnTakeDamage(HurtBox hurtBox)
     {
-        GD.Print($"Damage: {damage}. HP: {_hp}");
         if (IsInvulnerable) return;
-        _hp -= damage;
-        if (_hp > 0)
+        CurrentHealth -= hurtBox.Damage;
+        if (CurrentHealth > 0)
         {
-            EmitSignalEnemyDamaged();
+            EmitSignalEnemyDamaged(hurtBox);
         }
         else
         {
-            EmitSignalEnemyDestroyed();
+            EmitSignalEnemyDestroyed(hurtBox);
         }
     }
 

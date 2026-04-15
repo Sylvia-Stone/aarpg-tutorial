@@ -1,9 +1,15 @@
 using AarpgTutorial.Common;
 using AarpgTutorial.Common.Enums;
+using AarpgTutorial.Common.HurtBox;
+using AarpgTutorial.Enemies.Scripts;
 using Godot;
 
 namespace AarpgTutorial.Enemies.States;
 
+/// <summary>
+/// Enemy stun state. Applies a brief knockback in the direction away from the damage source,
+/// grants invulnerability for the duration, then transitions after the animation finishes.
+/// </summary>
 public partial class Stun : EnemyState
 {
     #region Exports
@@ -23,24 +29,33 @@ public partial class Stun : EnemyState
 
     #region Fields
 
-    private Vector2 _direction;
     private bool _animationFinished;
+    private Vector2 _damagePosition;
+    private Vector2 _direction;
 
     #endregion
 
     #region Lifecycle
 
-    public override void Init()
+    /// <summary>
+    /// Subscribes to <see cref="Enemy.EnemyDamaged"/> so this state can intercept
+    /// damage events and queue itself regardless of the currently active state.
+    /// </summary>
+    public override void Init(Enemy enemy)
     {
-        Enemy.EnemyDamaged += OnEnemyDamaged;
+        enemy.EnemyDamaged += OnEnemyDamaged;
     }
 
+    /// <summary>
+    /// Applies knockback away from the stored damage position, marks the enemy invulnerable,
+    /// and plays the stun animation.
+    /// </summary>
     public override void Enter()
     {
         Enemy.IsInvulnerable = true;
         _animationFinished = false;
 
-        _direction = Enemy.GlobalPosition.DirectionTo(Enemy.PlayerCharacter.GlobalPosition);
+        _direction = Enemy.GlobalPosition.DirectionTo(_damagePosition);
 
         Enemy.SetDirection(_direction);
         Enemy.Velocity = _direction * -(float)_knockBackSpeed;
@@ -49,12 +64,19 @@ public partial class Stun : EnemyState
         Enemy.AnimationPlayer.AnimationFinished += OnAnimationFinished;
     }
 
+    /// <summary>
+    /// Restores vulnerability and unsubscribes from the animation finished signal.
+    /// </summary>
     public override void Exit()
     {
         Enemy.IsInvulnerable = false;
         Enemy.AnimationPlayer.AnimationFinished -= OnAnimationFinished;
     }
 
+    /// <summary>
+    /// Decelerates the knockback velocity each frame.
+    /// Transitions to <c>_nextState</c> once the stun animation has finished.
+    /// </summary>
     public override EnemyState? Process(double delta)
     {
         if (_animationFinished) return _nextState;
@@ -66,12 +88,18 @@ public partial class Stun : EnemyState
 
     #region Private Methods
 
-    private void OnEnemyDamaged()
+    /// <summary>
+    /// Stores the damage source position for knock-back direction, then transitions into this state.
+    /// </summary>
+    private void OnEnemyDamaged(HurtBox hurtBox)
     {
-        GD.Print("OnEnemyDamaged fired");
+        _damagePosition = hurtBox.GlobalPosition;
         StateMachine.ChangeState(this);
     }
 
+    /// <summary>
+    /// Flags the animation as complete so <see cref="Process"/> can transition out next tick.
+    /// </summary>
     private void OnAnimationFinished(StringName animation)
     {
         _animationFinished = true;

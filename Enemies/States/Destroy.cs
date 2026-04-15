@@ -1,9 +1,14 @@
 using AarpgTutorial.Common.Enums;
-using AarpgTutorial.Enemies.States;
+using AarpgTutorial.Common.HurtBox;
+using AarpgTutorial.Enemies.Scripts;
 using Godot;
 
 namespace AarpgTutorial.Enemies.States;
 
+/// <summary>
+/// Enemy death state. Applies a final knockback away from the damage source,
+/// plays the destroy animation, then removes the enemy from the scene.
+/// </summary>
 public partial class Destroy : EnemyState
 {
     #region Exports
@@ -19,22 +24,31 @@ public partial class Destroy : EnemyState
 
     #region Fields
 
+    private Vector2 _damagePosition;
     private Vector2 _direction;
 
     #endregion
 
     #region Lifecycle
 
-    public override void Init()
+    /// <summary>
+    /// Subscribes to <see cref="Enemy.EnemyDestroyed"/> so this state can intercept
+    /// the kill event and queue itself regardless of the currently active state.
+    /// </summary>
+    public override void Init(Enemy enemy)
     {
-        Enemy.EnemyDestroyed += OnEnemyDestroyed;
+        enemy.EnemyDestroyed += OnEnemyDestroyed;
     }
 
+    /// <summary>
+    /// Marks the enemy invulnerable, applies knockback away from the damage source,
+    /// and starts the destroy animation.
+    /// </summary>
     public override void Enter()
     {
         Enemy.IsInvulnerable = true;
 
-        _direction = Enemy.GlobalPosition.DirectionTo(Enemy.PlayerCharacter.GlobalPosition);
+        _direction = Enemy.GlobalPosition.DirectionTo(_damagePosition);
 
         Enemy.SetDirection(_direction);
         Enemy.Velocity = _direction * -(float)_knockBackSpeed;
@@ -43,6 +57,10 @@ public partial class Destroy : EnemyState
         Enemy.AnimationPlayer.AnimationFinished += OnAnimationFinished;
     }
 
+    /// <summary>
+    /// Decelerates the knockback velocity each frame. This state has no exit transition;
+    /// the enemy is removed at the end of the animation.
+    /// </summary>
     public override EnemyState? Process(double delta)
     {
         Enemy.Velocity -= Enemy.Velocity * (float)_decelerateSpeed * (float)delta;
@@ -53,11 +71,18 @@ public partial class Destroy : EnemyState
 
     #region Private Methods
 
-    private void OnEnemyDestroyed()
+    /// <summary>
+    /// Stores the kill-shot position for knock-back direction, then transitions into this state.
+    /// </summary>
+    private void OnEnemyDestroyed(HurtBox hurtBox)
     {
+        _damagePosition = hurtBox.GlobalPosition;
         StateMachine.ChangeState(this);
     }
 
+    /// <summary>
+    /// Called when the destroy animation finishes. Removes the enemy from the scene.
+    /// </summary>
     private void OnAnimationFinished(StringName animation)
     {
         Enemy.QueueFree();
