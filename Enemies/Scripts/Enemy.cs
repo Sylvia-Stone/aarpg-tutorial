@@ -26,15 +26,15 @@ public partial class Enemy : Actor
     [Export]
     public int CurrentHealth = 3;
     [Export]
-    private EnemyStateMachine _stateMachine;
+    public EnemyStateMachine StateMachine = null!;
     [Export]
-    private HitBox _hitBox;
+    public HitBox HitBox = null!;
 
     #endregion
 
     #region Fields
 
-    public Player.Scripts.Player Player;
+    public PlayerCharacter.Scripts.Player Player = null!;
 
     #endregion
 
@@ -42,9 +42,9 @@ public partial class Enemy : Actor
 
     public override void _Ready()
     {
-        _stateMachine.Initialize(this);
+        StateMachine.Initialize(this);
         Player = PlayerManager.Instance.Player;
-        _hitBox.Damaged += OnTakeDamage;
+        HitBox.Damaged += OnTakeDamage;
     }
 
     #endregion

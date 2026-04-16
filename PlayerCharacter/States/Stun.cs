@@ -1,24 +1,22 @@
-using System;
-using AarpgTutorial.Common;
 using AarpgTutorial.Common.Enums;
 using AarpgTutorial.Common.HurtBox;
-using AarpgTutorial.Player.Scripts;
+using AarpgTutorial.PlayerCharacter.Scripts;
 using Godot;
 
-namespace AarpgTutorial.Player.States;
+namespace AarpgTutorial.PlayerCharacter.States;
 
 public partial class Stun : PlayerState
 {
     #region Exports
 
     [Export]
-    private StateType _animationStateType = StateType.Stun;
+    public StateType AnimationStateType = StateType.Stun;
     [Export]
     public double KnockBackSpeed = 200.0;
     [Export]
     public double DecelerateSpeed = 10.0;
     [Export]
-    public PlayerState IdleState;
+    public PlayerState IdleState = null!;
     [Export]
     public double InvulnerableDuration = 1.0;
 
@@ -38,7 +36,7 @@ public partial class Stun : PlayerState
     /// Subscribes to <see cref="Player.PlayerDamaged"/> so this state can intercept
     /// damage events and queue a transition to itself regardless of the active state.
     /// </summary>
-    public override void Init(Scripts.Player actor)
+    public override void Init(Player actor)
     {
         actor.PlayerDamaged += OnPlayerDamaged;
     }
@@ -47,11 +45,11 @@ public partial class Stun : PlayerState
     {
         Player.AnimationPlayer.AnimationFinished += OnAnimationFinished;
 
-        _direction = Player.GlobalPosition.DirectionTo(_hurtBox.GlobalPosition);
+        _direction = Player.GlobalPosition.DirectionTo(_hurtBox!.GlobalPosition);
         Player.Velocity = _direction * (float)KnockBackSpeed * -1;
         Player.SetDirection(_direction);
         
-        Player.UpdateAnimation(_animationStateType);
+        Player.UpdateAnimation(AnimationStateType);
         Player.MakeInvulnerable(InvulnerableDuration);
         Player.EffectAnimationPlayer.Play(nameof(AnimationType.Damaged));
     }

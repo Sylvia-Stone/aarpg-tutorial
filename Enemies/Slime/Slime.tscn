@@ -723,14 +723,14 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_62dmb"]
 radius = 12.0
 
-[node name="Slime" type="CharacterBody2D" unique_id=1706781310 node_paths=PackedStringArray("_stateMachine", "_hitBox", "_animationPlayer", "_sprite")]
+[node name="Slime" type="CharacterBody2D" unique_id=1706781310 node_paths=PackedStringArray("StateMachine", "HitBox", "AnimationPlayer", "Sprite")]
 collision_layer = 256
 collision_mask = 16
 script = ExtResource("1_wyclx")
-_stateMachine = NodePath("EnemyStateMachine")
-_hitBox = NodePath("HitBox")
-_animationPlayer = NodePath("AnimationPlayer")
-_sprite = NodePath("Sprite2D")
+StateMachine = NodePath("EnemyStateMachine")
+HitBox = NodePath("HitBox")
+AnimationPlayer = NodePath("AnimationPlayer")
+Sprite = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=751627756]
 position = Vector2(0, -19)
@@ -763,18 +763,17 @@ autoplay = &"IdleDown"
 [node name="EnemyStateMachine" type="Node" parent="." unique_id=1528909442]
 script = ExtResource("4_2osmb")
 
-[node name="Idle" type="Node" parent="EnemyStateMachine" unique_id=2012734643 node_paths=PackedStringArray("_nextState")]
+[node name="Idle" type="Node" parent="EnemyStateMachine" unique_id=2012734643 node_paths=PackedStringArray("NextState")]
 script = ExtResource("5_puctb")
-_nextState = NodePath("../Move")
+NextState = NodePath("../Move")
 
-[node name="Move" type="Node" parent="EnemyStateMachine" unique_id=1734352573 node_paths=PackedStringArray("_nextState")]
+[node name="Move" type="Node" parent="EnemyStateMachine" unique_id=1734352573 node_paths=PackedStringArray("NextState")]
 script = ExtResource("6_dkpye")
-_wanderSpeed = 30.0
-_nextState = NodePath("../Idle")
+NextState = NodePath("../Idle")
 
-[node name="Stun" type="Node" parent="EnemyStateMachine" unique_id=568526373 node_paths=PackedStringArray("_nextState")]
+[node name="Stun" type="Node" parent="EnemyStateMachine" unique_id=568526373 node_paths=PackedStringArray("NextState")]
 script = ExtResource("11_mp7rs")
-_nextState = NodePath("../Idle")
+NextState = NodePath("../Idle")
 
 [node name="Destroy" type="Node" parent="EnemyStateMachine" unique_id=1830681711]
 script = ExtResource("12_ke740")

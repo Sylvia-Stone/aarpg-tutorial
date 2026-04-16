@@ -1,7 +1,7 @@
 using AarpgTutorial.Common.States;
 using Godot;
 
-namespace AarpgTutorial.Player.States;
+namespace AarpgTutorial.PlayerCharacter.States;
 
 /// <summary>
 /// Abstract base for all player states. Provides typed access to the owning

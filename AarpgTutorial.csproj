@@ -4,11 +4,8 @@
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net9.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <Nullable>enable</Nullable>
-    <RootNamespace>AARPGtutorial</RootNamespace>
+    <RootNamespace>AarpgTutorial</RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Props\Sprites\" />
-  </ItemGroup>
   <ItemGroup>
     <Content Include="README.md" />
   </ItemGroup>

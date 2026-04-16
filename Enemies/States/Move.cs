@@ -13,19 +13,19 @@ public partial class Move : EnemyState
     #region Exports
 
     [Export]
-    private StateType _animationStateType = StateType.Walk;
+    public StateType AnimationStateType = StateType.Walk;
     [Export]
-    private double _wanderSpeed = 20.0;
+    public double WanderSpeed = 20.0;
 
     [ExportCategory("AI")]
     [Export]
-    private double _stateAnimationDuration = .7;
+    public double StateAnimationDuration = .7;
     [Export]
-    private int _stateCyclesMin = 1;
+    public int StateCyclesMin = 1;
     [Export]
-    private int _stateCyclesMax = 3;
+    public int StateCyclesMax = 3;
     [Export]
-    private EnemyState? _nextState;
+    public EnemyState? NextState;
 
     #endregion
 
@@ -43,11 +43,11 @@ public partial class Move : EnemyState
     /// </summary>
     public override void Enter()
     {
-        _timer = GD.RandRange(_stateCyclesMin, _stateCyclesMax) * _stateAnimationDuration;
+        _timer = GD.RandRange(StateCyclesMin, StateCyclesMax) * StateAnimationDuration;
         _direction = Actor.CardinalDirections[GD.Randi() % Actor.CardinalDirections.Length];
-        Enemy.Velocity = _direction * (float)_wanderSpeed;
+        Enemy.Velocity = _direction * (float)WanderSpeed;
         Enemy.SetDirection(_direction);
-        Enemy.UpdateAnimation(_animationStateType);
+        Enemy.UpdateAnimation(AnimationStateType);
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public partial class Move : EnemyState
     public override EnemyState? Process(double delta)
     {
         _timer -= delta;
-        return _timer < 0 ? _nextState : null;
+        return _timer < 0 ? NextState : null;
     }
 
     #endregion

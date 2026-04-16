@@ -1,12 +1,11 @@
 using System;
-using System.Threading.Tasks;
 using AarpgTutorial.Common;
 using AarpgTutorial.Common.HitBox;
 using AarpgTutorial.Common.HurtBox;
-using AarpgTutorial.Player.States;
+using AarpgTutorial.PlayerCharacter.States;
 using Godot;
 
-namespace AarpgTutorial.Player.Scripts;
+namespace AarpgTutorial.PlayerCharacter.Scripts;
 
 /// <summary>
 /// The player character. Reads directional input, manages health and invulnerability,
@@ -28,11 +27,11 @@ public partial class Player : Actor
     [Export]
     public int MaxHealth = 6;
     [Export]
-    public AnimationPlayer EffectAnimationPlayer;
+    public AnimationPlayer EffectAnimationPlayer = null!;
     [Export]
-    public HitBox HitBox;
+    public HitBox HitBox = null!;
     [Export]
-    public PlayerStateMachine StateMachine;
+    public PlayerStateMachine StateMachine = null!;
 
     #endregion
     
@@ -98,7 +97,7 @@ public partial class Player : Actor
     /// <summary>                                                                                                                                                                                                                                                                                                   
     /// Called when the player's HitBox receives damage from a HurtBox.                                                                                                                                                                                                                                               
     /// Skipped entirely if the player is invulnerable.                                                                                                                                                                                                                                                               
-    /// Applies damage, emits <see cref="PlayerDamaged"/>, then resets health to max if the player has died.                                                                                                                                                                                                          
+    /// Applies damage, emits <see cref="AarpgTutorial.Player.Scripts.Player.PlayerDamaged"/>, then resets health to max if the player has died.                                                                                                                                                                                                          
     /// </summary>                                                                                                                                                                                                                                                                                                    
     /// <param name="hurtBox">The HurtBox that dealt the damage. Damage value is read from <see cref="HurtBox.Damage"/>.</param>
     private void OnTakeDamage(HurtBox hurtBox)

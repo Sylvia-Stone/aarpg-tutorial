@@ -21,10 +21,9 @@ public abstract partial class Actor : CharacterBody2D
     #region Exports
 
     [Export]
-    private AnimationPlayer _animationPlayer;
-    public AnimationPlayer AnimationPlayer => _animationPlayer;
+    public AnimationPlayer AnimationPlayer = null!;
     [Export]
-    private Sprite2D _sprite;
+    public Sprite2D Sprite = null!;
 
     #endregion
 
@@ -77,7 +76,7 @@ public abstract partial class Actor : CharacterBody2D
 
         _cardinalDirection = newDirection;
         EmitSignalDirectionChanged(newDirection);
-        _sprite.Scale = new Vector2(_cardinalDirection == Vector2.Left ? -1 : 1, 1);
+        Sprite.Scale = new Vector2(_cardinalDirection == Vector2.Left ? -1 : 1, 1);
         return true;
     }
 
@@ -88,7 +87,7 @@ public abstract partial class Actor : CharacterBody2D
     public void UpdateAnimation(StateType stateType)
     {
         GD.Print($"{stateType}{GetAnimDirection()}");
-        _animationPlayer.Play($"{stateType}{GetAnimDirection()}");
+        AnimationPlayer.Play($"{stateType}{GetAnimDirection()}");
     }
 
     /// <summary>

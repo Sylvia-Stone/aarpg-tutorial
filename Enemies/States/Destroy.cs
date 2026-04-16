@@ -14,11 +14,11 @@ public partial class Destroy : EnemyState
     #region Exports
 
     [Export]
-    private StateType _animationStateType = StateType.Destroy;
+    public StateType AnimationStateType = StateType.Destroy;
     [Export]
-    private double _knockBackSpeed = 200.0;
+    public double KnockBackSpeed = 200.0;
     [Export]
-    private double _decelerateSpeed = 10.0;
+    public double DecelerateSpeed = 10.0;
 
     #endregion
 
@@ -51,9 +51,9 @@ public partial class Destroy : EnemyState
         _direction = Enemy.GlobalPosition.DirectionTo(_damagePosition);
 
         Enemy.SetDirection(_direction);
-        Enemy.Velocity = _direction * -(float)_knockBackSpeed;
+        Enemy.Velocity = _direction * -(float)KnockBackSpeed;
 
-        Enemy.UpdateAnimation(_animationStateType);
+        Enemy.UpdateAnimation(AnimationStateType);
         Enemy.AnimationPlayer.AnimationFinished += OnAnimationFinished;
     }
 
@@ -63,7 +63,7 @@ public partial class Destroy : EnemyState
     /// </summary>
     public override EnemyState? Process(double delta)
     {
-        Enemy.Velocity -= Enemy.Velocity * (float)_decelerateSpeed * (float)delta;
+        Enemy.Velocity -= Enemy.Velocity * (float)DecelerateSpeed * (float)delta;
         return null;
     }
 

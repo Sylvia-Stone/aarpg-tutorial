@@ -15,15 +15,15 @@ public partial class Stun : EnemyState
     #region Exports
 
     [Export]
-    private StateType _animationStateType = StateType.Stun;
+    public StateType AnimationStateType = StateType.Stun;
     [Export]
-    private double _knockBackSpeed = 200.0;
+    public double KnockBackSpeed = 200.0;
     [Export]
-    private double _decelerateSpeed = 10.0;
+    public double DecelerateSpeed = 10.0;
 
     [ExportCategory("AI")]
     [Export]
-    private EnemyState? _nextState;
+    public EnemyState? NextState;
 
     #endregion
 
@@ -58,9 +58,9 @@ public partial class Stun : EnemyState
         _direction = Enemy.GlobalPosition.DirectionTo(_damagePosition);
 
         Enemy.SetDirection(_direction);
-        Enemy.Velocity = _direction * -(float)_knockBackSpeed;
+        Enemy.Velocity = _direction * -(float)KnockBackSpeed;
 
-        Enemy.UpdateAnimation(_animationStateType);
+        Enemy.UpdateAnimation(AnimationStateType);
         Enemy.AnimationPlayer.AnimationFinished += OnAnimationFinished;
     }
 
@@ -79,8 +79,8 @@ public partial class Stun : EnemyState
     /// </summary>
     public override EnemyState? Process(double delta)
     {
-        if (_animationFinished) return _nextState;
-        Enemy.Velocity -= Enemy.Velocity * (float)_decelerateSpeed * (float)delta;
+        if (_animationFinished) return NextState;
+        Enemy.Velocity -= Enemy.Velocity * (float)DecelerateSpeed * (float)delta;
         return null;
     }
 

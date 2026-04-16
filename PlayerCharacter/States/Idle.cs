@@ -1,9 +1,8 @@
 using AarpgTutorial.Common;
 using AarpgTutorial.Common.Enums;
-using AarpgTutorial.Player.Scripts;
 using Godot;
 
-namespace AarpgTutorial.Player.States;
+namespace AarpgTutorial.PlayerCharacter.States;
 
 /// <summary>
 /// Player idle state. Zeroes velocity and waits for movement or attack input.

@@ -12,13 +12,13 @@ public partial class Idle : EnemyState
     #region Exports
 
     [Export]
-    private StateType _animationStateType = StateType.Idle;
+    public StateType AnimationStateType = StateType.Idle;
     [Export]
-    private EnemyState? _nextState;
+    public EnemyState? NextState;
     [Export]
-    private double _stateDurationMax = 1.5;
+    public double StateDurationMax = 1.5;
     [Export]
-    private double _stateDurationMin = .5;
+    public double StateDurationMin = .5;
 
     #endregion
 
@@ -36,8 +36,8 @@ public partial class Idle : EnemyState
     public override void Enter()
     {
         Enemy.Velocity = Vector2.Zero;
-        _timer = GD.RandRange(_stateDurationMin, _stateDurationMax);
-        Enemy.UpdateAnimation(_animationStateType);
+        _timer = GD.RandRange(StateDurationMin, StateDurationMax);
+        Enemy.UpdateAnimation(AnimationStateType);
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ public partial class Idle : EnemyState
     public override EnemyState? Process(double delta)
     {
         _timer -= delta;
-        return _timer <= 0 ? _nextState : null;
+        return _timer <= 0 ? NextState : null;
     }
 
     #endregion

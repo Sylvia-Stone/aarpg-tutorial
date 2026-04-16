@@ -1,7 +1,7 @@
 using AarpgTutorial.Common;
 using Godot;
 
-namespace AarpgTutorial.Player.Scripts;
+namespace AarpgTutorial.PlayerCharacter.Scripts;
 
 /// <summary>
 /// Follows the player and constrains the viewport to the current tile map's bounds,

@@ -1,6 +1,6 @@
 using Godot;
 
-namespace AarpgTutorial.Player.Scripts;
+namespace AarpgTutorial.PlayerCharacter.Scripts;
 
 /// <summary>
 /// Rotates the player's interaction area (attacks, pickups, etc.) to match the
@@ -11,7 +11,7 @@ public partial class PlayerInteractionsManager : Node2D
     #region Exports
 
     [Export]
-    private Player _player;
+    public Player Player = null!;
 
     #endregion
 
@@ -19,7 +19,7 @@ public partial class PlayerInteractionsManager : Node2D
 
     public override void _Ready()
     {
-        _player.DirectionChanged += UpdateDirection;
+        Player.DirectionChanged += UpdateDirection;
     }
 
     #endregion

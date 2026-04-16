@@ -17,9 +17,9 @@ public partial class LevelManager : Node
 
 	#region Fields
 
-	public Bounds CurrentTileMapBounds;
+	public Bounds CurrentTileMapBounds = null!;
 
-	public static LevelManager Instance { get; private set; }
+	public static LevelManager Instance { get; private set; } = null!;
 
 	#endregion
 

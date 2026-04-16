@@ -100,6 +100,10 @@ All existing functionality is unchanged. No scene wiring was affected.
 - **State abstraction:** I moved the `Init(TActor actor)` call and the `Initialize` implementation up into the base `StateMachine<TActor, TState>` as `PlayerStateMachine` and `EnemyStateMachine` were pretty much the same class. I've been having fun as Micheal moves the state logic all over the place. 
 - **Folder and class rename:** I renamed the `Player/` folder to `PlayerCharacter/` and the `PlayerCharacter` class back to `Player`, to bring it closer to Michael's naming. This also resolves the namespace/class collision that forced the rename in Episode 9.
 - **XML documentation:** I added XML doc comments to all classes and non-trivial methods. I find it helps me keep things organized.
+
+> **Solution Rename:** There is a commit right after this episode called `Solution Rename` this was to make it more idomatic and align the namespace `AarpgTutorial` across the solution and in Godot. I also  changed all exports to `Public` so I won't have to rewire if we decide to use it outside the class.
+> 
+> **I highly recommend** just pulling this down if your following my code closely or just not renaming yours. It's not hard to fix, but will require manually editing .csproj files, rewiring all exports in Godot, and regenerating the project in Godot. I will try to keep file structure renames to a minimum going forward... but no promises.
 ---
 
 ## Editor Wiring
@@ -221,20 +225,21 @@ Scene moved from `Player/player.tscn` to `PlayerCharacter/player.tscn`. Root nod
 
 > **Note:** This wasn't originally intended to be shared, so the first few commits cover multiple episodes. Going forward commits map to individual episodes.
 
-| Commit    | Episodes | Description                                                                            |
-|-----------|----------|----------------------------------------------------------------------------------------|
-| `4cf93fd` | 1-3      | Initial setup: player movement and state machine                                       |
-| `a070345` | -        | Refactor: moved shared state logic into base `State` class                             |
-| `f7e64b1` | -        | Refactor: moved enums into dedicated `Player/Enum/` folder                             |
-| `c3ea106` | 4-5      | Attack state, terrain tilemap, terrain collisions                                      |
-| `e88bbe8` | 6        | HitBox/HurtBox system, shrubs/plants, `PlayerInteractionsManager`, export wiring       |
-| `774a925` | 7        | Episode 7 cleanup: moonwalk fix not needed, export wiring                              |
-| `b2e0ba8` | -        | Added README                                                                           |
-| `eaa51c5` | 8        | Episode 8: Auto Camera Limits + small refactors                                        |
-| `246a62d` | -        | Updated README for Episode 8                                                           |
-| `e5bb347` | 8        | HitBox type alias fix: resolved namespace/class name conflict in `HurtBox.cs`          |
-| `3e93eda` | 9        | Episode 9: Implemented slime enemy and major refactor of states, actors, statemachines |
-| `3cb50b9` | -        | Updated README for Episode 9                                                           |
-| `37f62d9` | 10       | Updated Slime to take damage                                                           |
-| `e2b1228` | -        | Light housekeeping: namespace casing, region organization, `Bounds` class              |
-| `Latest`  | 11       | Player stun state, health system, damage flash, folder/class rename to match tutorial  |
+| Commit    | Episodes | Description                                                                                               |
+|-----------|----------|-----------------------------------------------------------------------------------------------------------|
+| `4cf93fd` | 1-3      | Initial setup: player movement and state machine                                                          |
+| `a070345` | -        | Refactor: moved shared state logic into base `State` class                                                |
+| `f7e64b1` | -        | Refactor: moved enums into dedicated `Player/Enum/` folder                                                |
+| `c3ea106` | 4-5      | Attack state, terrain tilemap, terrain collisions                                                         |
+| `e88bbe8` | 6        | HitBox/HurtBox system, shrubs/plants, `PlayerInteractionsManager`, export wiring                          |
+| `774a925` | 7        | Episode 7 cleanup: moonwalk fix not needed, export wiring                                                 |
+| `b2e0ba8` | -        | Added README                                                                                              |
+| `eaa51c5` | 8        | Episode 8: Auto Camera Limits + small refactors                                                           |
+| `246a62d` | -        | Updated README for Episode 8                                                                              |
+| `e5bb347` | 8        | HitBox type alias fix: resolved namespace/class name conflict in `HurtBox.cs`                             |
+| `3e93eda` | 9        | Episode 9: Implemented slime enemy and major refactor of states, actors, statemachines                    |
+| `3cb50b9` | -        | Updated README for Episode 9                                                                              |
+| `37f62d9` | 10       | Updated Slime to take damage                                                                              |
+| `e2b1228` | -        | Light housekeeping: namespace casing, region organization, `Bounds` class                                 |
+| `9d671c9` | 11       | Player stun state, health system, damage flash, folder/class rename to match tutorial                     |
+| `Latest`  | -        | Solution Rename. If you're following this code closely, I'd just pull it down to avoid renaming headaches |

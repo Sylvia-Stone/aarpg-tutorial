@@ -1,7 +1,7 @@
 using AarpgTutorial.Common.Enums;
 using Godot;
 
-namespace AarpgTutorial.Player.States;
+namespace AarpgTutorial.PlayerCharacter.States;
 
 /// <summary>
 /// Player attack state. Plays the attack animation and sound, enables the hurt box with a short
@@ -12,17 +12,17 @@ public partial class Attack : PlayerState
     #region Exports
 
     [Export]
-    private AudioStream _attackSound;
+    public AudioStream AttackSound = null!;
     [Export(PropertyHint.Range, "1,20,.5")]
-    private double _decelerationRate;
+    public double DecelerationRate;
     [Export]
-    private AnimationPlayer _playerAnimationPlayer;
+    public AnimationPlayer PlayerAnimationPlayer = null!;
     [Export]
-    private AnimationPlayer _attackAnimationPlayer;
+    public AnimationPlayer AttackAnimationPlayer = null!;
     [Export]
-    private AudioStreamPlayer2D _audioStreamPlayer2D;
+    public AudioStreamPlayer2D AudioStreamPlayer2D = null!;
     [Export]
-    private Area2D _hurtBox;
+    public Area2D HurtBox = null!;
 
     #endregion
 
@@ -41,15 +41,15 @@ public partial class Attack : PlayerState
     public override void Enter()
     {
         Player.UpdateAnimation(StateType.Attack);
-        _attackAnimationPlayer.Play($"{StateType.Attack}{Player.GetAnimDirection()}");
-        _playerAnimationPlayer.AnimationFinished += EndAttack;
+        AttackAnimationPlayer.Play($"{StateType.Attack}{Player.GetAnimDirection()}");
+        PlayerAnimationPlayer.AnimationFinished += EndAttack;
 
-        _audioStreamPlayer2D.Stream = _attackSound;
-        _audioStreamPlayer2D.PitchScale = (float)GD.RandRange(.9, 1.1);
-        _audioStreamPlayer2D.Play();
+        AudioStreamPlayer2D.Stream = AttackSound;
+        AudioStreamPlayer2D.PitchScale = (float)GD.RandRange(.9, 1.1);
+        AudioStreamPlayer2D.Play();
 
         _attacking = true;
-        GetTree().CreateTimer(.075).Timeout += () => _hurtBox.Monitoring = true;
+        GetTree().CreateTimer(.075).Timeout += () => HurtBox.Monitoring = true;
     }
 
     /// <summary>
@@ -57,9 +57,9 @@ public partial class Attack : PlayerState
     /// </summary>
     public override void Exit()
     {
-        _playerAnimationPlayer.AnimationFinished -= EndAttack;
+        PlayerAnimationPlayer.AnimationFinished -= EndAttack;
         _attacking = false;
-        _hurtBox.Monitoring = false;
+        HurtBox.Monitoring = false;
     }
 
     /// <summary>
@@ -68,7 +68,7 @@ public partial class Attack : PlayerState
     /// </summary>
     public override PlayerState? Process(double delta)
     {
-        Player.Velocity -= Player.Velocity * (float)_decelerationRate * (float)delta;
+        Player.Velocity -= Player.Velocity * (float)DecelerationRate * (float)delta;
 
         if (_attacking) return null;
         return Player.Direction == Vector2.Zero

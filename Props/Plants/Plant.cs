@@ -12,7 +12,7 @@ public partial class Plant : Node2D
     #region Exports
 
     [Export]
-    private HitBox _hitBox;
+    public HitBox HitBox = null!;
 
     #endregion
 
@@ -20,7 +20,7 @@ public partial class Plant : Node2D
 
     public override void _Ready()
     {
-        _hitBox.Damaged += TakeDamage;
+        HitBox.Damaged += TakeDamage;
     }
 
     #endregion

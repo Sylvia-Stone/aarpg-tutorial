@@ -4,16 +4,16 @@ using Godot;
 namespace AarpgTutorial.Common;
 
 /// <summary>
-/// Singleton that holds a reference to the active <see cref="Player.Scripts.Player"/>,
+/// Singleton that holds a reference to the active <see cref="PlayerCharacter.Scripts.Player"/>,
 /// so other systems (enemies, UI) can locate the player without scene-tree traversal.
 /// </summary>
 public partial class PlayerManager : Node
 {
     #region Fields
 
-    public Player.Scripts.Player Player;
+    public PlayerCharacter.Scripts.Player Player = null!;
 
-    public static PlayerManager Instance { get; private set; }
+    public static PlayerManager Instance { get; private set; } = null!;
 
     #endregion
 

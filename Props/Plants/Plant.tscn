@@ -10,9 +10,9 @@ size = Vector2(24, 30)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_akllp"]
 size = Vector2(24, 16)
 
-[node name="Plant" type="Node2D" unique_id=1341954111 node_paths=PackedStringArray("_hitBox")]
+[node name="Plant" type="Node2D" unique_id=1341954111 node_paths=PackedStringArray("HitBox")]
 script = ExtResource("1_akllp")
-_hitBox = NodePath("HitBox")
+HitBox = NodePath("HitBox")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1058170524]
 position = Vector2(0, -9)

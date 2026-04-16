@@ -1,7 +1,7 @@
 using AarpgTutorial.Common.States;
 using Godot;
 
-namespace AarpgTutorial.Player.States;
+namespace AarpgTutorial.PlayerCharacter.States;
 
 /// <summary>
 /// Player-specific state machine. Adds <c>_UnhandledInput</c> routing so states can
