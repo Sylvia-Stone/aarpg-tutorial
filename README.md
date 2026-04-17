@@ -256,4 +256,5 @@ Scene moved from `Player/player.tscn` to `PlayerCharacter/player.tscn`. Root nod
 | `e2b1228` | -        | Light housekeeping: namespace casing, region organization, `Bounds` class                                 |
 | `9d671c9` | 11       | Player stun state, health system, damage flash, folder/class rename to match tutorial                     |
 | `98d7094` | -        | Solution Rename. If you're following this code closely, I'd just pull it down to avoid renaming headaches |
-| `Latest`  | 12       | Player HUD: heart-based health display with half-heart support                                            |
+| `aff1a8b` | 12       | Player HUD: heart-based health display with half-heart support                                            |
+| `Latest`  | -        | Fixed lingering slime shadow                                                                              |

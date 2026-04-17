@@ -100,6 +100,18 @@ tracks/5/keys = {
 "clips": PackedStringArray("Destroy"),
 "times": PackedFloat32Array(0)
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("ShadowSprite2D:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.39985222, 0.27253318, 0.0041096443, 1), Color(0.39985222, 0.27253318, 0.0041096443, 1), Color(0.4, 0.27058825, 0.003921569, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_ts4pi"]
 resource_name = "DestroySide"
@@ -180,6 +192,18 @@ tracks/5/keys = {
 "clips": PackedStringArray("Destroy"),
 "times": PackedFloat32Array(0)
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("ShadowSprite2D:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.39985222, 0.27253318, 0.0041096443, 1), Color(0.39985222, 0.27253318, 0.0041096443, 1), Color(0.4, 0.27058825, 0.003921569, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_2vvwu"]
 resource_name = "DestroyUp"
@@ -259,6 +283,18 @@ tracks/5/loop_wrap = true
 tracks/5/keys = {
 "clips": PackedStringArray("Destroy"),
 "times": PackedFloat32Array(0)
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("ShadowSprite2D:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.39985222, 0.27253318, 0.0041096443, 1), Color(0.39985222, 0.27253318, 0.0041096443, 1), Color(0.4, 0.27058825, 0.003921569, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_0ae7n"]
@@ -385,6 +421,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ShadowSprite2D:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.39985222, 0.27253318, 0.0041096443, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_j1ull"]
