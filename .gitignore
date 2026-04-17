@@ -6,4 +6,5 @@
 .idea/
 
 # Local
-.notes.md
+*.md
+!README.md

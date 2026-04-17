@@ -104,6 +104,9 @@ All existing functionality is unchanged. No scene wiring was affected.
 > **Solution Rename:** There is a commit right after this episode called `Solution Rename` this was to make it more idomatic and align the namespace `AarpgTutorial` across the solution and in Godot. I also  changed all exports to `Public` so I won't have to rewire if we decide to use it outside the class.
 > 
 > **I highly recommend** just pulling this down if your following my code closely or just not renaming yours. It's not hard to fix, but will require manually editing .csproj files, rewiring all exports in Godot, and regenerating the project in Godot. I will try to keep file structure renames to a minimum going forward... but no promises.
+### Episode 12
+- **`HeartGui` refactor:** There was really no point to having a separate method to update the sprite and a setter, so I rolled them all into the setter. 
+- **Player Hud refactor:** Boiled down the three separate methods to a simple for loop.  
 ---
 
 ## Editor Wiring
@@ -219,6 +222,16 @@ Scene moved from `Player/player.tscn` to `PlayerCharacter/player.tscn`. Root nod
 
 #### `Plant.tscn` - unchanged from Episode 9-10
 
+#### `GUI/PlayerHud/PlayerHud.tscn` - PlayerHud node (root)
+| Property         | Node to assign            |
+|------------------|---------------------------|
+| H Flow Container | `Control/HFlowContainer`  |
+
+#### `GUI/PlayerHud/HeartGui.tscn` - HeartGui node (root)
+| Property | Node to assign |
+|----------|----------------|
+| Sprite   | `Sprite2D`     |
+
 ---
 
 ## Commit History by Episode
@@ -242,4 +255,5 @@ Scene moved from `Player/player.tscn` to `PlayerCharacter/player.tscn`. Root nod
 | `37f62d9` | 10       | Updated Slime to take damage                                                                              |
 | `e2b1228` | -        | Light housekeeping: namespace casing, region organization, `Bounds` class                                 |
 | `9d671c9` | 11       | Player stun state, health system, damage flash, folder/class rename to match tutorial                     |
-| `Latest`  | -        | Solution Rename. If you're following this code closely, I'd just pull it down to avoid renaming headaches |
+| `98d7094` | -        | Solution Rename. If you're following this code closely, I'd just pull it down to avoid renaming headaches |
+| `Latest`  | 12       | Player HUD: heart-based health display with half-heart support                                            |

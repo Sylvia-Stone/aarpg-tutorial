@@ -2,6 +2,7 @@ using System;
 using AarpgTutorial.Common;
 using AarpgTutorial.Common.HitBox;
 using AarpgTutorial.Common.HurtBox;
+using AarpgTutorial.GUI.PlayerHud;
 using AarpgTutorial.PlayerCharacter.States;
 using Godot;
 
@@ -49,6 +50,7 @@ public partial class Player : Actor
         PlayerManager.Instance.Player = this;
         StateMachine.Initialize(this);
         HitBox.Damaged += OnTakeDamage;
+        UpdateHealth(_maxInt);
     }
 
     public override void _PhysicsProcess(double delta)
@@ -88,6 +90,7 @@ public partial class Player : Actor
     public void UpdateHealth(int delta)
     {
         CurrentHealth = Math.Clamp(CurrentHealth + delta, 0, MaxHealth);
+        PlayerHud.Instance.UpdateHealth(CurrentHealth,  MaxHealth);
     }
     
     #endregion
@@ -97,7 +100,7 @@ public partial class Player : Actor
     /// <summary>                                                                                                                                                                                                                                                                                                   
     /// Called when the player's HitBox receives damage from a HurtBox.                                                                                                                                                                                                                                               
     /// Skipped entirely if the player is invulnerable.                                                                                                                                                                                                                                                               
-    /// Applies damage, emits <see cref="AarpgTutorial.Player.Scripts.Player.PlayerDamaged"/>, then resets health to max if the player has died.                                                                                                                                                                                                          
+    /// Applies damage, emits <see cref="PlayerCharacter.Scripts.Player.PlayerDamaged"/>, then resets health to max if the player has died.                                                                                                                                                                                                          
     /// </summary>                                                                                                                                                                                                                                                                                                    
     /// <param name="hurtBox">The HurtBox that dealt the damage. Damage value is read from <see cref="HurtBox.Damage"/>.</param>
     private void OnTakeDamage(HurtBox hurtBox)
