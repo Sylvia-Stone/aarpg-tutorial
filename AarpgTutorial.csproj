@@ -10,4 +10,10 @@
   <ItemGroup>
     <Content Include="README.md" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Levels\Area01\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Levels\Area01\**" />
+  </ItemGroup>
 </Project>

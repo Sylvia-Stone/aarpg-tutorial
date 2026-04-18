@@ -107,6 +107,10 @@ All existing functionality is unchanged. No scene wiring was affected.
 ### Episode 12
 - **`HeartGui` refactor:** There was really no point to having a separate method to update the sprite and a setter, so I rolled them all into the setter. 
 - **Player Hud refactor:** Boiled down the three separate methods to a simple for loop.  
+
+### Episode 13
+- Stuck very close to the tutorial on this one.
+
 ---
 
 ## Editor Wiring
@@ -257,4 +261,5 @@ Scene moved from `Player/player.tscn` to `PlayerCharacter/player.tscn`. Root nod
 | `9d671c9` | 11       | Player stun state, health system, damage flash, folder/class rename to match tutorial                     |
 | `98d7094` | -        | Solution Rename. If you're following this code closely, I'd just pull it down to avoid renaming headaches |
 | `aff1a8b` | 12       | Player HUD: heart-based health display with half-heart support                                            |
-| `Latest`  | -        | Fixed lingering slime shadow                                                                              |
+| `1ed0b3a` | -        | Fixed lingering slime shadow                                                                              |
+| `Latest`  | 13       | Episode 13: player spawn implementation                                                                   |

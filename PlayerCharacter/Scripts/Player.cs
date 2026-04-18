@@ -46,8 +46,8 @@ public partial class Player : Actor
 
     public override void _Ready()
     {
+        
         UpdateHealth(_maxInt);
-        PlayerManager.Instance.Player = this;
         StateMachine.Initialize(this);
         HitBox.Damaged += OnTakeDamage;
         UpdateHealth(_maxInt);
