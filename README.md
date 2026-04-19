@@ -111,6 +111,11 @@ All existing functionality is unchanged. No scene wiring was affected.
 ### Episode 13
 - Stuck very close to the tutorial on this one.
 
+### Episode 14
+- **`[ExportToolButton]`:** Used instead of the fake exported bool snap-to-grid trick. Renders a real button in the inspector.
+- **C# event cleanup:** Added `LevelLoadStarted -= FreeLevel` in `FreeLevel()`. GDScript cleans up signal connections automatically on node free, C# doesn't.
+- **`async void` for frame delays:** Used `async void` with `await ToSignal(GetTree(), ProcessFrame)` to match GDScript's inline `await get_tree().process_frame`. Works fine on `_Ready` and signal handlers since nothing awaits them anyway.
+
 ---
 
 ## Editor Wiring
@@ -262,4 +267,5 @@ Scene moved from `Player/player.tscn` to `PlayerCharacter/player.tscn`. Root nod
 | `98d7094` | -        | Solution Rename. If you're following this code closely, I'd just pull it down to avoid renaming headaches |
 | `aff1a8b` | 12       | Player HUD: heart-based health display with half-heart support                                            |
 | `1ed0b3a` | -        | Fixed lingering slime shadow                                                                              |
-| `Latest`  | 13       | Episode 13: player spawn implementation                                                                   |
+| `538950a` | 13       | Episode 13: player spawn implementation                                                                   |
+| `Latest`  | 14       | Episode 14: level transitions                                                                             |

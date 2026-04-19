@@ -1,5 +1,5 @@
-using Godot;
 using AarpgTutorial.PlayerCharacter.Scripts;
+using Godot;
 
 namespace AarpgTutorial.Common;
 
@@ -9,43 +9,66 @@ namespace AarpgTutorial.Common;
 /// </summary>
 public partial class PlayerManager : Node
 {
-    #region Fields
+	#region Fields
 
-    public PackedScene PlayerScene = GD.Load<PackedScene>("res://PlayerCharacter/player.tscn");
-    public Player Player = null!;
-    public bool IsPlayerSpawned;
+	public bool IsPlayerSpawned;
+	public Player Player = null!;
+	public PackedScene PlayerScene = GD.Load<PackedScene>("res://PlayerCharacter/player.tscn");
 
-    public static PlayerManager Instance { get; private set; } = null!;
+	#endregion
 
-    #endregion
+	#region Accessors
 
-    #region Lifecycle
+	public static PlayerManager Instance { get; private set; } = null!;
 
-    public override void _Ready()
-    {
-        Instance = this;
-        AddPlayerInstance();
-    }
+	#endregion
 
-    #endregion
+	#region Lifecycle Methods
 
-    public void SetPlayerPosition(Vector2 position)
-    {
-        Player.GlobalPosition = position;
-    }
+	/// <summary>Called when the node enters the scene tree.</summary>
+	public override void _Ready()
+	{
+		Instance = this;
+		AddPlayerInstance();
+	}
 
-    public void SetParent(Node2D node)
-    {
-        if (Player.GetParent() is not null)
-        {
-            Player.GetParent().RemoveChild(Player);
-        }
-        node.AddChild(Player);    
-    }
-    
-    private void AddPlayerInstance()
-    {
-        Player = PlayerScene.Instantiate<Player>();
-        AddChild(Player);
-    }
+	#endregion
+
+	#region Public Methods
+
+	/// <summary>Removes the player from the scene tree without freeing it.</summary>
+	/// <param name="node">The node currently parenting the player.</param>
+	public void OrphanPlayer(Node2D node)
+	{
+		node.RemoveChild(Player);
+	}
+
+	/// <summary>Reparents the player to the given node.</summary>
+	/// <param name="node">The node to parent the player under.</param>
+	public void SetParent(Node2D node)
+	{
+		if (Player.GetParent() is not null)
+			Player.GetParent().RemoveChild(Player);
+		node.AddChild(Player);
+	}
+
+	/// <summary>Sets the player's global position.</summary>
+	/// <param name="position">The target world position.</param>
+	public void SetPlayerPosition(Vector2 position)
+	{
+		Player.GlobalPosition = position;
+	}
+
+	#endregion
+
+	#region Private Methods
+
+	/// <summary>Instantiates the player scene and adds it as a child of this manager.</summary>
+	private void AddPlayerInstance()
+	{
+		Player = PlayerScene.Instantiate<Player>();
+		AddChild(Player);
+	}
+
+	#endregion
 }

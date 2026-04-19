@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+using AarpgTutorial.GUI.SceneTransition;
 using Godot;
 
 namespace AarpgTutorial.Common;
@@ -11,21 +13,44 @@ public partial class LevelManager : Node
 	#region Signals
 
 	[Signal]
+	public delegate void LevelLoadFinishedEventHandler();
+
+	[Signal]
+	public delegate void LevelLoadStartedEventHandler();
+
+	[Signal]
 	public delegate void TileMapBoundsChangedEventHandler(Bounds bounds);
 
 	#endregion
 
 	#region Fields
 
-	public Bounds CurrentTileMapBounds = null!;
+	public Vector2 PositionOffset;
+
+	#endregion
+
+	#region Properties
+
+	public Bounds? CurrentTileMapBounds { get; set; }
+	public string? TargetTransition { get; set; }
+
+	#endregion
+
+	#region Accessors
 
 	public static LevelManager Instance { get; private set; } = null!;
 
 	#endregion
 
-	#region Lifecycle
+	#region Lifecycle Methods
 
-	public override void _Ready() => Instance = this;
+	/// <summary>Called when the node enters the scene tree. Emits LevelLoadFinished after one frame to signal initial scene readiness.</summary>
+	public async override void _Ready()
+	{
+		Instance = this;
+		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		EmitSignalLevelLoadFinished();
+	}
 
 	#endregion
 
@@ -39,6 +64,29 @@ public partial class LevelManager : Node
 	{
 		CurrentTileMapBounds = bounds;
 		EmitSignalTileMapBoundsChanged(bounds);
+	}
+
+	/// <summary>Pauses the tree, transitions to the new level, then resumes.</summary>
+	/// <param name="levelPath">Path to the new level scene.</param>
+	/// <param name="targetTransition">Name of the transition area to spawn at.</param>
+	/// <param name="positionOffset">Offset applied to the spawn position.</param>
+	public async Task LoadNewLevel(string levelPath, string targetTransition, Vector2 positionOffset)
+	{
+		GetTree().Paused = true;
+		TargetTransition = targetTransition;
+		PositionOffset = positionOffset;
+
+		await SceneTransition.Instance.FadeOut();
+		EmitSignalLevelLoadStarted();
+
+		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		GetTree().ChangeSceneToFile(levelPath);
+
+		await SceneTransition.Instance.FadeIn();
+		GetTree().Paused = false;
+
+		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		EmitSignalLevelLoadFinished();
 	}
 
 	#endregion

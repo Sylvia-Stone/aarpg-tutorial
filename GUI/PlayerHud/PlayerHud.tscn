@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://ch2d0xjmgxlgq" path="res://GUI/PlayerHud/HeartGui.tscn" id="2_uocnu"]
 
 [node name="PlayerHud" type="CanvasLayer" unique_id=1593144270 node_paths=PackedStringArray("HFlowContainer")]
+layer = 2
 script = ExtResource("1_uocnu")
 HFlowContainer = NodePath("Control/HFlowContainer")
 
