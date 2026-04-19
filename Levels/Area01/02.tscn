@@ -20,7 +20,6 @@ position = Vector2(272, -96)
 Side = 1
 Size = 3
 LevelPath = "uid://ddmnlg6rbt2a3"
-TargetTransitionArea = "LevelTransitionS"
 
 [node name="Plant" parent="." unique_id=1341954111 instance=ExtResource("5_mwxiv")]
 position = Vector2(119, 118)

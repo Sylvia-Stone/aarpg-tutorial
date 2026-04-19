@@ -14,7 +14,7 @@ tile_map_data = PackedByteArray("AAAAAAEAAAANAAcAAAABAAEAAAAMAAcAAAACAAEAAAANAAc
 [node name="PlayerSpawn" parent="." unique_id=947788596 instance=ExtResource("2_chooo")]
 position = Vector2(265, 171)
 
-[node name="LevelTransitionS" parent="." unique_id=112424777 instance=ExtResource("4_pwydo")]
+[node name="LevelTransition" parent="." unique_id=112424777 instance=ExtResource("4_pwydo")]
 position = Vector2(256, 352)
 Side = 3
 LevelPath = "uid://dd5vmkbo5cell"
