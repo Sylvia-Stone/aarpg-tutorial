@@ -15,15 +15,19 @@ public abstract partial class StateMachine<TActor, TState> : Node
 {
     #region Fields
 
-    public TActor Actor { get; private set; } = null!;
-
-    protected readonly List<TState> States = [];
     protected TState? CurrentState;
     protected TState? PreviousState;
+    protected readonly List<TState> States = [];
 
     #endregion
 
-    #region Lifecycle
+    #region Properties
+
+    public TActor Actor { get; private set; } = null!;
+
+    #endregion
+
+    #region Lifecycle Methods
 
     /// <summary>
     /// Disables processing until <see cref="Initialize"/> is called,
@@ -57,11 +61,6 @@ public abstract partial class StateMachine<TActor, TState> : Node
     #region Public Methods
 
     /// <summary>
-    /// Returns the first child state of type <typeparamref name="T"/>, or <c>null</c> if not found.
-    /// </summary>
-    public TState? GetState<T>() where T : TState => States.OfType<T>().FirstOrDefault();
-
-    /// <summary>
     /// Exits the current state, records it as the previous state, and enters <paramref name="newState"/>.
     /// No-ops if <paramref name="newState"/> is <c>null</c> or is already the active state.
     /// </summary>
@@ -73,6 +72,11 @@ public abstract partial class StateMachine<TActor, TState> : Node
         CurrentState = newState;
         CurrentState.Enter();
     }
+
+    /// <summary>
+    /// Returns the first child state of type <typeparamref name="T"/>, or <c>null</c> if not found.
+    /// </summary>
+    public TState? GetState<T>() where T : TState => States.OfType<T>().FirstOrDefault();
 
     /// <summary>
     /// Wires the state machine to its <paramref name="actor"/>, discovers child state nodes,
@@ -100,5 +104,4 @@ public abstract partial class StateMachine<TActor, TState> : Node
     }
 
     #endregion
-
 }

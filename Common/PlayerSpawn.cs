@@ -7,7 +7,6 @@ public partial class PlayerSpawn : Node2D
 {
 	#region Lifecycle Methods
 
-	/// <summary>Called when the node enters the scene tree.</summary>
 	public override void _Ready()
 	{
 		Visible = false;

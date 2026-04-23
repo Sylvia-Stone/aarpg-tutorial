@@ -8,7 +8,7 @@ namespace AarpgTutorial.Common;
 
 /// <summary>
 /// Abstract base for all actors (player and enemies).
-/// Handle physics movement, sprite direction flipping, and animation keying.
+/// Handles physics movement, sprite direction flipping, and animation keying.
 /// </summary>
 public abstract partial class Actor : CharacterBody2D
 {
@@ -23,6 +23,7 @@ public abstract partial class Actor : CharacterBody2D
 
     [Export]
     public AnimationPlayer AnimationPlayer = null!;
+
     [Export]
     public Sprite2D Sprite = null!;
 
@@ -30,13 +31,7 @@ public abstract partial class Actor : CharacterBody2D
 
     #region Fields
 
-    public Vector2 Direction = Vector2.Zero;
-    public bool IsInvulnerable;
-
     private Vector2 _cardinalDirection = Vector2.Down;
-
-    public static readonly Vector2[] CardinalDirections =
-        [Vector2.Up, Vector2.Down, Vector2.Left, Vector2.Right];
 
     private static readonly Dictionary<Vector2, AnimationDirection> DirectionAnimations = new()
     {
@@ -46,9 +41,15 @@ public abstract partial class Actor : CharacterBody2D
         { Vector2.Right, AnimationDirection.Side },
     };
 
+    public static readonly Vector2[] CardinalDirections =
+        [Vector2.Up, Vector2.Down, Vector2.Left, Vector2.Right];
+
+    public Vector2 Direction = Vector2.Zero;
+    public bool IsInvulnerable;
+
     #endregion
 
-    #region Lifecycle
+    #region Lifecycle Methods
 
     public override void _Ready()
     {
@@ -64,6 +65,13 @@ public abstract partial class Actor : CharacterBody2D
     #endregion
 
     #region Public Methods
+
+    /// <summary>
+    /// Returns the <see cref="AnimationDirection"/> that corresponds to the current cardinal direction,
+    /// used to build animation keys in <see cref="UpdateAnimation"/>.
+    /// </summary>
+    public AnimationDirection GetAnimDirection() =>
+        DirectionAnimations.GetValueOrDefault(_cardinalDirection, AnimationDirection.Down);
 
     /// <summary>
     /// Snaps <paramref name="direction"/> to the nearest cardinal direction, flips the sprite
@@ -95,13 +103,6 @@ public abstract partial class Actor : CharacterBody2D
     {
         AnimationPlayer.Play($"{stateType}{GetAnimDirection()}");
     }
-
-    /// <summary>
-    /// Returns the <see cref="AnimationDirection"/> that corresponds to the current cardinal direction,
-    /// used to build animation keys in <see cref="UpdateAnimation"/>.
-    /// </summary>
-    public AnimationDirection GetAnimDirection() =>
-        DirectionAnimations.GetValueOrDefault(_cardinalDirection, AnimationDirection.Down);
 
     #endregion
 }

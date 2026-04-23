@@ -14,29 +14,33 @@ public partial class Move : EnemyState
 
     [Export]
     public StateType AnimationStateType = StateType.Walk;
+
     [Export]
     public double WanderSpeed = 20.0;
 
     [ExportCategory("AI")]
     [Export]
-    public double StateAnimationDuration = .7;
+    public EnemyState? NextState;
+
     [Export]
-    public int StateCyclesMin = 1;
+    public double StateAnimationDuration = .7;
+
     [Export]
     public int StateCyclesMax = 3;
+
     [Export]
-    public EnemyState? NextState;
+    public int StateCyclesMin = 1;
 
     #endregion
 
     #region Fields
 
-    private double _timer;
     private Vector2 _direction;
+    private double _timer;
 
     #endregion
 
-    #region Lifecycle
+    #region Lifecycle Methods
 
     /// <summary>
     /// Picks a random cardinal direction and a random wander duration, then sets velocity.

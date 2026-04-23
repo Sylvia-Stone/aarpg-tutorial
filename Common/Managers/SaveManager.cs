@@ -34,7 +34,7 @@ public partial class SaveManager : Node
 
 	#endregion
 
-	#region Lifecycle
+	#region Lifecycle Methods
 
 	public override void _Ready()
 	{
@@ -95,6 +95,7 @@ public partial class SaveManager : Node
 
 	#region Private Methods
 
+	/// <summary>Reads the current player's health and position and stores them in <see cref="_saveData"/>.</summary>
 	private void UpdatePlayerData()
 	{
 		var player = PlayerManager.Instance.Player;
@@ -106,6 +107,7 @@ public partial class SaveManager : Node
 		_saveData.Player.Y = player.GlobalPosition.Y;
 	}
 
+	/// <summary>Finds the active <see cref="Level"/> in the scene tree and stores its file path in <see cref="_saveData"/>.</summary>
 	private void UpdateScenePath()
 	{
 		string path = string.Empty;

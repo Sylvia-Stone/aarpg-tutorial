@@ -9,7 +9,7 @@ namespace AarpgTutorial.PlayerCharacter.States;
 /// </summary>
 public partial class PlayerStateMachine : StateMachine<Scripts.Player, PlayerState>
 {
-    #region Lifecycle
+    #region Lifecycle Methods
 
     /// <summary>
     /// Forwards unhandled input to the current state. If the state returns a transition,
@@ -22,5 +22,4 @@ public partial class PlayerStateMachine : StateMachine<Scripts.Player, PlayerSta
     }
 
     #endregion
-    
 }

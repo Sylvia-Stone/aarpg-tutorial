@@ -18,6 +18,7 @@ public partial class Enemy : Actor
 
     [Signal]
     public delegate void EnemyDamagedEventHandler(HurtBox hurtBox);
+
     [Signal]
     public delegate void EnemyDestroyedEventHandler(HurtBox hurtBox);
 
@@ -26,11 +27,13 @@ public partial class Enemy : Actor
     #region Exports
 
     [Export]
-    public int CurrentHealth = 3;
-    [Export]
-    public EnemyStateMachine StateMachine = null!;
+    public int CurrentHealth { get; set; } = 3;
+
     [Export]
     public HitBox HitBox = null!;
+
+    [Export]
+    public EnemyStateMachine StateMachine = null!;
 
     #endregion
 
@@ -40,7 +43,7 @@ public partial class Enemy : Actor
 
     #endregion
 
-    #region Lifecycle
+    #region Lifecycle Methods
 
     public override void _Ready()
     {
@@ -55,25 +58,22 @@ public partial class Enemy : Actor
 
     #endregion
 
-    #region Public Methods
+    #region Private Methods
 
     /// <summary>
     /// Applies damage from <paramref name="hurtBox"/> if not currently invulnerable.
     /// Emits <see cref="EnemyDamaged"/> while health remains, or <see cref="EnemyDestroyed"/>
     /// when health reaches zero.
     /// </summary>
-    public void OnTakeDamage(HurtBox hurtBox)
+    /// <param name="hurtBox">The HurtBox that dealt the damage.</param>
+    private void OnTakeDamage(HurtBox hurtBox)
     {
         if (IsInvulnerable) return;
         CurrentHealth -= hurtBox.Damage;
         if (CurrentHealth > 0)
-        {
             EmitSignalEnemyDamaged(hurtBox);
-        }
         else
-        {
             EmitSignalEnemyDestroyed(hurtBox);
-        }
     }
 
     #endregion

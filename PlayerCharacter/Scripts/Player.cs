@@ -17,34 +17,39 @@ namespace AarpgTutorial.PlayerCharacter.Scripts;
 public partial class Player : Actor
 {
     #region Signals
-    
+
     [Signal]
     public delegate void PlayerDamagedEventHandler(HurtBox hurtBox);
-    
+
     #endregion
-    
+
     #region Exports
 
     [Export]
-    public int CurrentHealth = 6;
-    [Export]
-    public int MaxHealth = 6;
+    public int CurrentHealth { get; set; } = 6;
+
     [Export]
     public AnimationPlayer EffectAnimationPlayer = null!;
+
     [Export]
     public HitBox HitBox = null!;
+
+    [Export]
+    public int MaxHealth { get; set; } = 6;
+
     [Export]
     public PlayerStateMachine StateMachine = null!;
 
     #endregion
-    
+
     #region Fields
-    //used a variable for maxing out health in case we need to refactor later it's easier to modify/find
+
+    // int.MaxValue stored as a variable so UpdateHealth calls read clearly at the call site
     private int _maxInt = int.MaxValue;
-    
+
     #endregion
-    
-    #region Lifecycle
+
+    #region Lifecycle Methods
 
     public override void _Ready()
     {
@@ -69,7 +74,7 @@ public partial class Player : Actor
     }
 
     #endregion
-    
+
     #region Public Methods
 
     /// <summary>
@@ -80,43 +85,43 @@ public partial class Player : Actor
     {
         IsInvulnerable = true;
         HitBox.Monitoring = false;
-        
-        GetTree().CreateTimer(duration).Timeout += () =>                                                                                                                                                                                                                                                              
-        {           
+
+        GetTree().CreateTimer(duration).Timeout += () =>
+        {
             IsInvulnerable = false;
             HitBox.Monitoring = true;
-        };  
+        };
     }
-    
-    /// <summary>                                                                                                                                                                                                                                                                                                   
-    /// Adjusts current health by <paramref name="delta"/>, clamped to [0, <see cref="MaxHealth"/>].                                                                                                                                                                                                                  
-    /// Pass a negative value to deal damage, positive to heal.                                                                                                                                                                                                                                                       
-    /// </summary>                                                                                                                                                                                                                                                                                                    
+
+    /// <summary>
+    /// Adjusts current health by <paramref name="delta"/>, clamped to [0, <see cref="MaxHealth"/>].
+    /// Pass a negative value to deal damage, positive to heal.
+    /// </summary>
     /// <param name="delta">The amount to add to current health. Use negative values for damage.</param>
     public void UpdateHealth(int delta)
     {
         CurrentHealth = Math.Clamp(CurrentHealth + delta, 0, MaxHealth);
-        PlayerHud.Instance.UpdateHealth(CurrentHealth,  MaxHealth);
+        PlayerHud.Instance.UpdateHealth(CurrentHealth, MaxHealth);
     }
-    
+
     #endregion
 
     #region Private Methods
 
-    /// <summary>                                                                                                                                                                                                                                                                                                   
-    /// Called when the player's HitBox receives damage from a HurtBox.                                                                                                                                                                                                                                               
-    /// Skipped entirely if the player is invulnerable.                                                                                                                                                                                                                                                               
-    /// Applies damage, emits <see cref="PlayerCharacter.Scripts.Player.PlayerDamaged"/>, then resets health to max if the player has died.                                                                                                                                                                                                          
-    /// </summary>                                                                                                                                                                                                                                                                                                    
+    /// <summary>
+    /// Called when the player's HitBox receives damage from a HurtBox.
+    /// Skipped entirely if the player is invulnerable.
+    /// Applies damage, emits <see cref="PlayerDamaged"/>, then resets health to max if the player has died.
+    /// </summary>
     /// <param name="hurtBox">The HurtBox that dealt the damage. Damage value is read from <see cref="HurtBox.Damage"/>.</param>
     private void OnTakeDamage(HurtBox hurtBox)
     {
         if (IsInvulnerable) return;
         UpdateHealth(-hurtBox.Damage);
-        
+
         EmitSignalPlayerDamaged(hurtBox);
         if (CurrentHealth <= 0) UpdateHealth(_maxInt);
     }
-    
+
     #endregion
 }

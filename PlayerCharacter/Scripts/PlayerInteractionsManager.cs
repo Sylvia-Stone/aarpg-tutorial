@@ -16,7 +16,7 @@ public partial class PlayerInteractionsManager : Node2D
 
     #endregion
 
-    #region Lifecycle
+    #region Lifecycle Methods
 
     public override void _Ready()
     {

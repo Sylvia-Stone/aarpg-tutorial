@@ -275,4 +275,5 @@ Scene moved from `Player/player.tscn` to `PlayerCharacter/player.tscn`. Root nod
 | `1ed0b3a` | -        | Fixed lingering slime shadow                                                                              |
 | `538950a` | 13       | Episode 13: player spawn implementation                                                                   |
 | `c06fd1f` | 14       | Episode 14: level transitions                                                                             |
-| `Latest`  | 15       | Episode 15: save/load system                                                                              |
+| `c676dd4` | 15       | Episode 15: save/load system                                                                              |
+| `Latest`  | -        | Reorganization                                                                                            |

@@ -10,7 +10,7 @@ namespace AarpgTutorial.PlayerCharacter.States;
 /// </summary>
 public partial class Idle : PlayerState
 {
-    #region Lifecycle
+    #region Lifecycle Methods
 
     /// <summary>Plays the idle animation for the current facing direction.</summary>
     public override void Enter()

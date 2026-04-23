@@ -13,10 +13,13 @@ public partial class Idle : EnemyState
 
     [Export]
     public StateType AnimationStateType = StateType.Idle;
+
     [Export]
     public EnemyState? NextState;
+
     [Export]
     public double StateDurationMax = 1.5;
+
     [Export]
     public double StateDurationMin = .5;
 
@@ -28,7 +31,7 @@ public partial class Idle : EnemyState
 
     #endregion
 
-    #region Lifecycle
+    #region Lifecycle Methods
 
     /// <summary>
     /// Stops the enemy and picks a random duration to remain idle.

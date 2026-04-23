@@ -10,21 +10,23 @@ namespace AarpgTutorial.PlayerCharacter.States;
 /// </summary>
 public abstract partial class PlayerState : State<Scripts.Player>
 {
-    #region Fields
+    #region Accessors
 
     protected Scripts.Player Player => StateMachine.Actor;
     protected PlayerStateMachine StateMachine => GetParent<PlayerStateMachine>();
 
     #endregion
 
-    #region Lifecycle
+    #region Lifecycle Methods
+
+    /// <inheritdoc/>
+    public override PlayerState? HandleInput(InputEvent e) => null;
+
+    /// <inheritdoc/>
+    public override PlayerState? Physics(double delta) => null;
 
     /// <inheritdoc/>
     public override PlayerState? Process(double delta) => null;
-    /// <inheritdoc/>
-    public override PlayerState? Physics(double delta) => null;
-    /// <inheritdoc/>
-    public override PlayerState? HandleInput(InputEvent e) => null;
 
     #endregion
 }

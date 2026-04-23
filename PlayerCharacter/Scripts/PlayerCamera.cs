@@ -10,7 +10,7 @@ namespace AarpgTutorial.PlayerCharacter.Scripts;
 /// </summary>
 public partial class PlayerCamera : Camera2D
 {
-	#region Lifecycle
+	#region Lifecycle Methods
 
 	public override void _Ready()
 	{
@@ -20,7 +20,7 @@ public partial class PlayerCamera : Camera2D
 
 	#endregion
 
-	#region Public Methods
+	#region Private Methods
 
 	/// <summary>
 	/// Applies the four edges of <paramref name="bounds"/> to the camera's limit properties,

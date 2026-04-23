@@ -18,7 +18,7 @@ public partial class Move : PlayerState
 
     #endregion
 
-    #region Lifecycle
+    #region Lifecycle Methods
 
     /// <summary>Plays the walk animation for the current facing direction.</summary>
     public override void Enter()

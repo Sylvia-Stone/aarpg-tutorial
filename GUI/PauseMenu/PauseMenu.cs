@@ -29,7 +29,7 @@ public partial class PauseMenu : CanvasLayer
 
 	#endregion
 
-	#region Lifecycle
+	#region Lifecycle Methods
 
 	public override void _Ready()
 	{

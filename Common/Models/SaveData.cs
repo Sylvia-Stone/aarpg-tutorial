@@ -2,6 +2,10 @@ namespace AarpgTutorial.Common.Models;
 
 public class SaveData
 {
-    public string? ScenePath { get; set; }
+    #region Properties
+
     public PlayerSaveData? Player { get; set; }
+    public string? ScenePath { get; set; }
+
+    #endregion
 }

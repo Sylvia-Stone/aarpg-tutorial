@@ -16,7 +16,7 @@ public partial class HurtBox : Area2D
 
     #endregion
 
-    #region Lifecycle
+    #region Lifecycle Methods
 
     public override void _Ready()
     {

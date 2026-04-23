@@ -43,6 +43,9 @@ public partial class PlayerManager : Node
 		node.RemoveChild(Player);
 	}
 
+	/// <summary>Sets the player's current and max health, then forces a HUD refresh.</summary>
+	/// <param name="health">The health value to restore.</param>
+	/// <param name="maxHealth">The max health value to restore.</param>
 	public void SetHealth(int health, int maxHealth)
 	{
 		Player.CurrentHealth = health;

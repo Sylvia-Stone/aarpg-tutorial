@@ -10,13 +10,6 @@ namespace AarpgTutorial.Levels.Scripts;
 
 public partial class LevelTransition : Area2D
 {
-	#region Fields
-
-	private Side _side;
-	private int _size = 2;
-
-	#endregion
-
 	#region Exports
 
 	[ExportCategory("Collision Area Settings")]
@@ -34,12 +27,6 @@ public partial class LevelTransition : Area2D
 		set { _size = value; UpdateArea(); }
 	}
 
-	// I removed this as tool scripts don't seem to play nice with C#
-	// It kept unlinking from scenes, and I'd rather just size the areas manually
-	// than relink the scripts on all scenes
-	//[ExportToolButton("Snap to Grid")]
-	//public Callable SnapToGridButton => Callable.From(SnapToGrid);
-
 	[ExportCategory("")]
 	[Export]
 	public CollisionShape2D CollisionShape { get; set; } = null!;
@@ -52,9 +39,15 @@ public partial class LevelTransition : Area2D
 
 	#endregion
 
+	#region Fields
+
+	private Side _side;
+	private int _size = 2;
+
+	#endregion
+
 	#region Lifecycle Methods
 
-	/// <summary>Called when the node enters the scene tree.</summary>
 	public async override void _Ready()
 	{
 		UpdateArea();
@@ -151,5 +144,4 @@ public partial class LevelTransition : Area2D
 	}
 
 	#endregion
-
 }

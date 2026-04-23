@@ -13,17 +13,22 @@ public partial class Attack : PlayerState
     #region Exports
 
     [Export]
-    public AudioStream AttackSound = null!;
-    [Export(PropertyHint.Range, "1,20,.5")]
-    public double DecelerationRate;
-    [Export]
-    public AnimationPlayer PlayerAnimationPlayer = null!;
-    [Export]
     public AnimationPlayer AttackAnimationPlayer = null!;
+
+    [Export]
+    public AudioStream AttackSound = null!;
+
     [Export]
     public AudioStreamPlayer2D AudioStreamPlayer2D = null!;
+
+    [Export(PropertyHint.Range, "1,20,.5")]
+    public double DecelerationRate;
+
     [Export]
     public Area2D HurtBox = null!;
+
+    [Export]
+    public AnimationPlayer PlayerAnimationPlayer = null!;
 
     #endregion
 
@@ -33,7 +38,7 @@ public partial class Attack : PlayerState
 
     #endregion
 
-    #region Lifecycle
+    #region Lifecycle Methods
 
     public override void _Ready()
     {

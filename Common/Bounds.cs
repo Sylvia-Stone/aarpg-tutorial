@@ -9,8 +9,12 @@ namespace AarpgTutorial.Common;
 /// </summary>
 public partial class Bounds : RefCounted
 {
-    public int Left { get; init; }
-    public int Top { get; init; }
-    public int Right { get; init; }
+    #region Properties
+
     public int Bottom { get; init; }
+    public int Left { get; init; }
+    public int Right { get; init; }
+    public int Top { get; init; }
+
+    #endregion
 }

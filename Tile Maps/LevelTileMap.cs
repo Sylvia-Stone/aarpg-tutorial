@@ -11,7 +11,7 @@ namespace AarpgTutorial.Tile_Maps;
 /// </summary>
 public partial class LevelTileMap : TileMapLayer
 {
-	#region Lifecycle
+	#region Lifecycle Methods
 
 	public override void _Ready()
 	{

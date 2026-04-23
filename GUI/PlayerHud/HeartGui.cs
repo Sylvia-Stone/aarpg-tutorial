@@ -10,21 +10,16 @@ public partial class HeartGui : Control
 
 	[Export]
 	public Sprite2D Sprite { get; set; } = null!;
-	
-	#endregion
-	
-	#region Lifecycle
-
-	public override void _Ready()
-	{
-		Sprite.Require();
-	}
 
 	#endregion
 
 	#region Fields
 
 	private int _fillLevel = 2;
+
+	#endregion
+
+	#region Accessors
 
 	/// <summary>Heart fill level. Sets <see cref="Sprite2D.Frame"/> on assignment.</summary>
 	/// <value>0 = empty, 1 = half, 2 = full.</value>
@@ -37,6 +32,15 @@ public partial class HeartGui : Control
 			Sprite.Frame = _fillLevel;
 		}
 	}
-	
+
+	#endregion
+
+	#region Lifecycle Methods
+
+	public override void _Ready()
+	{
+		Sprite.Require();
+	}
+
 	#endregion
 }

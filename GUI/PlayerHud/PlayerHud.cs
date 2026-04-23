@@ -12,20 +12,25 @@ public partial class PlayerHud : CanvasLayer
 
 	[Export]
 	public int HealthPerHeart { get; set; } = 2;
+
 	[Export]
 	public HFlowContainer HFlowContainer = null!;
 
 	#endregion
-	
+
 	#region Fields
 
-	public static PlayerHud Instance { get; private set; } = null!;
-	
 	private List<HeartGui> _hearts = new();
-	
+
 	#endregion
-	
-	#region Lifecycle
+
+	#region Accessors
+
+	public static PlayerHud Instance { get; private set; } = null!;
+
+	#endregion
+
+	#region Lifecycle Methods
 
 	/// <summary>Collects all <see cref="HeartGui"/> children and hides them until health is set.</summary>
 	public override void _Ready()

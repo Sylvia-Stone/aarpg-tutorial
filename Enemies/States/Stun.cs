@@ -16,10 +16,12 @@ public partial class Stun : EnemyState
 
     [Export]
     public StateType AnimationStateType = StateType.Stun;
-    [Export]
-    public double KnockBackSpeed = 200.0;
+
     [Export]
     public double DecelerateSpeed = 10.0;
+
+    [Export]
+    public double KnockBackSpeed = 200.0;
 
     [ExportCategory("AI")]
     [Export]
@@ -35,16 +37,7 @@ public partial class Stun : EnemyState
 
     #endregion
 
-    #region Lifecycle
-
-    /// <summary>
-    /// Subscribes to <see cref="Enemy.EnemyDamaged"/> so this state can intercept
-    /// damage events and queue itself regardless of the currently active state.
-    /// </summary>
-    public override void Init(Enemy enemy)
-    {
-        enemy.EnemyDamaged += OnEnemyDamaged;
-    }
+    #region Lifecycle Methods
 
     /// <summary>
     /// Applies knockback away from the stored damage position, marks the enemy invulnerable,
@@ -74,6 +67,15 @@ public partial class Stun : EnemyState
     }
 
     /// <summary>
+    /// Subscribes to <see cref="Enemy.EnemyDamaged"/> so this state can intercept
+    /// damage events and queue itself regardless of the currently active state.
+    /// </summary>
+    public override void Init(Enemy enemy)
+    {
+        enemy.EnemyDamaged += OnEnemyDamaged;
+    }
+
+    /// <summary>
     /// Decelerates the knockback velocity each frame.
     /// Transitions to <c>_nextState</c> once the stun animation has finished.
     /// </summary>
@@ -89,20 +91,20 @@ public partial class Stun : EnemyState
     #region Private Methods
 
     /// <summary>
+    /// Flags the animation as complete so <see cref="Process"/> can transition out next tick.
+    /// </summary>
+    private void OnAnimationFinished(StringName animation)
+    {
+        _animationFinished = true;
+    }
+
+    /// <summary>
     /// Stores the damage source position for knock-back direction, then transitions into this state.
     /// </summary>
     private void OnEnemyDamaged(HurtBox hurtBox)
     {
         _damagePosition = hurtBox.GlobalPosition;
         StateMachine.ChangeState(this);
-    }
-
-    /// <summary>
-    /// Flags the animation as complete so <see cref="Process"/> can transition out next tick.
-    /// </summary>
-    private void OnAnimationFinished(StringName animation)
-    {
-        _animationFinished = true;
     }
 
     #endregion

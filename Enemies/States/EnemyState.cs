@@ -11,21 +11,23 @@ namespace AarpgTutorial.Enemies.States;
 /// </summary>
 public abstract partial class EnemyState : State<Enemy>
 {
-    #region Fields
+    #region Accessors
 
     protected Enemy Enemy => StateMachine.Actor;
     protected EnemyStateMachine StateMachine => GetParent<EnemyStateMachine>();
 
     #endregion
 
-    #region Lifecycle
+    #region Lifecycle Methods
+
+    /// <inheritdoc/>
+    public override EnemyState? HandleInput(InputEvent e) => null;
+
+    /// <inheritdoc/>
+    public override EnemyState? Physics(double delta) => null;
 
     /// <inheritdoc/>
     public override EnemyState? Process(double delta) => null;
-    /// <inheritdoc/>
-    public override EnemyState? Physics(double delta) => null;
-    /// <inheritdoc/>
-    public override EnemyState? HandleInput(InputEvent e) => null;
 
     #endregion
 }
