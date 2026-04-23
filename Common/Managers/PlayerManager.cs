@@ -1,7 +1,7 @@
 using AarpgTutorial.PlayerCharacter.Scripts;
 using Godot;
 
-namespace AarpgTutorial.Common;
+namespace AarpgTutorial.Common.Managers;
 
 /// <summary>
 /// Singleton that holds a reference to the active <see cref="PlayerCharacter.Scripts.Player"/>,
@@ -41,6 +41,13 @@ public partial class PlayerManager : Node
 	public void OrphanPlayer(Node2D node)
 	{
 		node.RemoveChild(Player);
+	}
+
+	public void SetHealth(int health, int maxHealth)
+	{
+		Player.CurrentHealth = health;
+		Player.MaxHealth = maxHealth;
+		Player.UpdateHealth(0);
 	}
 
 	/// <summary>Reparents the player to the given node.</summary>

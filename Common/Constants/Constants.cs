@@ -1,4 +1,4 @@
-namespace AarpgTutorial.Common;
+namespace AarpgTutorial.Common.Constants;
 
 public static class Constants
 {

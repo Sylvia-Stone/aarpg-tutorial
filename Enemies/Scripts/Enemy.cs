@@ -1,8 +1,10 @@
 using AarpgTutorial.Common;
 using AarpgTutorial.Common.HitBox;
 using AarpgTutorial.Common.HurtBox;
+using AarpgTutorial.Common.Utilities;
 using AarpgTutorial.Enemies.States;
 using Godot;
+using PlayerManager = AarpgTutorial.Common.Managers.PlayerManager;
 
 namespace AarpgTutorial.Enemies.Scripts;
 
@@ -42,6 +44,10 @@ public partial class Enemy : Actor
 
     public override void _Ready()
     {
+        base._Ready();
+        HitBox.Require();
+        StateMachine.Require();
+
         StateMachine.Initialize(this);
         Player = PlayerManager.Instance.Player;
         HitBox.Damaged += OnTakeDamage;

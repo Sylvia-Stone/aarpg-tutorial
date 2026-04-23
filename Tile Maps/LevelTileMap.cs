@@ -1,5 +1,7 @@
 using AarpgTutorial.Common;
+using AarpgTutorial.Common.Managers;
 using Godot;
+using LevelManager = AarpgTutorial.Common.Managers.LevelManager;
 
 namespace AarpgTutorial.Tile_Maps;
 

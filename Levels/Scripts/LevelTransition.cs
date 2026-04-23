@@ -1,11 +1,13 @@
 using System;
 using AarpgTutorial.Common;
+using AarpgTutorial.Common.Constants;
 using AarpgTutorial.Common.Utilities;
 using Godot;
+using LevelManager = AarpgTutorial.Common.Managers.LevelManager;
+using PlayerManager = AarpgTutorial.Common.Managers.PlayerManager;
 
 namespace AarpgTutorial.Levels.Scripts;
 
-[Tool]
 public partial class LevelTransition : Area2D
 {
 	#region Fields
@@ -32,12 +34,15 @@ public partial class LevelTransition : Area2D
 		set { _size = value; UpdateArea(); }
 	}
 
-	[ExportToolButton("Snap to Grid")]
-	public Callable SnapToGridButton => Callable.From(SnapToGrid);
+	// I removed this as tool scripts don't seem to play nice with C#
+	// It kept unlinking from scenes, and I'd rather just size the areas manually
+	// than relink the scripts on all scenes
+	//[ExportToolButton("Snap to Grid")]
+	//public Callable SnapToGridButton => Callable.From(SnapToGrid);
 
 	[ExportCategory("")]
 	[Export]
-	public CollisionShape2D? CollisionShape { get; set; }
+	public CollisionShape2D CollisionShape { get; set; } = null!;
 
 	[Export(PropertyHint.File, "*.tscn")]
 	public string LevelPath { get; set; } = null!;
@@ -54,6 +59,9 @@ public partial class LevelTransition : Area2D
 	{
 		UpdateArea();
 		if (Engine.IsEditorHint()) return;
+
+		LevelPath.Require();
+		CollisionShape.Require();
 
 		Monitoring = false;
 		PlacePlayer();
@@ -97,7 +105,7 @@ public partial class LevelTransition : Area2D
 	private void PlacePlayer()
 	{
 		var lm = LevelManager.Instance;
-		if (lm.TargetTransition != Name) return;
+		if (lm.TargetTransition is null || lm.TargetTransition != Name) return;
 		PlayerManager.Instance.SetPlayerPosition(GlobalPosition + lm.PositionOffset);
 	}
 

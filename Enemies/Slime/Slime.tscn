@@ -23,6 +23,7 @@ height = 22.0
 
 [sub_resource type="Animation" id="Animation_3of0s"]
 resource_name = "DestroyDown"
+length = 0.6
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -112,9 +113,34 @@ tracks/6/keys = {
 "update": 0,
 "values": [Color(0.39985222, 0.27253318, 0.0041096443, 1), Color(0.39985222, 0.27253318, 0.0041096443, 1), Color(0.4, 0.27058825, 0.003921569, 0)]
 }
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("HurtBox:monitoring")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.35),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("CollisionShape2D:disabled")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.35),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_ts4pi"]
 resource_name = "DestroySide"
+length = 0.6
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -204,9 +230,34 @@ tracks/6/keys = {
 "update": 0,
 "values": [Color(0.39985222, 0.27253318, 0.0041096443, 1), Color(0.39985222, 0.27253318, 0.0041096443, 1), Color(0.4, 0.27058825, 0.003921569, 0)]
 }
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("HurtBox:monitoring")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.35),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("CollisionShape2D:disabled")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.35),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_2vvwu"]
 resource_name = "DestroyUp"
+length = 0.6
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -295,6 +346,30 @@ tracks/6/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(0.39985222, 0.27253318, 0.0041096443, 1), Color(0.39985222, 0.27253318, 0.0041096443, 1), Color(0.4, 0.27058825, 0.003921569, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("HurtBox:monitoring")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.35),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("CollisionShape2D:disabled")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.35),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_0ae7n"]
@@ -433,6 +508,30 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(0.39985222, 0.27253318, 0.0041096443, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("HurtBox:monitoring")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CollisionShape2D:disabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_j1ull"]
@@ -787,9 +886,9 @@ hframes = 16
 vframes = 2
 
 [node name="HitBox" parent="." unique_id=2072311586 instance=ExtResource("4_36jae")]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=366869830]
-visible = false
 position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_mp7rs")
 debug_color = Color(0, 1, 0, 0.53333336)
@@ -800,7 +899,6 @@ show_behind_parent = true
 texture = ExtResource("1_0ae7n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1185002350]
-visible = false
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_mjfjn")
 
@@ -839,7 +937,6 @@ hframes = 6
 libraries/ = SubResource("AnimationLibrary_j1ull")
 
 [node name="HurtBox" parent="." unique_id=1940142066 instance=ExtResource("13_36jae")]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1088400896]
 position = Vector2(0, -7)

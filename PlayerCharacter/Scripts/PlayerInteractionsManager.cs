@@ -1,3 +1,4 @@
+using AarpgTutorial.Common.Utilities;
 using Godot;
 
 namespace AarpgTutorial.PlayerCharacter.Scripts;
@@ -19,6 +20,7 @@ public partial class PlayerInteractionsManager : Node2D
 
     public override void _Ready()
     {
+        Player.Require();
         Player.DirectionChanged += UpdateDirection;
     }
 

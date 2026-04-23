@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using AarpgTutorial.Common.Enums;
 using AarpgTutorial.Common.States;
+using AarpgTutorial.Common.Utilities;
 using Godot;
 
 namespace AarpgTutorial.Common;
 
 /// <summary>
 /// Abstract base for all actors (player and enemies).
-/// Handles physics movement, sprite direction flipping, and animation keying.
+/// Handle physics movement, sprite direction flipping, and animation keying.
 /// </summary>
 public abstract partial class Actor : CharacterBody2D
 {
@@ -49,6 +50,12 @@ public abstract partial class Actor : CharacterBody2D
 
     #region Lifecycle
 
+    public override void _Ready()
+    {
+        AnimationPlayer.Require();
+        Sprite.Require();
+    }
+
     public override void _PhysicsProcess(double delta)
     {
         MoveAndSlide();
@@ -86,7 +93,6 @@ public abstract partial class Actor : CharacterBody2D
     /// </summary>
     public void UpdateAnimation(StateType stateType)
     {
-        GD.Print($"{stateType}{GetAnimDirection()}");
         AnimationPlayer.Play($"{stateType}{GetAnimDirection()}");
     }
 

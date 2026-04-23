@@ -1,3 +1,4 @@
+using AarpgTutorial.Common.Utilities;
 using Godot;
 
 namespace AarpgTutorial.GUI.PlayerHud;
@@ -12,6 +13,15 @@ public partial class HeartGui : Control
 	
 	#endregion
 	
+	#region Lifecycle
+
+	public override void _Ready()
+	{
+		Sprite.Require();
+	}
+
+	#endregion
+
 	#region Fields
 
 	private int _fillLevel = 2;

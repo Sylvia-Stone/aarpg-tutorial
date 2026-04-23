@@ -12,10 +12,10 @@ public partial class PlayerSpawn : Node2D
 	{
 		Visible = false;
 
-		if (!PlayerManager.Instance.IsPlayerSpawned)
+		if (!Managers.PlayerManager.Instance.IsPlayerSpawned)
 		{
-			PlayerManager.Instance.SetPlayerPosition(GlobalPosition);
-			PlayerManager.Instance.IsPlayerSpawned = true;
+			Managers.PlayerManager.Instance.SetPlayerPosition(GlobalPosition);
+			Managers.PlayerManager.Instance.IsPlayerSpawned = true;
 		}
 	}
 

@@ -1,5 +1,6 @@
 using AarpgTutorial.Common.Enums;
 using AarpgTutorial.Common.HurtBox;
+using AarpgTutorial.Common.Utilities;
 using AarpgTutorial.PlayerCharacter.Scripts;
 using Godot;
 
@@ -31,6 +32,11 @@ public partial class Stun : PlayerState
     #endregion
 
     #region Lifecycle
+
+    public override void _Ready()
+    {
+        IdleState.Require();
+    }
 
     /// <summary>
     /// Subscribes to <see cref="Player.PlayerDamaged"/> so this state can intercept

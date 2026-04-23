@@ -116,6 +116,12 @@ All existing functionality is unchanged. No scene wiring was affected.
 - **C# event cleanup:** Added `LevelLoadStarted -= FreeLevel` in `FreeLevel()`. GDScript cleans up signal connections automatically on node free, C# doesn't.
 - **`async void` for frame delays:** Used `async void` with `await ToSignal(GetTree(), ProcessFrame)` to match GDScript's inline `await get_tree().process_frame`. Works fine on `_Ready` and signal handlers since nothing awaits them anyway.
 
+### Episode 15
+- **`JSON`:** Used C# built in file writing instead of the Godot version
+- **`LoadNewLevel`:** Woof. Await works differently for C# than Godot, we could not follow the tutorial due to timing differences. In C# it waits until the whole method finishes, and we have to await on LoadNewLeve, because itself has awaits inside of it. So it has to be async up the chain as far as we can go. I got around this by injecting a lambda method to happen during `FadeIn()` and `FadeOut()`. I smell a refactor. 
+- **Tools & Rider:** name a worse combo. Rider triggers an autosave function constantly that I'm very fond of. Issue is, this can cause issues where tool scripts unlink from their scenes. I was sick of it. No more tool script. 
+- **Slime:** You probably noticed the death of the slime was weird. Lingering shadow and hurtbox! I added keyframes to stop the hurtbox from monitoring and turned the shadow invisible, both set to trigger when we make the slime invisible. 
+- **Minor Refactoring**
 ---
 
 ## Editor Wiring
@@ -268,4 +274,5 @@ Scene moved from `Player/player.tscn` to `PlayerCharacter/player.tscn`. Root nod
 | `aff1a8b` | 12       | Player HUD: heart-based health display with half-heart support                                            |
 | `1ed0b3a` | -        | Fixed lingering slime shadow                                                                              |
 | `538950a` | 13       | Episode 13: player spawn implementation                                                                   |
-| `Latest`  | 14       | Episode 14: level transitions                                                                             |
+| `c06fd1f` | 14       | Episode 14: level transitions                                                                             |
+| `Latest`  | 15       | Episode 15: save/load system                                                                              |

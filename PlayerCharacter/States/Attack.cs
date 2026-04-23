@@ -1,4 +1,5 @@
 using AarpgTutorial.Common.Enums;
+using AarpgTutorial.Common.Utilities;
 using Godot;
 
 namespace AarpgTutorial.PlayerCharacter.States;
@@ -33,6 +34,15 @@ public partial class Attack : PlayerState
     #endregion
 
     #region Lifecycle
+
+    public override void _Ready()
+    {
+        AttackAnimationPlayer.Require();
+        AttackSound.Require();
+        AudioStreamPlayer2D.Require();
+        HurtBox.Require();
+        PlayerAnimationPlayer.Require();
+    }
 
     /// <summary>
     /// Starts the attack and sprite animations, plays a randomized-pitch sound,

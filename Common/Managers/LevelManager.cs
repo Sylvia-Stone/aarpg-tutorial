@@ -1,8 +1,9 @@
+using System;
 using System.Threading.Tasks;
 using AarpgTutorial.GUI.SceneTransition;
 using Godot;
 
-namespace AarpgTutorial.Common;
+namespace AarpgTutorial.Common.Managers;
 
 /// <summary>
 /// Singleton that manages level-wide state. Currently tracks the active tile map bounds
@@ -58,7 +59,7 @@ public partial class LevelManager : Node
 
 	/// <summary>
 	/// Updates <see cref="CurrentTileMapBounds"/> and broadcasts the new value
-	/// via <see cref="TileMapBoundsChanged"/> so subscribers can react.
+	/// via <see cref="Common.LevelManager.TileMapBoundsChanged"/> so subscribers can react.
 	/// </summary>
 	public void ChangeTileMapBounds(Bounds bounds)
 	{
@@ -70,7 +71,8 @@ public partial class LevelManager : Node
 	/// <param name="levelPath">Path to the new level scene.</param>
 	/// <param name="targetTransition">Name of the transition area to spawn at.</param>
 	/// <param name="positionOffset">Offset applied to the spawn position.</param>
-	public async Task LoadNewLevel(string levelPath, string targetTransition, Vector2 positionOffset)
+	/// <param name="onBlackScreen">Optional action invoked after the scene changes but before fade-in, while the screen is black.</param>
+	public async Task LoadNewLevel(string levelPath, string targetTransition, Vector2 positionOffset, Action? onBlackScreen = null)
 	{
 		GetTree().Paused = true;
 		TargetTransition = targetTransition;
@@ -81,6 +83,7 @@ public partial class LevelManager : Node
 
 		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		GetTree().ChangeSceneToFile(levelPath);
+		onBlackScreen?.Invoke();
 
 		await SceneTransition.Instance.FadeIn();
 		GetTree().Paused = false;

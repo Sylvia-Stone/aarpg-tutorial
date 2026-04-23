@@ -1,7 +1,9 @@
 using System;
 using AarpgTutorial.Common;
+using AarpgTutorial.Common.Constants;
 using AarpgTutorial.Common.HitBox;
 using AarpgTutorial.Common.HurtBox;
+using AarpgTutorial.Common.Utilities;
 using AarpgTutorial.GUI.PlayerHud;
 using AarpgTutorial.PlayerCharacter.States;
 using Godot;
@@ -46,7 +48,11 @@ public partial class Player : Actor
 
     public override void _Ready()
     {
-        
+        base._Ready();
+        EffectAnimationPlayer.Require();
+        HitBox.Require();
+        StateMachine.Require();
+
         UpdateHealth(_maxInt);
         StateMachine.Initialize(this);
         HitBox.Damaged += OnTakeDamage;

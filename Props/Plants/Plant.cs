@@ -1,5 +1,6 @@
 using AarpgTutorial.Common.HitBox;
 using AarpgTutorial.Common.HurtBox;
+using AarpgTutorial.Common.Utilities;
 using Godot;
 
 namespace AarpgTutorial.Props.Plants;
@@ -20,6 +21,7 @@ public partial class Plant : Node2D
 
     public override void _Ready()
     {
+        HitBox.Require();
         HitBox.Damaged += TakeDamage;
     }
 

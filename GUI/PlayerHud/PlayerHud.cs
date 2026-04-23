@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using AarpgTutorial.Common.Utilities;
 using Godot;
 
 namespace AarpgTutorial.GUI.PlayerHud;
@@ -29,6 +30,7 @@ public partial class PlayerHud : CanvasLayer
 	/// <summary>Collects all <see cref="HeartGui"/> children and hides them until health is set.</summary>
 	public override void _Ready()
 	{
+		HFlowContainer.Require();
 		Instance = this;
 		foreach (var child in HFlowContainer.GetChildren())
 		{
