@@ -22,10 +22,14 @@ public partial class SceneTransition : CanvasLayer
 
     #region Lifecycle Methods
 
+    public override void _EnterTree()
+    {
+        Instance = this;
+    }
+
     public override void _Ready()
     {
         AnimationPlayer.Require();
-        Instance = this;
     }
 
     #endregion

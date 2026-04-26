@@ -25,10 +25,13 @@ public partial class PlayerManager : Node
 
 	#region Lifecycle Methods
 
-	/// <summary>Called when the node enters the scene tree.</summary>
-	public override void _Ready()
+	public override void _EnterTree()
 	{
 		Instance = this;
+	}
+
+	public override void _Ready()
+	{
 		AddPlayerInstance();
 	}
 

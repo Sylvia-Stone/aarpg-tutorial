@@ -3,6 +3,7 @@ using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 using AarpgTutorial.Common.Models;
+using AarpgTutorial.Common.Utilities;
 using AarpgTutorial.GUI.PauseMenu;
 using AarpgTutorial.Levels.Scripts;
 using Godot;
@@ -36,7 +37,7 @@ public partial class SaveManager : Node
 
 	#region Lifecycle Methods
 
-	public override void _Ready()
+	public override void _EnterTree()
 	{
 		Instance = this;
 	}
@@ -55,24 +56,17 @@ public partial class SaveManager : Node
 		}
 
 		var json = File.ReadAllText(_savePath);
-		_saveData = JsonSerializer.Deserialize<SaveData>(json);
+		var saveData = JsonSerializer.Deserialize<SaveData>(json).WarnIfNull("Save file could not be deserialized");
 
-		if (_saveData is null)
-		{
-			GD.PushWarning("Save file could not be deserialized.");
-			return;
-		}
-
-		if (_saveData.Player is null)
-		{
-			GD.PushWarning("Save file contains no player data.");
-			return;
-		}
+		saveData?.Player?.WarnIfNull("Player data could not be loaded");
+		if (saveData?.Player is null) return;
+		
+		_saveData = saveData;
 
 		var saveDataPlayer = _saveData.Player;
 		var position = new Vector2((float)saveDataPlayer.X, (float)saveDataPlayer.Y);
 
-		await LevelManager.Instance.LoadNewLevel(_saveData.ScenePath, "", Vector2.Zero, () =>
+		await LevelManager.Instance.LoadNewLevel(_saveData.ScenePath.Require(), "", Vector2.Zero, () =>
 		{
 			PlayerManager.Instance.SetPlayerPosition(position);
 			PlayerManager.Instance.SetHealth(saveDataPlayer.Health, saveDataPlayer.MaxHealth);

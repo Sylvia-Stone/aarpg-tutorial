@@ -20,10 +20,10 @@ The original tutorial uses GDScript. I follow the same episodes but implement ev
       _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
   }
   ```
-- This bothered me greatly. LOOSE STRINGS. So now every time Michael adds an @onready variable, I instead export it and wire it up in the editor (just drag and drop the node/animationplayer etc. to the relevant export). See [Editor Wiring](#editor-wiring)
-  - There are pros and cons to this approach. 
-    - Pros: better for refactoring. References will stay linked when moving files around the tree. 
-    - Cons: If you edit the export variable, rename it or move the code file, you will need to rewire everything again, so keep that in mind.
+- The loose strings bothered me, so now every time Michael adds an @onready variable, I instead export it and wire it up in the editor (just drag and drop the node/animationplayer etc. to the relevant export). See [Editor Wiring](#editor-wiring)
+    - There are pros and cons to this approach.
+        - Pros: better for refactoring. References will stay linked when moving files around the tree.
+        - Cons: If you edit the export variable, rename it or move the code file, you will need to rewire everything again, so keep that in mind.
 
 #### Godot Memory Management
 Godot signals only accept **Variant-compatible types** (no custom C# classes!), which in practice means anything that inherits from `GodotObject`. For custom C# classes, that means picking the right base to inherit from:
@@ -47,7 +47,7 @@ If you need to pass a custom object through a signal, inherit `RefCounted` and y
 - **`StateMachine.GetState<T>()`:** State transitions use a generic method rather than returning string names. This is type-safe and prevents typos: `StateMachine.GetState<Attack>()` instead of `return "Attack"`. This was originally paired with an `IState` interface, which was later replaced in Episode 9.
 
 ### Episodes 4-5
-- I mostly kept everything to the way Michael had it. 
+- I mostly kept everything to the way Michael had it.
 
 ### Episode 6
 - **Naming:** The shared nodes folder is named `Common/` instead of `GeneralNodes/`, and `PlayerInteractionsHost` is named `PlayerInteractionsManager`
@@ -81,47 +81,55 @@ State files were also reorganized:
 - Class names drop the actor prefix (`PlayerStateIdle` -> `Idle`) since the namespace implies context
 - `PlayerStateWalk` and `EnemyStateWander` unified as `Move`
 
-> **Note for anyone following along:** This refactor changes class names, file paths, and wiring for all state scripts. It's a significant divergence from Michael's structure. I will try to keep it closer to the tutorial in the future, but for this episode you might be better off pulling down this commit and looking through it than replicating it step by step. See [Editor Wiring](#editor-wiring) for current mappings.
+> **Note for anyone following along:** This refactor changes class names, file paths, and wiring for all state scripts. It's a significant divergence from Michael's structure. I will try to keep it closer to the tutorial in the future. See [Editor Wiring](#editor-wiring) for current mappings.
 
 ### Episode 10
-- **Realization:** I think there was more to Michael's restructure than I can see, as there is some behavior that differs, like the overlapping hitbox/hurtbox causing issues for me, but not for Michael. 
-  - I'll still get everything in the same playable state at the end of episodes, but his repo did not get pushed up to Github until episode 14.
-  - I will go through his repo and make sure we're 1:1 (except for abstraction layers) when we get to episode 14. 
+- **Realization:** There may be some context from Michael's restructure that I missed, as I ran into some behavior differences, like the overlapping hitbox/hurtbox causing issues that didn't seem to affect Michael's version.
+    - I'll still get everything in the same playable state at the end of episodes. I will go through his repo and make sure we're 1:1 (except for abstraction layers) when we get to episode 14.
+    - I will go through his repo and make sure we're 1:1 (except for abstraction layers) when we get to episode 14.
 - **Slime HurtBox removed:** The slime scene had both a HitBox and a HurtBox. The HurtBox was causing the slime to immediately register as hit on startup due to area overlap. It has been removed for now and will be re-added when enemy contact damage is implemented.
 
 ### Post-Episode 10 (Light Housekeeping)
 All existing functionality is unchanged. No scene wiring was affected.
-- **`Organization`** Reorganized classes to have a consistent structure and use #regions. I also changed AARPGTutorial to AarpgTutorial because Rider was annoying me.
-  - I'm using Rider for development, and the regions are really nice when looking at the structure tab.
+- **`Organization`** Reorganized classes to have a consistent structure and use #regions. I also updated the casing to `AarpgTutorial` to match Rider's conventions.
+    - I'm using Rider for development, and the regions are really nice when looking at the structure tab.
 - **`Bounds` class:** `Common/Bounds.cs` is a `RefCounted` subclass holding `Left`, `Top`, `Right`, `Bottom` as `int` properties. Replaces the `GodotVector2Array` that was threaded between `LevelTileMap`, `LevelManager`, and `PlayerCamera`. `RefCounted` objects are reference-counted and free themselves automatically when no longer referenced, so no `QueueFree()` is needed. The `using GodotVector2Array = ...` alias in those files is gone.
 
 ### Episode 11
 - I kept fairly close to the tutorial for this episode.
-- **State abstraction:** I moved the `Init(TActor actor)` call and the `Initialize` implementation up into the base `StateMachine<TActor, TState>` as `PlayerStateMachine` and `EnemyStateMachine` were pretty much the same class. I've been having fun as Micheal moves the state logic all over the place. 
+- **State abstraction:** I moved the `Init(TActor actor)` call and the `Initialize` implementation up into the base `StateMachine<TActor, TState>` as `PlayerStateMachine` and `EnemyStateMachine` were pretty much the same class. Michael made some interesting structural decisions here that gave me a good opportunity to clean things up.
 - **Folder and class rename:** I renamed the `Player/` folder to `PlayerCharacter/` and the `PlayerCharacter` class back to `Player`, to bring it closer to Michael's naming. This also resolves the namespace/class collision that forced the rename in Episode 9.
 - **XML documentation:** I added XML doc comments to all classes and non-trivial methods. I find it helps me keep things organized.
 
-> **Solution Rename:** There is a commit right after this episode called `Solution Rename` this was to make it more idomatic and align the namespace `AarpgTutorial` across the solution and in Godot. I also  changed all exports to `Public` so I won't have to rewire if we decide to use it outside the class.
-> 
-> **I highly recommend** just pulling this down if your following my code closely or just not renaming yours. It's not hard to fix, but will require manually editing .csproj files, rewiring all exports in Godot, and regenerating the project in Godot. I will try to keep file structure renames to a minimum going forward... but no promises.
+> **Solution Rename:** There is a commit right after this episode called `Solution Rename` this was to make it more idiomatic and align the namespace `AarpgTutorial` across the solution and in Godot. I also changed all exports to `Public` so I won't have to rewire if we decide to use it outside the class.
+>
+> **I highly recommend** just pulling this down if your following my code closely or just not renaming yours. It takes a bit of effort to fix manually, requiring edits to .csproj files, rewiring all exports in Godot, and regenerating the project in Godot. I will try to keep file structure renames to a minimum going forward.
+
 ### Episode 12
-- **`HeartGui` refactor:** There was really no point to having a separate method to update the sprite and a setter, so I rolled them all into the setter. 
-- **Player Hud refactor:** Boiled down the three separate methods to a simple for loop.  
+- **`HeartGui` refactor:** I rolled the update method into the setter.
+- **Player Hud refactor:** I found this easier to follow by keeping it to a single for loop. 
 
 ### Episode 13
 - Stuck very close to the tutorial on this one.
 
 ### Episode 14
-- **`[ExportToolButton]`:** Used instead of the fake exported bool snap-to-grid trick. Renders a real button in the inspector.
+- **`[ExportToolButton]`:** Used instead of the exported bool snap-to-grid trick. Renders a real button in the inspector.
 - **C# event cleanup:** Added `LevelLoadStarted -= FreeLevel` in `FreeLevel()`. GDScript cleans up signal connections automatically on node free, C# doesn't.
 - **`async void` for frame delays:** Used `async void` with `await ToSignal(GetTree(), ProcessFrame)` to match GDScript's inline `await get_tree().process_frame`. Works fine on `_Ready` and signal handlers since nothing awaits them anyway.
 
 ### Episode 15
 - **`JSON`:** Used C# built in file writing instead of the Godot version
-- **`LoadNewLevel`:** Woof. Await works differently for C# than Godot, we could not follow the tutorial due to timing differences. In C# it waits until the whole method finishes, and we have to await on LoadNewLeve, because itself has awaits inside of it. So it has to be async up the chain as far as we can go. I got around this by injecting a lambda method to happen during `FadeIn()` and `FadeOut()`. I smell a refactor. 
-- **Tools & Rider:** name a worse combo. Rider triggers an autosave function constantly that I'm very fond of. Issue is, this can cause issues where tool scripts unlink from their scenes. I was sick of it. No more tool script. 
-- **Slime:** You probably noticed the death of the slime was weird. Lingering shadow and hurtbox! I added keyframes to stop the hurtbox from monitoring and turned the shadow invisible, both set to trigger when we make the slime invisible. 
+- **`LoadNewLevel`:** Await works differently for C# than Godot. In C# it waits until the whole method finishes, and we have to await on `LoadNewLevel` because it has awaits inside of it, so it has to be async up the chain as far as we can go. I got around this by injecting a lambda method to happen during `FadeIn()` and `FadeOut()`.
+- **Tools & Rider:** These two don't always play nicely together. Rider triggers an autosave function constantly that I'm very fond of. The issue is this can cause problems where tool scripts unlink from their scenes. No more tool script.
+- **Slime:** The slime's death animation had some lingering issues, a shadow and hurtbox that stuck around. I added keyframes to stop the hurtbox from monitoring and turned the shadow invisible, both set to trigger when we make the slime invisible.
+- **Bug:** Next episode commit I found a bug where the mouse wasn't working on the menu, most likely from this episodes work. Bump up the layer on the CanvasLayer node for the Pause Menu, and that should sort it out. Fixed in next episode's commit. 
 - **Minor Refactoring**
+- 
+### Episode 16
+- **Font:** Added a custom font to better match the look of Michael's UI.
+- **Pause Menu wiring:** No `@onready` renaming needed in the Pause Menu control if you've been following the export-for-onready pattern. They'll stay wired!
+- **Bug fix - PauseMenu CanvasLayer layer:** Another CanvasLayer was rendering on top of the pause menu and eating mouse input, making buttons unresponsive to the mouse (keyboard/gamepad still worked). Fixed by setting the PauseMenu CanvasLayer `layer` to `10`. I missed it earlier as I've been mainly using a gamepad.
+- **Singleton `Instance` moved to `_EnterTree`:** In Godot with C#, autoloads don't give you a typed static reference automatically, so we use an `Instance = this` pattern to access singletons from anywhere in the project. The reason I moved them out of `_Ready` is that I learned `_Ready` runs bottom-up (children first, parents after), so a child could try to access `Instance` before the parent has set it. `_EnterTree` runs top-down, so `Instance` is always set before any child needs it.
 ---
 
 ## Editor Wiring
@@ -276,4 +284,5 @@ Scene moved from `Player/player.tscn` to `PlayerCharacter/player.tscn`. Root nod
 | `538950a` | 13       | Episode 13: player spawn implementation                                                                   |
 | `c06fd1f` | 14       | Episode 14: level transitions                                                                             |
 | `c676dd4` | 15       | Episode 15: save/load system                                                                              |
-| `Latest`  | -        | Reorganization                                                                                            |
+| `b7ec5b2` | -        | Reorganization                                                                                            |
+| `Latest`  | 16       | Added inventory system                                                                                    |

@@ -18,6 +18,11 @@ public partial class PlayerCamera : Camera2D
 		UpdateLimits(LevelManager.Instance.CurrentTileMapBounds);
 	}
 
+	public override void _ExitTree()
+	{
+		LevelManager.Instance.TileMapBoundsChanged -= UpdateLimits;
+	}
+
 	#endregion
 
 	#region Private Methods

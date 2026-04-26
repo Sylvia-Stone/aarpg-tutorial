@@ -45,10 +45,14 @@ public partial class LevelManager : Node
 
 	#region Lifecycle Methods
 
+	public override void _EnterTree()
+	{
+		Instance = this;
+	}
+
 	/// <summary>Called when the node enters the scene tree. Emits LevelLoadFinished after one frame to signal initial scene readiness.</summary>
 	public async override void _Ready()
 	{
-		Instance = this;
 		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		EmitSignalLevelLoadFinished();
 	}

@@ -10,10 +10,23 @@ public partial class PauseMenu : CanvasLayer
 	#region Exports
 
 	[Export]
+	public Label ItemDescription = null!;
+
+	[Export]
 	public Button LoadButton = null!;
 
 	[Export]
 	public Button SaveButton = null!;
+
+	#endregion
+
+	#region Signals
+
+	[Signal]
+	public delegate void PauseMenuHiddenEventHandler();
+
+	[Signal]
+	public delegate void PauseMenuShownEventHandler();
 
 	#endregion
 
@@ -25,18 +38,23 @@ public partial class PauseMenu : CanvasLayer
 
 	#region Accessors
 
-	public static PauseMenu? Instance { get; private set; }
+	public static PauseMenu Instance { get; private set; } = null!;
 
 	#endregion
 
 	#region Lifecycle Methods
 
+	public override void _EnterTree()
+	{
+		Instance = this;
+	}
+
 	public override void _Ready()
 	{
+		ItemDescription.Require();
 		LoadButton.Require();
 		SaveButton.Require();
 
-		Instance = this;
 		HidePauseMenu();
 
 		LoadButton.Pressed += OnLoadPressed;
@@ -51,29 +69,39 @@ public partial class PauseMenu : CanvasLayer
 				HidePauseMenu();
 			else
 				ShowPauseMenu();
+			GetViewport().SetInputAsHandled();
 		}
-		GetViewport().SetInputAsHandled();
 	}
 
 	#endregion
 
 	#region Public Methods
 
-	/// <summary>Hides the pause menu and resumes the game tree.</summary>
+	/// <summary>Hides the pause menu, resumes the game tree and emits <see cref="EmitSignalPauseMenuHidden"/> signal.</summary>
 	public void HidePauseMenu()
 	{
 		GetTree().Paused = false;
 		Visible = false;
 		_isPaused = false;
+
+		EmitSignalPauseMenuHidden();
 	}
 
-	/// <summary>Shows the pause menu, pauses the game tree, and focuses the save button.</summary>
+	/// <summary>Shows the pause menu, pauses the game tree, emits <see cref="EmitSignalPauseMenuShown"/> signal.</summary>
 	public void ShowPauseMenu()
 	{
 		GetTree().Paused = true;
 		Visible = true;
 		_isPaused = true;
-		SaveButton.GrabFocus();
+
+		EmitSignalPauseMenuShown();
+	}
+
+	/// <summary>Sets the item description label text.</summary>
+	/// <param name="text">The description to display.</param>
+	public void UpdateItemDescription(string text)
+	{
+		ItemDescription.Text = text;
 	}
 
 	#endregion

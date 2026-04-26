@@ -36,6 +36,10 @@ window/stretch/mode="viewport"
 
 project/assembly_name="AarpgTutorial"
 
+[gui]
+
+theme/custom_font="uid://bwbb4oipnw08j"
+
 [input]
 
 ui_accept={

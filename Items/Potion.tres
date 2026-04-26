@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://dx26bk0uj0b1d"]
+
+[ext_resource type="Script" uid="uid://7r36phdctb8r" path="res://Items/Scripts/ItemData.cs" id="1_58i72"]
+[ext_resource type="Texture2D" uid="uid://qaq7eu6payxh" path="res://Items/Sprites/items.png" id="1_svfea"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b44cu"]
+atlas = ExtResource("1_svfea")
+region = Rect2(32, 0, 32, 32)
+
+[resource]
+script = ExtResource("1_58i72")
+Description = "This red drink restores your health! (Tastes pretty good too)"
+Texture = SubResource("AtlasTexture_b44cu")
+metadata/_custom_type_script = "uid://7r36phdctb8r"

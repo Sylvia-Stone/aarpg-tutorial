@@ -32,11 +32,15 @@ public partial class PlayerHud : CanvasLayer
 
 	#region Lifecycle Methods
 
+	public override void _EnterTree()
+	{
+		Instance = this;
+	}
+
 	/// <summary>Collects all <see cref="HeartGui"/> children and hides them until health is set.</summary>
 	public override void _Ready()
 	{
 		HFlowContainer.Require();
-		Instance = this;
 		foreach (var child in HFlowContainer.GetChildren())
 		{
 			if (child is HeartGui heart)
