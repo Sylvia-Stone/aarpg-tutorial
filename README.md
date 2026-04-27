@@ -258,6 +258,46 @@ Scene moved from `Player/player.tscn` to `PlayerCharacter/player.tscn`. Root nod
 |----------|----------------|
 | Sprite   | `Sprite2D`     |
 
+#### `GUI/SceneTransition/SceneTransition.tscn` - SceneTransition node (root)
+| Property         | Node to assign            |
+|------------------|---------------------------|
+| Animation Player | `Control/AnimationPlayer` |
+
+#### `Levels/LevelTransition.tscn` - LevelTransition node (root)
+| Property               | Value / Node to assign                                           |
+|------------------------|------------------------------------------------------------------|
+| Collision Shape        | `CollisionShape2D`                                               |
+| Side                   | Set to the side of the screen this transition is on (enum)       |
+| Target Transition Area | Name of the `LevelTransition` node to spawn at in the next level |
+
+#### `GUI/PauseMenu/PauseMenu.tscn` - PauseMenu node (root)
+| Property            | Node to assign                      |
+|---------------------|-------------------------------------|
+| Audio Stream Player | `Control/AudioStreamPlayer`         |
+| Item Description    | `Control/ItemDescription`           |
+| Load Button         | `Control/HBoxContainer/LoadButton`  |
+| Save Button         | `Control/HBoxContainer/SaveButton`  |
+
+#### `GUI/PauseMenu/PauseMenu.tscn` - GridContainer node (`Control/PanelContainer/GridContainer`)
+| Property       | Resource to assign                              |
+|----------------|-------------------------------------------------|
+| Inventory Data | `PlayerInventory.tres` (drag from FileSystem)   |
+| Inventory Slot | `InventorySlot.tscn` (drag from FileSystem)     |
+
+#### `GUI/PauseMenu/Inventory/InventorySlot.tscn` - InventorySlot node (root)
+| Property     | Node to assign |
+|--------------|----------------|
+| Label        | `Label`        |
+| Texture Rect | `TextureRect`  |
+
+#### `Items/ItemPickup/ItemPickup.tscn` - ItemPickup node (root)
+| Property            | Value / Node to assign                       |
+|---------------------|----------------------------------------------|
+| Area                | `Area2D`                                     |
+| Audio Stream Player | `AudioStreamPlayer2D`                        |
+| Item Data           | Drag the item's `.tres` resource             |
+| Sprite              | `Sprite2D`                                   |
+
 ---
 
 ## Commit History by Episode
@@ -289,4 +329,5 @@ Scene moved from `Player/player.tscn` to `PlayerCharacter/player.tscn`. Root nod
 | `c676dd4` | 15       | Episode 15: save/load system                                                                              |
 | `b7ec5b2` | -        | Reorganization                                                                                            |
 | `8c9a033` | 16       | Added inventory system                                                                                    |
-| `Latest`  | 17       | Can now pick up and use items from the UI                                                                 |
+| `a3817e3` | 17       | Can now pick up and use items from the UI                                                                 |
+| `Latest`  | -        | Wiring diagram update                                                                                     |
