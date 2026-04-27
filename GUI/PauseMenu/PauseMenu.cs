@@ -10,6 +10,9 @@ public partial class PauseMenu : CanvasLayer
 	#region Exports
 
 	[Export]
+	public AudioStreamPlayer AudioStreamPlayer { get; set; } = null!;
+	
+	[Export]
 	public Label ItemDescription = null!;
 
 	[Export]
@@ -54,6 +57,7 @@ public partial class PauseMenu : CanvasLayer
 		ItemDescription.Require();
 		LoadButton.Require();
 		SaveButton.Require();
+		AudioStreamPlayer.Require();
 
 		HidePauseMenu();
 
@@ -102,6 +106,12 @@ public partial class PauseMenu : CanvasLayer
 	public void UpdateItemDescription(string text)
 	{
 		ItemDescription.Text = text;
+	}
+
+	public void PlayAudio(AudioStream audio)
+	{
+		AudioStreamPlayer.Stream = audio;
+		AudioStreamPlayer.Play();
 	}
 
 	#endregion

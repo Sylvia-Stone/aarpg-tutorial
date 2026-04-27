@@ -1,3 +1,4 @@
+using System.Linq;
 using AarpgTutorial.Common.Utilities;
 using Godot;
 
@@ -22,38 +23,33 @@ public partial class InventoryUI : Control
         InventoryData.Require();
         InventorySlot.Require();
 
+        InitializeSlots();
         PauseMenu.Instance.PauseMenuShown += UpdateInventory;
-        PauseMenu.Instance.PauseMenuHidden += ClearInventory;
-        ClearInventory();
+        InventoryData.Changed += UpdateInventory;
+        UpdateInventory();
     }
 
-    // Unlike GDScript, C# event handlers are not automatically disconnected when a node is freed.
     public override void _ExitTree()
     {
         PauseMenu.Instance.PauseMenuShown -= UpdateInventory;
-        PauseMenu.Instance.PauseMenuHidden -= ClearInventory;
+        InventoryData.Changed -= UpdateInventory;
     }
 
     #endregion
 
-    #region Public Methods
+    #region Private Methods
 
-    public void ClearInventory()
+    private void InitializeSlots()
     {
-        foreach (var child in GetChildren())
-            child.QueueFree();
+        for (var i = 0; i < InventoryData.Slots.Count; i++)
+            AddChild(InventorySlot.Instantiate<InventorySlotUI>());
     }
 
-    public void UpdateInventory()
+    private void UpdateInventory()
     {
-        foreach (var slot in InventoryData.Slots)
-        {
-            var newSlot = InventorySlot.Instantiate<InventorySlotUI>();
-            AddChild(newSlot);
-            newSlot.SlotData = slot;
-        }
-
-        GetChild<Control>(0).GrabFocus();
+        var slots = GetChildren().Cast<InventorySlotUI>().ToArray();
+        for (var i = 0; i < slots.Length; i++)
+            slots[i].SlotData = i < InventoryData.Slots.Count ? InventoryData.Slots[i] : null;
     }
 
     #endregion

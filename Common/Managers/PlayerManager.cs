@@ -1,3 +1,4 @@
+using AarpgTutorial.GUI.PauseMenu.Inventory.Scripts;
 using AarpgTutorial.PlayerCharacter.Scripts;
 using Godot;
 
@@ -14,6 +15,7 @@ public partial class PlayerManager : Node
 	public bool IsPlayerSpawned;
 	public Player Player = null!;
 	public PackedScene PlayerScene = GD.Load<PackedScene>("res://PlayerCharacter/player.tscn");
+	public InventoryData InventoryData = GD.Load<InventoryData>("res://GUI/PauseMenu/Inventory/PlayerInventory.tres");
 
 	#endregion
 

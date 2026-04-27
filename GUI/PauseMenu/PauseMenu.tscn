@@ -21,13 +21,14 @@ texture_margin_top = 14.0
 texture_margin_right = 14.0
 texture_margin_bottom = 14.0
 
-[node name="PauseMenu" type="CanvasLayer" unique_id=1332403382 node_paths=PackedStringArray("LoadButton", "SaveButton", "ItemDescription")]
+[node name="PauseMenu" type="CanvasLayer" unique_id=1332403382 node_paths=PackedStringArray("AudioStreamPlayer", "ItemDescription", "LoadButton", "SaveButton")]
 process_mode = 3
 layer = 10
 script = ExtResource("1_p5snf")
+AudioStreamPlayer = NodePath("Control/AudioStreamPlayer")
+ItemDescription = NodePath("Control/ItemDescription")
 LoadButton = NodePath("Control/HBoxContainer/LoadButton")
 SaveButton = NodePath("Control/HBoxContainer/SaveButton")
-ItemDescription = NodePath("Control/ItemDescription")
 
 [node name="Control" type="Control" parent="." unique_id=1846236342]
 process_mode = 3
@@ -96,7 +97,6 @@ offset_right = -38.5
 offset_bottom = 186.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 16
-text = "[Paused]"
 autowrap_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="Control" unique_id=1169799240]
@@ -112,35 +112,8 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_0h0yj")
 layout_mode = 2
 columns = 5
 script = ExtResource("3_0h0yj")
-InventorySlot = ExtResource("3_38l0w")
 InventoryData = ExtResource("5_1qfkk")
+InventorySlot = ExtResource("3_38l0w")
 
-[node name="InventorySlot" parent="Control/PanelContainer/GridContainer" unique_id=1531027128 instance=ExtResource("3_38l0w")]
-layout_mode = 2
-
-[node name="InventorySlot2" parent="Control/PanelContainer/GridContainer" unique_id=2055727830 instance=ExtResource("3_38l0w")]
-layout_mode = 2
-
-[node name="InventorySlot3" parent="Control/PanelContainer/GridContainer" unique_id=1487974405 instance=ExtResource("3_38l0w")]
-layout_mode = 2
-
-[node name="InventorySlot4" parent="Control/PanelContainer/GridContainer" unique_id=304290565 instance=ExtResource("3_38l0w")]
-layout_mode = 2
-
-[node name="InventorySlot5" parent="Control/PanelContainer/GridContainer" unique_id=111123404 instance=ExtResource("3_38l0w")]
-layout_mode = 2
-
-[node name="InventorySlot6" parent="Control/PanelContainer/GridContainer" unique_id=2044648561 instance=ExtResource("3_38l0w")]
-layout_mode = 2
-
-[node name="InventorySlot7" parent="Control/PanelContainer/GridContainer" unique_id=169766661 instance=ExtResource("3_38l0w")]
-layout_mode = 2
-
-[node name="InventorySlot8" parent="Control/PanelContainer/GridContainer" unique_id=102017986 instance=ExtResource("3_38l0w")]
-layout_mode = 2
-
-[node name="InventorySlot9" parent="Control/PanelContainer/GridContainer" unique_id=673936131 instance=ExtResource("3_38l0w")]
-layout_mode = 2
-
-[node name="InventorySlot10" parent="Control/PanelContainer/GridContainer" unique_id=495602377 instance=ExtResource("3_38l0w")]
-layout_mode = 2
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Control" unique_id=1637296768]
+max_polyphony = 4

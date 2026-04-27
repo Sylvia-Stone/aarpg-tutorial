@@ -50,11 +50,9 @@ public partial class LevelManager : Node
 		Instance = this;
 	}
 
-	/// <summary>Called when the node enters the scene tree. Emits LevelLoadFinished after one frame to signal initial scene readiness.</summary>
-	public async override void _Ready()
+	public override void _Ready()
 	{
-		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-		EmitSignalLevelLoadFinished();
+		_ = EmitLoadFinishedAsync();
 	}
 
 	#endregion
@@ -63,7 +61,7 @@ public partial class LevelManager : Node
 
 	/// <summary>
 	/// Updates <see cref="CurrentTileMapBounds"/> and broadcasts the new value
-	/// via <see cref="Common.LevelManager.TileMapBoundsChanged"/> so subscribers can react.
+	/// via <see cref="LevelManager.TileMapBoundsChanged"/> so subscribers can react.
 	/// </summary>
 	public void ChangeTileMapBounds(Bounds bounds)
 	{
@@ -92,6 +90,17 @@ public partial class LevelManager : Node
 		await SceneTransition.Instance.FadeIn();
 		GetTree().Paused = false;
 
+		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		EmitSignalLevelLoadFinished();
+	}
+
+	#endregion
+
+	#region Private Methods
+
+	/// <summary>Waits one frame then emits <see cref="EmitSignalLevelLoadFinished"/> so scene nodes have time to subscribe first.</summary>
+	private async Task EmitLoadFinishedAsync()
+	{
 		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		EmitSignalLevelLoadFinished();
 	}

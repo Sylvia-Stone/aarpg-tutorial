@@ -53,7 +53,7 @@ If you need to pass a custom object through a signal, inherit `RefCounted` and y
 - **Naming:** The shared nodes folder is named `Common/` instead of `GeneralNodes/`, and `PlayerInteractionsHost` is named `PlayerInteractionsManager`
 - **Node references as exports:** Rather than using hardcoded `GetNode("../../Some/Path")` strings, node references are exposed as `[Export]` properties and assigned by dragging nodes into Inspector slots in the editor. This makes the code resilient to scene tree restructuring. See [Editor Wiring](#editor-wiring) below for the full mapping.
 - **`InputActions.cs`:** Input action strings centralized in a static class instead of scattered string literals
-- **`async void Enter()`:** `StateAttack.Enter()` uses `async void` with `await ToSignal()` to delay hitbox activation. GDScript handles this inline with `yield`. `async void` is generally discouraged in C# but is the accepted pattern for Godot lifecycle methods that need to await
+- **`async void Enter()`:** At the time of this commit, `StateAttack.Enter()` used `async void` with `await ToSignal()` to delay hitbox activation, this is bad practice and was later replaced with `GetTree().CreateTimer(.075).Timeout += () => HurtBox.Monitoring = true;`, which is purely event-based and needs no async at all.
 
 ### Episode 7
 - **Moonwalk bug:** Michael fixes this with angle/TAU math, not needed here since it was already handled in Episode 1 with `Vector2.Abs()`
@@ -115,7 +115,7 @@ All existing functionality is unchanged. No scene wiring was affected.
 ### Episode 14
 - **`[ExportToolButton]`:** Used instead of the exported bool snap-to-grid trick. Renders a real button in the inspector.
 - **C# event cleanup:** Added `LevelLoadStarted -= FreeLevel` in `FreeLevel()`. GDScript cleans up signal connections automatically on node free, C# doesn't.
-- **`async void` for frame delays:** Used `async void` with `await ToSignal(GetTree(), ProcessFrame)` to match GDScript's inline `await get_tree().process_frame`. Works fine on `_Ready` and signal handlers since nothing awaits them anyway.
+- **`async void` for frame delays:** Originally used `async void _Ready()` with `await ToSignal(GetTree(), ProcessFrame)` to delay `LevelLoadFinished`. Bad practice, so moved to a private `async Task` method called with `_ =` discard from `_Ready()`.
 
 ### Episode 15
 - **`JSON`:** Used C# built in file writing instead of the Godot version
@@ -124,12 +124,15 @@ All existing functionality is unchanged. No scene wiring was affected.
 - **Slime:** The slime's death animation had some lingering issues, a shadow and hurtbox that stuck around. I added keyframes to stop the hurtbox from monitoring and turned the shadow invisible, both set to trigger when we make the slime invisible.
 - **Bug:** Next episode commit I found a bug where the mouse wasn't working on the menu, most likely from this episodes work. Bump up the layer on the CanvasLayer node for the Pause Menu, and that should sort it out. Fixed in next episode's commit. 
 - **Minor Refactoring**
-- 
+
 ### Episode 16
 - **Font:** Added a custom font to better match the look of Michael's UI.
 - **Pause Menu wiring:** No `@onready` renaming needed in the Pause Menu control if you've been following the export-for-onready pattern. They'll stay wired!
 - **Bug fix - PauseMenu CanvasLayer layer:** Another CanvasLayer was rendering on top of the pause menu and eating mouse input, making buttons unresponsive to the mouse (keyboard/gamepad still worked). Fixed by setting the PauseMenu CanvasLayer `layer` to `10`. I missed it earlier as I've been mainly using a gamepad.
 - **Singleton `Instance` moved to `_EnterTree`:** In Godot with C#, autoloads don't give you a typed static reference automatically, so we use an `Instance = this` pattern to access singletons from anywhere in the project. The reason I moved them out of `_Ready` is that I learned `_Ready` runs bottom-up (children first, parents after), so a child could try to access `Instance` before the parent has set it. `_EnterTree` runs top-down, so `Instance` is always set before any child needs it.
+### Episode 17
+- **No `@tool` on ItemPickup:** I did attempt to get the tool script working for the editor texture preview, but ran into a casting issue where the tool script runs before our `[GlobalClass]` resource gets cast to `ItemData`, throwing a bunch of errors. I've stepped back from tool scripts for now since they've been a bit finicky. If you find a fix, let me know!
+- **Inventory updates in place:** I wanted to see if I could update inventory slots in place rather than clearing and rebuilding them on every change, so I strayed from the tutorial here. Slot nodes are created once in `_Ready` and their data is swapped out in `UpdateInventory`. One thing to watch out for: if you have any `InventorySlotUI` nodes saved as children under the `GridContainer` in `PauseMenu.tscn`, delete them or they'll double up at runtime.
 ---
 
 ## Editor Wiring
@@ -285,4 +288,5 @@ Scene moved from `Player/player.tscn` to `PlayerCharacter/player.tscn`. Root nod
 | `c06fd1f` | 14       | Episode 14: level transitions                                                                             |
 | `c676dd4` | 15       | Episode 15: save/load system                                                                              |
 | `b7ec5b2` | -        | Reorganization                                                                                            |
-| `Latest`  | 16       | Added inventory system                                                                                    |
+| `8c9a033` | 16       | Added inventory system                                                                                    |
+| `Latest`  | 17       | Can now pick up and use items from the UI                                                                 |

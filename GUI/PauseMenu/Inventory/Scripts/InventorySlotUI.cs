@@ -43,21 +43,7 @@ public partial class InventorySlotUI : Button
         Label.Text = string.Empty;
         FocusEntered += OnItemFocused;
         FocusExited += OnItemUnfocused;
-    }
-
-    #endregion
-
-    #region Public Methods
-
-    /// <summary>Populates the slot with item data, updating the icon and quantity label.</summary>
-    /// <param name="slotData">The slot data to display. If null, the call is a no-op.</param>
-    public void SetSlotData(SlotData? slotData)
-    {
-        if (slotData is null) return;
-
-        TextureRect.Texture = slotData.Item.Require().Texture;
-        Label.Text = slotData.Quantity.ToString();
-        _slotData = slotData;
+        Pressed += OnPressed;
     }
 
     #endregion
@@ -73,6 +59,24 @@ public partial class InventorySlotUI : Button
     private void OnItemUnfocused()
     {
         PauseMenu.Instance.UpdateItemDescription(string.Empty);
+    }
+
+    private void OnPressed()
+    {
+        if (SlotData?.Item is null) return;
+
+        var isUsed = SlotData.Item.Use();
+
+        if (isUsed) SlotData.Quantity -= 1;
+    }
+
+    /// <summary>Updates the slot display. Passing <c>null</c> clears the icon and label.</summary>
+    /// <param name="slotData">The slot data to display, or <c>null</c> to show an empty slot.</param>
+    private void SetSlotData(SlotData? slotData)
+    {
+        _slotData = slotData;
+        TextureRect.Texture = slotData?.Item?.Texture;
+        Label.Text = slotData?.Quantity.ToString() ?? string.Empty;
     }
 
     #endregion
