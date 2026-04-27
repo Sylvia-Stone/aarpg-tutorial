@@ -8,6 +8,7 @@ using PlayerManager = AarpgTutorial.Common.Managers.PlayerManager;
 
 namespace AarpgTutorial.Levels.Scripts;
 
+/// <summary>Area2D placed at a level edge that loads a new level and teleports the player to the matching transition.</summary>
 public partial class LevelTransition : Area2D
 {
 	#region Exports

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bk0155vp671jk" path="res://GUI/PauseMenu/PauseMenu.cs" id="1_p5snf"]
 [ext_resource type="Texture2D" uid="uid://qaq7eu6payxh" path="res://Items/Sprites/items.png" id="2_bqkqi"]
 [ext_resource type="Script" uid="uid://b0an40edwqpmy" path="res://GUI/PauseMenu/Inventory/Scripts/InventoryUI.cs" id="3_0h0yj"]
-[ext_resource type="PackedScene" uid="uid://5cserwdytcqt" path="res://GUI/PauseMenu/Inventory/InventorySlot.tscn" id="3_38l0w"]
+[ext_resource type="PackedScene" uid="uid://5cserwdytcqt" path="res://GUI/PauseMenu/Inventory/InventorySlotButton.tscn" id="3_38l0w"]
 [ext_resource type="Resource" uid="uid://b8oq1xg3bn246" path="res://GUI/PauseMenu/Inventory/PlayerInventory.tres" id="5_1qfkk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_38l0w"]
@@ -113,7 +113,7 @@ layout_mode = 2
 columns = 5
 script = ExtResource("3_0h0yj")
 InventoryData = ExtResource("5_1qfkk")
-InventorySlot = ExtResource("3_38l0w")
+InventorySlotButtonScene = ExtResource("3_38l0w")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Control" unique_id=1637296768]
 max_polyphony = 4

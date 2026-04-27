@@ -12,12 +12,12 @@ public partial class PlayerCamera : Camera2D
 {
 	#region Lifecycle Methods
 
-	public override void _Ready()
+	public override void _EnterTree()
 	{
 		LevelManager.Instance.TileMapBoundsChanged += UpdateLimits;
 		UpdateLimits(LevelManager.Instance.CurrentTileMapBounds);
 	}
-
+	
 	public override void _ExitTree()
 	{
 		LevelManager.Instance.TileMapBoundsChanged -= UpdateLimits;

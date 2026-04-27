@@ -4,6 +4,7 @@ using Godot;
 
 namespace AarpgTutorial.GUI.PauseMenu.Inventory.Scripts;
 
+/// <summary>GridContainer that spawns and syncs inventory slot buttons to match the current <see cref="InventoryData"/>.</summary>
 public partial class InventoryUI : Control
 {
     #region Exports
@@ -12,7 +13,7 @@ public partial class InventoryUI : Control
     public InventoryData InventoryData = null!;
 
     [Export]
-    public PackedScene InventorySlot { get; set; } = null!;
+    public PackedScene InventorySlotButtonScene { get; set; } = null!;
 
     #endregion
 
@@ -21,35 +22,44 @@ public partial class InventoryUI : Control
     public override void _Ready()
     {
         InventoryData.Require();
-        InventorySlot.Require();
+        InventorySlotButtonScene.Require();
 
-        InitializeSlots();
-        PauseMenu.Instance.PauseMenuShown += UpdateInventory;
-        InventoryData.Changed += UpdateInventory;
-        UpdateInventory();
+        CreateSlotButtons();
+        PauseMenu.Instance.PauseMenuShown += OnPauseMenuShown;
+        InventoryData.Changed += UpdateInventorySlots;
+        UpdateInventorySlots();
     }
 
     public override void _ExitTree()
     {
-        PauseMenu.Instance.PauseMenuShown -= UpdateInventory;
-        InventoryData.Changed -= UpdateInventory;
+        PauseMenu.Instance.PauseMenuShown -= OnPauseMenuShown;
+        InventoryData.Changed -= UpdateInventorySlots;
     }
 
     #endregion
 
     #region Private Methods
 
-    private void InitializeSlots()
+    /// <summary>Spawns one <see cref="ItemSlotButton"/> per slot in <see cref="Scripts.InventoryData.Slots"/>.</summary>
+    private void CreateSlotButtons()
     {
         for (var i = 0; i < InventoryData.Slots.Count; i++)
-            AddChild(InventorySlot.Instantiate<InventorySlotUI>());
+            AddChild(InventorySlotButtonScene.Instantiate<ItemSlotButton>());
     }
 
-    private void UpdateInventory()
+    /// <summary>Refreshes slot data and grabs focus on the first slot so gamepad navigation has an entry point.</summary>
+    private void OnPauseMenuShown()
     {
-        var slots = GetChildren().Cast<InventorySlotUI>().ToArray();
-        for (var i = 0; i < slots.Length; i++)
-            slots[i].SlotData = i < InventoryData.Slots.Count ? InventoryData.Slots[i] : null;
+        UpdateInventorySlots();
+        GetChildren().Cast<ItemSlotButton>().FirstOrDefault()?.GrabFocus();
+    }
+
+    /// <summary>Pushes current <see cref="Scripts.InventoryData.Slots"/> into each slot button, clearing buttons with no matching data.</summary>
+    private void UpdateInventorySlots()
+    {
+        var slotButtons = GetChildren().Cast<ItemSlotButton>().ToArray();
+        for (var i = 0; i < slotButtons.Length; i++)
+            slotButtons[i].ItemStack = i < InventoryData.Slots.Count ? InventoryData.Slots[i] : null;
     }
 
     #endregion

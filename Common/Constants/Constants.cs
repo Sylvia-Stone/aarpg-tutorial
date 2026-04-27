@@ -1,5 +1,6 @@
 namespace AarpgTutorial.Common.Constants;
 
+/// <summary>Shared numeric constants used across the project.</summary>
 public static class Constants
 {
 	#region Fields

@@ -4,7 +4,8 @@ using Godot;
 
 namespace AarpgTutorial.GUI.PauseMenu.Inventory.Scripts;
 
-public partial class InventorySlotUI : Button
+/// <summary>A single inventory slot button that displays an item's icon and stack quantity.</summary>
+public partial class ItemSlotButton : Button
 {
     #region Exports
 
@@ -18,15 +19,15 @@ public partial class InventorySlotUI : Button
 
     #region Fields
 
-    private SlotData? _slotData;
+    private ItemStack? _itemStack;
 
     #endregion
 
     #region Accessors
 
-    public SlotData? SlotData
+    public ItemStack? ItemStack
     {
-        get => _slotData;
+        get => _itemStack;
         set => SetSlotData(value);
     }
 
@@ -50,33 +51,36 @@ public partial class InventorySlotUI : Button
 
     #region Private Methods
 
+    /// <summary>Shows the focused item's description in the pause menu when this slot gains focus.</summary>
     private void OnItemFocused()
     {
-        if (_slotData?.Item?.Description is null) return;
-        PauseMenu.Instance.UpdateItemDescription(_slotData.Item.Description);
+        if (_itemStack?.Item?.Description is null) return;
+        PauseMenu.Instance.UpdateItemDescription(_itemStack.Item.Description);
     }
 
+    /// <summary>Clears the item description label when this slot loses focus.</summary>
     private void OnItemUnfocused()
     {
         PauseMenu.Instance.UpdateItemDescription(string.Empty);
     }
 
+    /// <summary>Uses the item in this slot and decrements the quantity by one on success.</summary>
     private void OnPressed()
     {
-        if (SlotData?.Item is null) return;
+        if (ItemStack?.Item is null) return;
 
-        var isUsed = SlotData.Item.Use();
+        var isUsed = ItemStack.Item.Use();
 
-        if (isUsed) SlotData.Quantity -= 1;
+        if (isUsed) ItemStack.Quantity -= 1;
     }
 
     /// <summary>Updates the slot display. Passing <c>null</c> clears the icon and label.</summary>
-    /// <param name="slotData">The slot data to display, or <c>null</c> to show an empty slot.</param>
-    private void SetSlotData(SlotData? slotData)
+    /// <param name="itemStack">The slot data to display, or <c>null</c> to show an empty slot.</param>
+    private void SetSlotData(ItemStack? itemStack)
     {
-        _slotData = slotData;
-        TextureRect.Texture = slotData?.Item?.Texture;
-        Label.Text = slotData?.Quantity.ToString() ?? string.Empty;
+        _itemStack = itemStack;
+        TextureRect.Texture = itemStack?.Item?.Texture;
+        Label.Text = itemStack?.Quantity.ToString() ?? string.Empty;
     }
 
     #endregion

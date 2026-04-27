@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace AarpgTutorial.Common.Utilities;
 
+/// <summary>General-purpose extension methods used across the project.</summary>
 public static class Extensions
 {
     /// <summary>Returns true if the value is present in the provided set.</summary>

@@ -5,13 +5,14 @@ using System.Linq;
 
 namespace AarpgTutorial.GUI.PauseMenu.Inventory.Scripts;
 
+/// <summary>Godot resource holding the player's inventory as a fixed-size array of slots, each optionally containing an <see cref="ItemStack"/>.</summary>
 [GlobalClass]
 public partial class InventoryData : Resource
 {
     #region Exports
 
     [Export]
-    public Array<SlotData?> Slots { get; set; } = new();
+    public Array<ItemStack?> Slots { get; set; } = new();
 
     #endregion
 
@@ -46,10 +47,14 @@ public partial class InventoryData : Resource
             return false;
         }
 
-        Slots[emptyIndex] = new SlotData { Item = item, Quantity = amount };
+        Slots[emptyIndex] = new ItemStack { Item = item, Quantity = amount };
         Slots[emptyIndex]?.Changed += OnSlotChanged;
         return true;
     }
+    
+    #endregion
+
+    #region Private Methods
 
     /// <summary>Subscribes <see cref="OnSlotChanged"/> to all non-null slots. Call after deserializing a saved inventory.</summary>
     public void ConnectSlots()
@@ -59,11 +64,8 @@ public partial class InventoryData : Resource
             if (slot is not null) slot.Changed += OnSlotChanged;
         }
     }
-
-    #endregion
-
-    #region Private Methods
-
+    
+    /// <summary>Scans all slots for any with a depleted quantity and clears them.</summary>
     private void OnSlotChanged()
     {
         foreach (var slot in Slots)

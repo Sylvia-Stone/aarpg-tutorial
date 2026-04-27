@@ -130,11 +130,22 @@ All existing functionality is unchanged. No scene wiring was affected.
 - **Pause Menu wiring:** No `@onready` renaming needed in the Pause Menu control if you've been following the export-for-onready pattern. They'll stay wired!
 - **Bug fix - PauseMenu CanvasLayer layer:** Another CanvasLayer was rendering on top of the pause menu and eating mouse input, making buttons unresponsive to the mouse (keyboard/gamepad still worked). Fixed by setting the PauseMenu CanvasLayer `layer` to `10`. I missed it earlier as I've been mainly using a gamepad.
 - **Singleton `Instance` moved to `_EnterTree`:** In Godot with C#, autoloads don't give you a typed static reference automatically, so we use an `Instance = this` pattern to access singletons from anywhere in the project. The reason I moved them out of `_Ready` is that I learned `_Ready` runs bottom-up (children first, parents after), so a child could try to access `Instance` before the parent has set it. `_EnterTree` runs top-down, so `Instance` is always set before any child needs it.
+
 ### Episode 17
 - **No `@tool` on ItemPickup:** I did attempt to get the tool script working for the editor texture preview, but ran into a casting issue where the tool script runs before our `[GlobalClass]` resource gets cast to `ItemData`, throwing a bunch of errors. I've stepped back from tool scripts for now since they've been a bit finicky. If you find a fix, let me know!
 - **Inventory updates in place:** I wanted to see if I could update inventory slots in place rather than clearing and rebuilding them on every change, so I strayed from the tutorial here. Slot nodes are created once in `_Ready` and their data is swapped out in `UpdateInventory`. One thing to watch out for: if you have any `InventorySlotUI` nodes saved as children under the `GridContainer` in `PauseMenu.tscn`, delete them or they'll double up at runtime.
----
 
+#### Post Episode 17 Commit: Bug Fixes
+- **Bugs**: I noticed several bugs the day after my episode 17 commit and fixed them. 
+  - **Camera Not Respecting Bounds on Transition**: Moved the `UpdateBounds()` method and listeners to _EnterTree as it's called every time we enter. Issue was UpdateBounds was not firing in _Ready();
+  - **UI Focus For Gamepad**: UI focus was not being grabbed for gamepads on starting pause menu. 
+  - **Unable to exit UI on Gamepad**: Now listening for `ui_cancel`
+
+#### Post Episode 17 Commit: Refactor
+- **Renaming:** I was having trouble following what I did when looking back through the code, so I changed some names to make it easier like `SlotData.cs` to `ItemStack.cs`. It made it easier for me to follow the logic. 
+- **Comments:** Went through and added missing XML comments
+
+---
 ## Editor Wiring
 
 Because node references use `[Export]` rather than hardcoded `GetNode` paths, you need to assign them in the Godot editor. Open each scene and drag the listed nodes into the corresponding Inspector slots.
@@ -302,7 +313,7 @@ Scene moved from `Player/player.tscn` to `PlayerCharacter/player.tscn`. Root nod
 
 ## Commit History by Episode
 
-> **Note:** This wasn't originally intended to be shared, so the first few commits cover multiple episodes. Going forward commits map to individual episodes.
+> **Note:** This wasn't originally intended to be shared, so the first few commits cover multiple episodes. Going forward commits map to individual episodes or cleanup/refactors.
 
 | Commit    | Episodes | Description                                                                                               |
 |-----------|----------|-----------------------------------------------------------------------------------------------------------|
@@ -330,4 +341,5 @@ Scene moved from `Player/player.tscn` to `PlayerCharacter/player.tscn`. Root nod
 | `b7ec5b2` | -        | Reorganization                                                                                            |
 | `8c9a033` | 16       | Added inventory system                                                                                    |
 | `a3817e3` | 17       | Can now pick up and use items from the UI                                                                 |
-| `Latest`  | -        | Wiring diagram update                                                                                     |
+| `207bca1` | -        | Wiring diagram update                                                                                     |
+| `Latest`  | -        | Post Ep 17 Debug Session and Rename                                                                       |

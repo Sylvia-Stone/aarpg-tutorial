@@ -6,6 +6,10 @@ using Godot;
 
 namespace AarpgTutorial.PlayerCharacter.States;
 
+/// <summary>
+/// Player stun state. Applies knockback away from the damage source,
+/// grants brief invulnerability, then returns to idle once the animation completes.
+/// </summary>
 public partial class Stun : PlayerState
 {
     #region Exports

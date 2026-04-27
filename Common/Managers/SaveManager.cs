@@ -10,6 +10,7 @@ using Godot;
 
 namespace AarpgTutorial.Common.Managers;
 
+/// <summary>Singleton that serializes and deserializes game state to and from disk.</summary>
 public partial class SaveManager : Node
 {
 	#region Signals

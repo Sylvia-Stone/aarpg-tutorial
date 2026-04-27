@@ -5,6 +5,7 @@ using Godot;
 
 namespace AarpgTutorial.GUI.SceneTransition;
 
+/// <summary>Singleton that manages full-screen fade transitions between scenes.</summary>
 public partial class SceneTransition : CanvasLayer
 {
     #region Exports

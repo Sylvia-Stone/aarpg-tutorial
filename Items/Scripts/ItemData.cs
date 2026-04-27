@@ -4,6 +4,7 @@ using Godot.Collections;
 
 namespace AarpgTutorial.Items.Scripts;
 
+/// <summary>Godot resource defining an item's name, description, texture, and list of use effects.</summary>
 [GlobalClass]
 public partial class ItemData : Resource
 {
@@ -26,6 +27,8 @@ public partial class ItemData : Resource
     
     #region Public Methods
 
+    /// <summary>Runs all <see cref="Effects"/> in order.</summary>
+    /// <returns><c>true</c> if at least one effect was applied; <c>false</c> if the item has no effects.</returns>
     public bool Use()
     {
         if (!Effects.Any()) return false;

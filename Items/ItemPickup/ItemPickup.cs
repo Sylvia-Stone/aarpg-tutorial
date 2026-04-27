@@ -7,6 +7,7 @@ using Godot;
 
 namespace AarpgTutorial.Items.ItemPickup;
 
+/// <summary>World item node that the player walks over to pick up, adding it to the inventory.</summary>
 public partial class ItemPickup : Node2D
 {
     #region Exports
@@ -54,6 +55,7 @@ public partial class ItemPickup : Node2D
     
     #region Private Methods
 
+    /// <summary>Hides the pickup, plays the audio, and waits for it to finish before allowing further interactions.</summary>
     private async Task ItemPickedUp()
     {
         Area.BodyEntered -= OnBodyEntered;
@@ -61,12 +63,16 @@ public partial class ItemPickup : Node2D
         Visible = false;
         await ToSignal(AudioStreamPlayer, AudioStreamPlayer2D.SignalName.Finished);
     }
+    /// <summary>Sets the backing item data and refreshes the sprite texture.</summary>
+    /// <param name="itemData">The item data to assign.</param>
     private void SetItemData(ItemData itemData)
     {
         _itemData = itemData;
         UpdateTexture();
     }
 
+    /// <summary>Triggers pickup when the player enters the area and the inventory has room.</summary>
+    /// <param name="node">The body that entered the area.</param>
     private void OnBodyEntered(Node2D node)
     {
         if (node is Player && PlayerManager.Instance.InventoryData.AddItem(_itemData))
@@ -75,6 +81,7 @@ public partial class ItemPickup : Node2D
         }
     }
 
+    /// <summary>Syncs the sprite texture to the current item's texture.</summary>
     private void UpdateTexture()
     {
         Sprite.Texture = ItemData.Texture;

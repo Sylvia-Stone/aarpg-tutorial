@@ -5,6 +5,7 @@ using Godot;
 
 namespace AarpgTutorial.GUI.PauseMenu;
 
+/// <summary>Pause menu singleton. Toggles game pause state and hosts the inventory grid and save/load controls.</summary>
 public partial class PauseMenu : CanvasLayer
 {
 	#region Exports
@@ -67,14 +68,17 @@ public partial class PauseMenu : CanvasLayer
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
-		if (@event.IsActionPressed(InputActions.Pause))
-		{
-			if (_isPaused)
-				HidePauseMenu();
-			else
-				ShowPauseMenu();
+		if (@event.IsActionPressed(InputActions.Pause))                                                                                                                                                                                                                                                                   
+		{                                                                                                                                                                                                                                                                                                                 
+			if (_isPaused) HidePauseMenu();
+			else ShowPauseMenu();                                                                                                                                                                                                                                                                                         
 			GetViewport().SetInputAsHandled();
 		}
+		else if (_isPaused && @event.IsActionPressed("ui_cancel"))
+		{                                                                                                                                                                                                                                                                                                                 
+			HidePauseMenu();
+			GetViewport().SetInputAsHandled();                                                                                                                                                                                                                                                                            
+		}  
 	}
 
 	#endregion
@@ -108,6 +112,8 @@ public partial class PauseMenu : CanvasLayer
 		ItemDescription.Text = text;
 	}
 
+	/// <summary>Plays the given audio stream through the menu's <see cref="AudioStreamPlayer"/>.</summary>
+	/// <param name="audio">The audio stream to play.</param>
 	public void PlayAudio(AudioStream audio)
 	{
 		AudioStreamPlayer.Stream = audio;
@@ -118,6 +124,7 @@ public partial class PauseMenu : CanvasLayer
 
 	#region Private Methods
 
+	/// <summary>Loads the game from disk and closes the pause menu on success.</summary>
 	private async void OnLoadPressed()
 	{
 		if (!_isPaused) return;
@@ -125,6 +132,7 @@ public partial class PauseMenu : CanvasLayer
 		HidePauseMenu();
 	}
 
+	/// <summary>Saves the game to disk and closes the pause menu.</summary>
 	private void OnSavePressed()
 	{
 		if (!_isPaused) return;
