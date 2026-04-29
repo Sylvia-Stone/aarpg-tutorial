@@ -135,15 +135,14 @@ All existing functionality is unchanged. No scene wiring was affected.
 - **No `@tool` on ItemPickup:** I did attempt to get the tool script working for the editor texture preview, but ran into a casting issue where the tool script runs before our `[GlobalClass]` resource gets cast to `ItemData`, throwing a bunch of errors. I've stepped back from tool scripts for now since they've been a bit finicky. If you find a fix, let me know!
 - **Inventory updates in place:** I wanted to see if I could update inventory slots in place rather than clearing and rebuilding them on every change, so I strayed from the tutorial here. Slot nodes are created once in `_Ready` and their data is swapped out in `UpdateInventory`. One thing to watch out for: if you have any `InventorySlotUI` nodes saved as children under the `GridContainer` in `PauseMenu.tscn`, delete them or they'll double up at runtime.
 
-#### Post Episode 17 Commit: Bug Fixes
-- **Bugs**: I noticed several bugs the day after my episode 17 commit and fixed them. 
-  - **Camera Not Respecting Bounds on Transition**: Moved the `UpdateBounds()` method and listeners to _EnterTree as it's called every time we enter. Issue was UpdateBounds was not firing in _Ready();
-  - **UI Focus For Gamepad**: UI focus was not being grabbed for gamepads on starting pause menu. 
-  - **Unable to exit UI on Gamepad**: Now listening for `ui_cancel`
-
-#### Post Episode 17 Commit: Refactor
-- **Renaming:** I was having trouble following what I did when looking back through the code, so I changed some names to make it easier like `SlotData.cs` to `ItemStack.cs`. It made it easier for me to follow the logic. 
-- **Comments:** Went through and added missing XML comments
+> #### Post episode 17 commits: Bug Fixes and Rename Refactor for Better Clarity
+>- **Bugs**: I noticed several bugs the day after my episode 17 commit and fixed them. 
+>  - **Camera Not Respecting Bounds on Transition**: Moved the `UpdateBounds()` method and listeners to _EnterTree as it's called every time we enter. Issue was UpdateBounds was not firing in _Ready();
+>  - **UI Focus For Gamepad**: UI focus was not being grabbed for gamepads on starting pause menu. 
+>  - **Unable to exit UI on Gamepad**: Now listening for `ui_cancel`
+>
+>- **Renaming:** I was having trouble following what I did when looking back through the code, so I changed some names to make it easier like `SlotData.cs` to `ItemStack.cs`. It made it easier for me to follow the logic. 
+>- **Comments:** Went through and added missing XML comments
 
 ### Episode 18
 - **DTO:** I took a slightly different approach than the tutorial. Created a Data Transfer Object to be the intermediary between Godot's arrays and a C# list, then I used Linq to transfer back and forth, and kept all save logic to the save manager. If you're new to C# you get to really see how powerful Linq can be here!
