@@ -1,12 +1,16 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using AarpgTutorial.Common.Models;
 using AarpgTutorial.Common.Utilities;
 using AarpgTutorial.GUI.PauseMenu;
+using AarpgTutorial.GUI.PauseMenu.Inventory.Scripts;
+using AarpgTutorial.Items.Scripts;
 using AarpgTutorial.Levels.Scripts;
+using AarpgTutorial.Save.Models;
 using Godot;
+using Godot.Collections;
 
 namespace AarpgTutorial.Common.Managers;
 
@@ -71,6 +75,12 @@ public partial class SaveManager : Node
 		{
 			PlayerManager.Instance.SetPlayerPosition(position);
 			PlayerManager.Instance.SetHealth(saveDataPlayer.Health, saveDataPlayer.MaxHealth);
+			PlayerManager.Instance.InventoryData.Slots = new Array<ItemStack?>(
+				(_saveData.InventorySlots ?? []).Select(dto => dto is null ? null : new ItemStack
+				{
+					Item = dto.ItemPath is not null ? ResourceLoader.Load<ItemData>(dto.ItemPath) : null,
+					Quantity = dto.Quantity
+				}));
 			PauseMenu.Instance.HidePauseMenu();
 		});
 
@@ -82,6 +92,7 @@ public partial class SaveManager : Node
 	{
 		UpdateScenePath();
 		UpdatePlayerData();
+		UpdateInventory();
 		var json = JsonSerializer.Serialize(_saveData, new JsonSerializerOptions { WriteIndented = true });
 		File.WriteAllText(_savePath, json);
 	}
@@ -89,6 +100,13 @@ public partial class SaveManager : Node
 	#endregion
 
 	#region Private Methods
+
+	private void UpdateInventory()
+	{
+		_saveData.InventorySlots = PlayerManager.Instance.InventoryData.Slots
+			.Select(slot => slot is null ? null : new InventorySlotDto(slot.Item?.ResourcePath, slot.Quantity))
+			.ToList();
+	}
 
 	/// <summary>Reads the current player's health and position and stores them in <see cref="_saveData"/>.</summary>
 	private void UpdatePlayerData()

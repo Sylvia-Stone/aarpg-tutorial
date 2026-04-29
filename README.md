@@ -145,6 +145,8 @@ All existing functionality is unchanged. No scene wiring was affected.
 - **Renaming:** I was having trouble following what I did when looking back through the code, so I changed some names to make it easier like `SlotData.cs` to `ItemStack.cs`. It made it easier for me to follow the logic. 
 - **Comments:** Went through and added missing XML comments
 
+### Episode 18
+- **DTO:** I took a slightly different approach than the tutorial. Created a Data Transfer Object to be the intermediary between Godot's arrays and a C# list, then I used Linq to transfer back and forth, and kept all save logic to the save manager. If you're new to C# you get to really see how powerful Linq can be here!
 ---
 ## Editor Wiring
 
@@ -308,38 +310,3 @@ Scene moved from `Player/player.tscn` to `PlayerCharacter/player.tscn`. Root nod
 | Audio Stream Player | `AudioStreamPlayer2D`                        |
 | Item Data           | Drag the item's `.tres` resource             |
 | Sprite              | `Sprite2D`                                   |
-
----
-
-## Commit History by Episode
-
-> **Note:** This wasn't originally intended to be shared, so the first few commits cover multiple episodes. Going forward commits map to individual episodes or cleanup/refactors.
-
-| Commit    | Episodes | Description                                                                                               |
-|-----------|----------|-----------------------------------------------------------------------------------------------------------|
-| `4cf93fd` | 1-3      | Initial setup: player movement and state machine                                                          |
-| `a070345` | -        | Refactor: moved shared state logic into base `State` class                                                |
-| `f7e64b1` | -        | Refactor: moved enums into dedicated `Player/Enum/` folder                                                |
-| `c3ea106` | 4-5      | Attack state, terrain tilemap, terrain collisions                                                         |
-| `e88bbe8` | 6        | HitBox/HurtBox system, shrubs/plants, `PlayerInteractionsManager`, export wiring                          |
-| `774a925` | 7        | Episode 7 cleanup: moonwalk fix not needed, export wiring                                                 |
-| `b2e0ba8` | -        | Added README                                                                                              |
-| `eaa51c5` | 8        | Episode 8: Auto Camera Limits + small refactors                                                           |
-| `246a62d` | -        | Updated README for Episode 8                                                                              |
-| `e5bb347` | 8        | HitBox type alias fix: resolved namespace/class name conflict in `HurtBox.cs`                             |
-| `3e93eda` | 9        | Episode 9: Implemented slime enemy and major refactor of states, actors, statemachines                    |
-| `3cb50b9` | -        | Updated README for Episode 9                                                                              |
-| `37f62d9` | 10       | Updated Slime to take damage                                                                              |
-| `e2b1228` | -        | Light housekeeping: namespace casing, region organization, `Bounds` class                                 |
-| `9d671c9` | 11       | Player stun state, health system, damage flash, folder/class rename to match tutorial                     |
-| `98d7094` | -        | Solution Rename. If you're following this code closely, I'd just pull it down to avoid renaming headaches |
-| `aff1a8b` | 12       | Player HUD: heart-based health display with half-heart support                                            |
-| `1ed0b3a` | -        | Fixed lingering slime shadow                                                                              |
-| `538950a` | 13       | Episode 13: player spawn implementation                                                                   |
-| `c06fd1f` | 14       | Episode 14: level transitions                                                                             |
-| `c676dd4` | 15       | Episode 15: save/load system                                                                              |
-| `b7ec5b2` | -        | Reorganization                                                                                            |
-| `8c9a033` | 16       | Added inventory system                                                                                    |
-| `a3817e3` | 17       | Can now pick up and use items from the UI                                                                 |
-| `207bca1` | -        | Wiring diagram update                                                                                     |
-| `Latest`  | -        | Post Ep 17 Debug Session and Rename                                                                       |

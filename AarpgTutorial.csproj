@@ -16,4 +16,7 @@
   <ItemGroup>
     <EmbeddedResource Remove="Levels\Area01\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\Models\" />
+  </ItemGroup>
 </Project>

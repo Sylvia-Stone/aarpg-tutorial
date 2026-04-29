@@ -1,4 +1,4 @@
-namespace AarpgTutorial.Common.Models;
+namespace AarpgTutorial.Save.Models;
 
 /// <summary>Serializable snapshot of the player's health and world position written to the save file.</summary>
 public class PlayerSaveData
