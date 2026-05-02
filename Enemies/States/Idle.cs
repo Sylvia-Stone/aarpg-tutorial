@@ -1,4 +1,5 @@
 using AarpgTutorial.Common.Enums;
+using AarpgTutorial.Common.Utilities;
 using Godot;
 
 namespace AarpgTutorial.Enemies.States;
@@ -33,6 +34,11 @@ public partial class Idle : EnemyState
 
     #region Lifecycle Methods
 
+    public override void _Ready()
+    {
+        NextState.Require();
+    }
+    
     /// <summary>
     /// Stops the enemy and picks a random duration to remain idle.
     /// </summary>

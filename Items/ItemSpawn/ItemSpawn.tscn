@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://b4jlorpeo06mt"]
+
+[ext_resource type="Script" uid="uid://c0e8ewrn85hqx" path="res://Items/ItemSpawn/ItemPickup.cs" id="1_gswor"]
+[ext_resource type="Texture2D" uid="uid://dvsfemp7i4c4f" path="res://Enemies/Slime/Shadow.png" id="2_lbr00"]
+[ext_resource type="Texture2D" uid="uid://qaq7eu6payxh" path="res://Items/Sprites/items.png" id="3_ccvo6"]
+[ext_resource type="AudioStream" uid="uid://bwxxsxv73wac8" path="res://Items/ItemSpawn/ItemSpawn.wav" id="4_7v1ao"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mqsnd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_685li"]
+atlas = ExtResource("3_ccvo6")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="Animation" id="Animation_a08tp"]
+resource_name = "Bounce"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.55, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(-2, -2, -2, -2, -2, -2, -2),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -6), Vector2(0, 0), Vector2(0, -3), Vector2(0, 0), Vector2(0, -1), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_hpkya"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_22rky"]
+_data = {
+&"Bounce": SubResource("Animation_a08tp"),
+&"RESET": SubResource("Animation_hpkya")
+}
+
+[node name="ItemPickup" type="CharacterBody2D" unique_id=687425297 node_paths=PackedStringArray("Area", "AudioStreamPlayer", "Sprite")]
+collision_layer = 0
+collision_mask = 16
+motion_mode = 1
+script = ExtResource("1_gswor")
+Area = NodePath("Area2D")
+AudioStreamPlayer = NodePath("AudioStreamPlayer2D")
+Sprite = NodePath("Sprite2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1549558660]
+shape = SubResource("CircleShape2D_mqsnd")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1984586077]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1358919138]
+shape = SubResource("CircleShape2D_mqsnd")
+
+[node name="ShadowSprite" type="Sprite2D" parent="." unique_id=1826026453]
+modulate = Color(0.09239707, 0.09239706, 0.09239706, 0.78039217)
+position = Vector2(0, 7)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_lbr00")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1040973608]
+texture = SubResource("AtlasTexture_685li")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1656099013]
+stream = ExtResource("4_7v1ao")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=499933581]
+libraries/ = SubResource("AnimationLibrary_22rky")
+autoplay = &"Bounce"

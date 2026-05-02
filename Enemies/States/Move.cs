@@ -1,5 +1,6 @@
 using AarpgTutorial.Common;
 using AarpgTutorial.Common.Enums;
+using AarpgTutorial.Common.Utilities;
 using Godot;
 
 namespace AarpgTutorial.Enemies.States;
@@ -42,6 +43,11 @@ public partial class Move : EnemyState
 
     #region Lifecycle Methods
 
+    public override void _Ready()
+    {
+        NextState.Require();
+    }
+    
     /// <summary>
     /// Picks a random cardinal direction and a random wander duration, then sets velocity.
     /// </summary>

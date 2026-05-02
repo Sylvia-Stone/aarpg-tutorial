@@ -146,6 +146,12 @@ All existing functionality is unchanged. No scene wiring was affected.
 
 ### Episode 18
 - **DTO:** I took a slightly different approach than the tutorial. Created a Data Transfer Object to be the intermediary between Godot's arrays and a C# list, then I used Linq to transfer back and forth, and kept all save logic to the save manager. If you're new to C# you get to really see how powerful Linq can be here!
+
+### Episode 19
+- **Item drop abstraction:** Pulled the drop logic out of the destroy state and into a static `Drop()` method on `ItemPickup`. It felt wrong having scatter/spawn logic living inside a state that's really just about the enemy dying. Now any actor can call it, and the destroy state just hands off the work.
+- **Resources:** Moved the item resources (gem.tres, apple.tres, etc.) to a resource folder, trying to keep things tidy. 
+- **ItemSpawn:** Renamed ItemPickup to ItemSpawn. Seemed more on the nose about what it's actually doing. 
+
 ---
 ## Editor Wiring
 

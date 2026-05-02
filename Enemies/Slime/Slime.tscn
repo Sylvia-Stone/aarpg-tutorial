@@ -12,7 +12,11 @@
 [ext_resource type="Texture2D" uid="uid://d4j5fn6blimgd" path="res://Enemies/Slime/DestroySmoke.png" id="9_5fs0k"]
 [ext_resource type="Script" uid="uid://e5vd481d7mc1" path="res://Enemies/States/Stun.cs" id="11_mp7rs"]
 [ext_resource type="Script" uid="uid://iyimal3grv8r" path="res://Enemies/States/Destroy.cs" id="12_ke740"]
+[ext_resource type="PackedScene" uid="uid://b4jlorpeo06mt" path="res://Items/ItemSpawn/ItemSpawn.tscn" id="12_ts4pi"]
+[ext_resource type="Script" uid="uid://ittv0nyjuejo" path="res://Items/Scripts/DropData.cs" id="13_2vvwu"]
 [ext_resource type="PackedScene" uid="uid://dvlduvdn8j750" path="res://Common/HurtBox/HurtBox.tscn" id="13_36jae"]
+[ext_resource type="Resource" uid="uid://cuq3l4q7wv1u" path="res://Items/Resouces/Gem.tres" id="14_gorp7"]
+[ext_resource type="Resource" uid="uid://c5pk21v0ahj4b" path="res://Items/Resouces/Apple.tres" id="15_ts4pi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mp7rs"]
 radius = 12.0
@@ -806,6 +810,21 @@ _data = {
 &"WalkUp": SubResource("Animation_dkpye")
 }
 
+[sub_resource type="Resource" id="Resource_mmn81"]
+script = ExtResource("13_2vvwu")
+ItemData = ExtResource("14_gorp7")
+MaxAmount = 4
+MinAmount = 1
+metadata/_custom_type_script = "uid://ittv0nyjuejo"
+
+[sub_resource type="Resource" id="Resource_2vvwu"]
+script = ExtResource("13_2vvwu")
+ItemData = ExtResource("15_ts4pi")
+MaxAmount = 1
+MinAmount = 1
+Probability = 33.0
+metadata/_custom_type_script = "uid://ittv0nyjuejo"
+
 [sub_resource type="Animation" id="Animation_suwpu"]
 resource_name = "Destroy"
 step = 0.1
@@ -870,12 +889,12 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_62dmb"]
 radius = 12.0
 
-[node name="Slime" type="CharacterBody2D" unique_id=1706781310 node_paths=PackedStringArray("StateMachine", "HitBox", "AnimationPlayer", "Sprite")]
+[node name="Slime" type="CharacterBody2D" unique_id=1706781310 node_paths=PackedStringArray("HitBox", "StateMachine", "AnimationPlayer", "Sprite")]
 collision_layer = 256
 collision_mask = 16
 script = ExtResource("1_wyclx")
-StateMachine = NodePath("EnemyStateMachine")
 HitBox = NodePath("HitBox")
+StateMachine = NodePath("EnemyStateMachine")
 AnimationPlayer = NodePath("AnimationPlayer")
 Sprite = NodePath("Sprite2D")
 
@@ -886,7 +905,6 @@ hframes = 16
 vframes = 2
 
 [node name="HitBox" parent="." unique_id=2072311586 instance=ExtResource("4_36jae")]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=366869830]
 position = Vector2(0, -7)
@@ -923,6 +941,8 @@ NextState = NodePath("../Idle")
 
 [node name="Destroy" type="Node" parent="EnemyStateMachine" unique_id=1830681711]
 script = ExtResource("12_ke740")
+ItemPickupScene = ExtResource("12_ts4pi")
+ItemDrops = [SubResource("Resource_mmn81"), SubResource("Resource_2vvwu")]
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=730267173]
 max_polyphony = 4

@@ -34,7 +34,7 @@ public partial class Attack : PlayerState
 
     #region Fields
 
-    private bool _attacking;
+    private bool _isAttacking;
 
     #endregion
 
@@ -63,8 +63,11 @@ public partial class Attack : PlayerState
         AudioStreamPlayer2D.PitchScale = (float)GD.RandRange(.9, 1.1);
         AudioStreamPlayer2D.Play();
 
-        _attacking = true;
-        GetTree().CreateTimer(.075).Timeout += () => HurtBox.Monitoring = true;
+        _isAttacking = true;
+        GetTree().CreateTimer(.075).Timeout += () =>
+        {
+            if (_isAttacking) HurtBox.Monitoring = true;
+        };
     }
 
     /// <summary>
@@ -73,7 +76,7 @@ public partial class Attack : PlayerState
     public override void Exit()
     {
         PlayerAnimationPlayer.AnimationFinished -= EndAttack;
-        _attacking = false;
+        _isAttacking = false;
         HurtBox.Monitoring = false;
     }
 
@@ -85,7 +88,7 @@ public partial class Attack : PlayerState
     {
         Player.Velocity -= Player.Velocity * (float)DecelerationRate * (float)delta;
 
-        if (_attacking) return null;
+        if (_isAttacking) return null;
         return Player.Direction == Vector2.Zero
             ? StateMachine.GetState<Idle>()
             : StateMachine.GetState<Move>();
@@ -101,7 +104,7 @@ public partial class Attack : PlayerState
     /// </summary>
     private void EndAttack(StringName _)
     {
-        _attacking = false;
+        _isAttacking = false;
     }
 
     #endregion

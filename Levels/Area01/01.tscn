@@ -4,11 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://dayc1renm0p51" path="res://Tile Maps/Grass01.tscn" id="1_vbl6q"]
 [ext_resource type="PackedScene" uid="uid://nj2gis82o4le" path="res://Levels/PlayerSpawn.tscn" id="2_chooo"]
 [ext_resource type="PackedScene" uid="uid://t6pubiv58xpy" path="res://Levels/LevelTransition.tscn" id="4_pwydo"]
-[ext_resource type="PackedScene" uid="uid://b4jlorpeo06mt" path="res://Items/ItemPickup/ItemPickup.tscn" id="5_8itkk"]
-[ext_resource type="Resource" uid="uid://cuq3l4q7wv1u" path="res://Items/Gem.tres" id="6_8itkk"]
-[ext_resource type="Resource" uid="uid://dx26bk0uj0b1d" path="res://Items/Potion.tres" id="7_th3kk"]
-[ext_resource type="Resource" uid="uid://da3sp8w05uvm3" path="res://Items/Stone.tres" id="8_b60gt"]
-[ext_resource type="Resource" uid="uid://c5pk21v0ahj4b" path="res://Items/Apple.tres" id="9_b60gt"]
+[ext_resource type="PackedScene" uid="uid://b4jlorpeo06mt" path="res://Items/ItemSpawn/ItemSpawn.tscn" id="5_8itkk"]
+[ext_resource type="Resource" uid="uid://cuq3l4q7wv1u" path="res://Items/Resouces/Gem.tres" id="6_8itkk"]
+[ext_resource type="Resource" uid="uid://dx26bk0uj0b1d" path="res://Items/Resouces/Potion.tres" id="7_th3kk"]
+[ext_resource type="Resource" uid="uid://da3sp8w05uvm3" path="res://Items/Resouces/Stone.tres" id="8_b60gt"]
+[ext_resource type="Resource" uid="uid://c5pk21v0ahj4b" path="res://Items/Resouces/Apple.tres" id="9_b60gt"]
 
 [node name="01" type="Node2D" unique_id=1734982483]
 script = ExtResource("1_22ele")

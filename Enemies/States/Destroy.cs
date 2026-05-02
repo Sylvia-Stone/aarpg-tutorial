@@ -1,7 +1,11 @@
 using AarpgTutorial.Common.Enums;
 using AarpgTutorial.Common.HurtBox;
+using AarpgTutorial.Common.Utilities;
 using AarpgTutorial.Enemies.Scripts;
+using AarpgTutorial.Items.ItemSpawn;
 using Godot;
+using Godot.Collections;
+using DropData = AarpgTutorial.Items.Scripts.DropData;
 
 namespace AarpgTutorial.Enemies.States;
 
@@ -20,7 +24,14 @@ public partial class Destroy : EnemyState
     public double DecelerateSpeed = 10.0;
 
     [Export]
+    public PackedScene ItemPickupScene = null!;
+
+    [Export]
     public double KnockBackSpeed = 200.0;
+    
+    [ExportCategory("Item Drops")]
+    [Export]
+    public Array<DropData?> ItemDrops = new();
 
     #endregion
 
@@ -33,6 +44,11 @@ public partial class Destroy : EnemyState
 
     #region Lifecycle Methods
 
+    public override void _Ready()
+    {
+        ItemPickupScene.Require();
+    }
+    
     /// <summary>
     /// Marks the enemy invulnerable, applies knockback away from the damage source,
     /// and starts the destroy animation.
@@ -48,6 +64,8 @@ public partial class Destroy : EnemyState
 
         Enemy.UpdateAnimation(AnimationStateType);
         Enemy.AnimationPlayer.AnimationFinished += OnAnimationFinished;
+        DisableHurtBox();
+        DropItems();
     }
 
     /// <summary>
@@ -73,6 +91,17 @@ public partial class Destroy : EnemyState
 
     #region Private Methods
 
+    /// <summary>
+    /// Disables <see cref="HurtBox"/> if present and sets monitoring to false
+    /// </summary>
+    private void DisableHurtBox()
+    {
+        var hurtBox = GetNodeOrNull<HurtBox>("HurtBox");
+        hurtBox?.Monitoring = false;
+    }
+
+    private void DropItems() => ItemSpawn.Drop(ItemDrops, ItemPickupScene, Enemy);
+    
     /// <summary>
     /// Called when the destroy animation finishes. Removes the enemy from the scene.
     /// </summary>

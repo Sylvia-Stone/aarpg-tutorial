@@ -22,6 +22,14 @@ public static class Extensions
         return export ?? throw new ExportNullException(typeof(T), exportName!);
     }
 
+    /// <summary>Enables <c>foreach (var i in ..n)</c> syntax over a <see cref="Range"/>.</summary>
+    /// <param name="range">The range to enumerate.</param>
+    public static IEnumerator<int> GetEnumerator(this Range range)
+    {
+        for (int i = range.Start.Value; i < range.End.Value; i++)
+            yield return i;
+    }
+
     /// <summary>Logs a Godot warning if the value is null, then returns the value for further null checking.</summary>
     /// <param name="value">The value to check.</param>
     /// <param name="message">The warning message to log if null.</param>
