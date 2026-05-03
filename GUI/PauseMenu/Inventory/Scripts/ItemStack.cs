@@ -26,6 +26,6 @@ public partial class ItemStack : Resource
     public void SetQuantity(int quantity)
     {
         _quantity = quantity;
-        if (_quantity <= 0) EmitChanged();
+        EmitChanged();
     }
 }

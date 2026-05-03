@@ -93,7 +93,7 @@ State files were also reorganized:
 - **Realization:** I ran into some behavior differences from Michael's version, like the overlapping hitbox/hurtbox, that I think came from missing some context in his restructure. Everything still ends up in the same playable state by the end of the episode though.
 - **Slime HurtBox removed:** The slime scene had both a HitBox and a HurtBox. The HurtBox was causing the slime to immediately register as hit on startup due to area overlap. It has been removed for now and will be re-added when enemy contact damage is implemented.
 
-### Post-Episode 10 (Light Housekeeping)
+#### Post-Episode 10 (Light Housekeeping)
 No behavior changes, just cleanup.
 - **Organization:** Gave all classes a consistent structure using `#regions`, and updated the casing to `AarpgTutorial` to match Rider's conventions. Rider's structure tab is really nice once regions are in place.
 - **`Bounds` class:** Replaced the `GodotVector2Array` that was getting passed around between `LevelTileMap`, `LevelManager`, and `PlayerCamera` with a simple `Bounds` class (`RefCounted`) holding `Left`, `Top`, `Right`, `Bottom`. Cleaner to pass around, and `RefCounted` means it frees itself automatically.
@@ -137,13 +137,16 @@ No behavior changes, just cleanup.
 ### Episode 17
 - **No `@tool` on ItemPickup:** Tried getting the tool script working for the editor texture preview, but hit a casting issue where it runs before `[GlobalClass]` resources get resolved. See the caution note in Episode 14.
 - **Inventory updates in place:** I wanted to see if I could update inventory slots in place rather than clearing and rebuilding them on every change, so I strayed from the tutorial here. Slot nodes are created once in `_Ready` and their data is swapped out in `UpdateInventory`. One thing to watch out for: if you have any `InventorySlotUI` nodes saved as children under the `GridContainer` in `PauseMenu.tscn`, delete them or they'll double up at runtime.
+- **Bugs:** I definitely introduced some bugs by trying to change the item consume system to be in place. Check below.
 
-### Post-Episode 17 (Bug Fixes + Cleanup)
+#### Post-Episode 17 (Bug Fixes + Cleanup)
 - **Camera bounds on transition:** `UpdateBounds()` wasn't firing in `_Ready()`, moved it to `_EnterTree` which runs every time you enter the scene.
+  - Not sure when this was introduced
 - **Gamepad UI focus:** Focus wasn't being grabbed when opening the pause menu on gamepad.
 - **Gamepad UI exit:** Added `ui_cancel` listener so you can actually close the menu.
 - **Renaming:** Renamed some things that were confusing me, like `SlotData.cs` to `ItemStack.cs`.
 - **XML comments:** Filled in missing doc comments.
+- **Item Consume not Updating in UI:** See  [Post-Episode 19 Bug Fix](#post-episode-19-bug-fix)
 
 ### Episode 18
 - **DTO:** I took a slightly different approach than the tutorial. Created a Data Transfer Object to be the intermediary between Godot's arrays and a C# list, then I used Linq to transfer back and forth, and kept all save logic to the save manager. If you're new to C# you get to really see how powerful Linq can be here!
@@ -151,5 +154,8 @@ No behavior changes, just cleanup.
 ### Episode 19
 - **Item drop abstraction:** Pulled the drop logic out of the destroy state and into a static `Drop()` method on `ItemPickup`. It felt wrong having scatter/spawn logic living inside a state that's really just about the enemy dying. Now any actor can call it, and the destroy state just hands off the work.
 - **Resources:** Moved the item resources (gem.tres, apple.tres, etc.) to a resource folder, trying to keep things tidy. 
-- **ItemSpawn:** Renamed ItemPickup to ItemSpawn. Seemed more on the nose about what it's actually doing. 
+- **ItemSpawn:** Renamed ItemPickup to ItemSpawn. Seemed more on the nose about what it's actually doing.
+
+#### Post-Episode 19 Bug Fix
+- **Item consume count not updating in UI:** The data was right but the inventory screen wouldn't refresh until you closed and reopened it. `ItemStack.SetQuantity` was only calling `EmitChanged()` when quantity hit zero which we didn't need anymore. Remove `if (_quantity <= 0)` from that method
 
