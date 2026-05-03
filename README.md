@@ -1,16 +1,17 @@
 # AARPG Tutorial: C# Translation
 
-A C# translation of [Michael Games' AARPG tutorial series](https://www.youtube.com/@MichaelGamesOfficial) built in Godot 4. The series starts [here](https://youtu.be/QPeycNt29tY?si=Viehkem9jw0uMWAk). Michael's GitHub link to the tutorial is [here](https://github.com/michaelmalaska/aarpg-tutorial)
+A C# translation of [Michael Games' AARPG tutorial series](https://www.youtube.com/@MichaelGamesOfficial) built in Godot 4. Series starts [here](https://youtu.be/QPeycNt29tY?si=Viehkem9jw0uMWAk), Michael's GitHub is [here](https://github.com/michaelmalaska/aarpg-tutorial).
 
-The original tutorial uses GDScript. I follow the same episodes but implement everything in idiomatic C#, with some structural differences noted below.
+I follow the same episodes but implement everything in C#, with some differences along the way.
 
-> **Note:** I am doing this for fun and to learn Godot game development. I am a professional C# developer, but work in web development, so there are things about Godot and game development conventions/patterns that I am learning! That's why I'm here!
+> [!NOTE]
+> I'm doing this for fun. I'm a professional C# dev but come from web, so game dev and Godot conventions are new territory for me. Learning as I go!
 ---
 
 ## Differences from the GDScript Tutorial
 
 ### General C# Idioms
-- There are many things you are going to find different from the tutorial if you're following along. A lot of this has to do with C# conventions. Like, passing raw strings is usually frowned upon, and enums preferred. I'm not new to C#, but I am new to game development and Godot, so you'll find I update things at certain points if I find a better way to do it. Like switching EmitSignal(SignalName.Damaged... blah blah) to EmitSignalDamaged();
+- If you're following along you'll find a lot of things different, mostly C# conventions. Passing raw strings is frowned upon so I use enums, I swap patterns out when I find better ones, stuff like that. For example, switching `EmitSignal(SignalName.Damaged...)` to the generated `EmitSignalDamaged()`.
 - GDScript's `@onready` has no direct C# equivalent. If you want to follow Michael's approach more closely, assign node references in `_Ready()` instead of using `[Export]`:
   ```csharp
   private AnimationPlayer _animationPlayer;
@@ -20,7 +21,7 @@ The original tutorial uses GDScript. I follow the same episodes but implement ev
       _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
   }
   ```
-- The loose strings bothered me, so now every time Michael adds an @onready variable, I instead export it and wire it up in the editor (just drag and drop the node/animationplayer etc. to the relevant export). See [Editor Wiring](#editor-wiring)
+- The loose strings bothered me, so now every time Michael adds an @onready variable, I instead export it and wire it up in the editor (just drag and drop the node/animationplayer etc. to the relevant export).
     - There are pros and cons to this approach.
         - Pros: better for refactoring. References will stay linked when moving files around the tree.
         - Cons: If you edit the export variable, rename it or move the code file, you will need to rewire everything again, so keep that in mind.
@@ -35,6 +36,8 @@ Godot signals only accept **Variant-compatible types** (no custom C# classes!), 
 | `GodotObject` directly | Manual `Free()` required, no safety net                                | Avoid unless you have a specific reason       |
 
 If you need to pass a custom object through a signal, inherit `RefCounted` and you're done.
+
+## Differences by Episode
 
 ### Episode 1
 - **Enums over strings:** Player state and animation direction are defined as proper C# `enum` types rather than raw strings
@@ -51,9 +54,9 @@ If you need to pass a custom object through a signal, inherit `RefCounted` and y
 
 ### Episode 6
 - **Naming:** The shared nodes folder is named `Common/` instead of `GeneralNodes/`, and `PlayerInteractionsHost` is named `PlayerInteractionsManager`
-- **Node references as exports:** Rather than using hardcoded `GetNode("../../Some/Path")` strings, node references are exposed as `[Export]` properties and assigned by dragging nodes into Inspector slots in the editor. This makes the code resilient to scene tree restructuring. See [Editor Wiring](#editor-wiring) below for the full mapping.
+- **Node references as exports:** Instead of hardcoded `GetNode("../../Some/Path")` strings, I expose node references as `[Export]` properties and drag them in via the Inspector. Way easier to maintain when you move things around.
 - **`InputActions.cs`:** Input action strings centralized in a static class instead of scattered string literals
-- **`async void Enter()`:** At the time of this commit, `StateAttack.Enter()` used `async void` with `await ToSignal()` to delay hitbox activation, this is bad practice and was later replaced with `GetTree().CreateTimer(.075).Timeout += () => HurtBox.Monitoring = true;`, which is purely event-based and needs no async at all.
+- **`async void Enter()`:** `StateAttack.Enter()` originally used `async void` with `await ToSignal()` to delay hitbox activation, which is bad practice. Later replaced with `GetTree().CreateTimer(.075).Timeout += () => HurtBox.Monitoring = true;`, which is purely event-based.
 
 ### Episode 7
 - **Moonwalk bug:** Michael fixes this with angle/TAU math, not needed here since it was already handled in Episode 1 with `Vector2.Abs()`
@@ -70,7 +73,11 @@ If you need to pass a custom object through a signal, inherit `RefCounted` and y
 - **Player renamed to PlayerCharacter:** `Player` is both the class name and a namespace, causing ambiguity. Renamed the class to `PlayerCharacter` to resolve it.
 
 #### Major Architecture Refactor
-Michael's Episode 9 introduced significant structural changes. Taking that opportunity, I went further by establishing shared base classes to keep things DRY and set up a clean foundation for future work:
+
+> [!TIP]
+> This is optional! If you're just following along with Michael's tutorial you can skip this entirely and stay closer to his structure. I went further here because I wanted to, not because you have to.
+
+Michael's Episode 9 introduced some big structural changes. I used it as an excuse to go further and add shared base classes:
 
 - **`Actor`** (`Common/Actor.cs`): shared base for `PlayerCharacter` and `Enemy`. Direction tracking, sprite flipping, animation, and `SetDirection()` all live here instead of being duplicated in both classes.
 - **`State`** (`Common/States/State.cs`): universal base for all states. Replaces the broken `IState` interface from Episode 3. All states share the same contract (`Init`, `Enter`, `Exit`, `Process`, `Physics`, `HandleInput`).
@@ -81,19 +88,15 @@ State files were also reorganized:
 - Class names drop the actor prefix (`PlayerStateIdle` -> `Idle`) since the namespace implies context
 - `PlayerStateWalk` and `EnemyStateWander` unified as `Move`
 
-> **Note for anyone following along:** This refactor changes class names, file paths, and wiring for all state scripts. It's a significant divergence from Michael's structure. I will try to keep it closer to the tutorial in the future. See [Editor Wiring](#editor-wiring) for current mappings.
 
 ### Episode 10
-- **Realization:** There may be some context from Michael's restructure that I missed, as I ran into some behavior differences, like the overlapping hitbox/hurtbox causing issues that didn't seem to affect Michael's version.
-    - I'll still get everything in the same playable state at the end of episodes. I will go through his repo and make sure we're 1:1 (except for abstraction layers) when we get to episode 14.
-    - I will go through his repo and make sure we're 1:1 (except for abstraction layers) when we get to episode 14.
+- **Realization:** I ran into some behavior differences from Michael's version, like the overlapping hitbox/hurtbox, that I think came from missing some context in his restructure. Everything still ends up in the same playable state by the end of the episode though.
 - **Slime HurtBox removed:** The slime scene had both a HitBox and a HurtBox. The HurtBox was causing the slime to immediately register as hit on startup due to area overlap. It has been removed for now and will be re-added when enemy contact damage is implemented.
 
 ### Post-Episode 10 (Light Housekeeping)
-All existing functionality is unchanged. No scene wiring was affected.
-- **`Organization`** Reorganized classes to have a consistent structure and use #regions. I also updated the casing to `AarpgTutorial` to match Rider's conventions.
-    - I'm using Rider for development, and the regions are really nice when looking at the structure tab.
-- **`Bounds` class:** `Common/Bounds.cs` is a `RefCounted` subclass holding `Left`, `Top`, `Right`, `Bottom` as `int` properties. Replaces the `GodotVector2Array` that was threaded between `LevelTileMap`, `LevelManager`, and `PlayerCamera`. `RefCounted` objects are reference-counted and free themselves automatically when no longer referenced, so no `QueueFree()` is needed. The `using GodotVector2Array = ...` alias in those files is gone.
+No behavior changes, just cleanup.
+- **Organization:** Gave all classes a consistent structure using `#regions`, and updated the casing to `AarpgTutorial` to match Rider's conventions. Rider's structure tab is really nice once regions are in place.
+- **`Bounds` class:** Replaced the `GodotVector2Array` that was getting passed around between `LevelTileMap`, `LevelManager`, and `PlayerCamera` with a simple `Bounds` class (`RefCounted`) holding `Left`, `Top`, `Right`, `Bottom`. Cleaner to pass around, and `RefCounted` means it frees itself automatically.
 
 ### Episode 11
 - I kept fairly close to the tutorial for this episode.
@@ -101,9 +104,8 @@ All existing functionality is unchanged. No scene wiring was affected.
 - **Folder and class rename:** I renamed the `Player/` folder to `PlayerCharacter/` and the `PlayerCharacter` class back to `Player`, to bring it closer to Michael's naming. This also resolves the namespace/class collision that forced the rename in Episode 9.
 - **XML documentation:** I added XML doc comments to all classes and non-trivial methods. I find it helps me keep things organized.
 
-> **Solution Rename:** There is a commit right after this episode called `Solution Rename` this was to make it more idiomatic and align the namespace `AarpgTutorial` across the solution and in Godot. I also changed all exports to `Public` so I won't have to rewire if we decide to use it outside the class.
->
-> **I highly recommend** just pulling this down if your following my code closely or just not renaming yours. It takes a bit of effort to fix manually, requiring edits to .csproj files, rewiring all exports in Godot, and regenerating the project in Godot. I will try to keep file structure renames to a minimum going forward.
+> [!TIP]
+> If you're not following my namespace exactly, just skip this one. There's a commit right after this episode called `Solution Rename` that renames the namespace to `AarpgTutorial` across the whole solution. Doing it manually is a pain: it touches `.csproj` files, requires rewiring exports in Godot, and regenerating the project. Just pull it down if you want it.
 
 ### Episode 12
 - **`HeartGui` refactor:** I rolled the update method into the setter.
@@ -113,36 +115,35 @@ All existing functionality is unchanged. No scene wiring was affected.
 - Stuck very close to the tutorial on this one.
 
 ### Episode 14
-- **`[ExportToolButton]`:** Used instead of the exported bool snap-to-grid trick. Renders a real button in the inspector.
+- **`[ExportToolButton]`:** Used instead of the exported bool snap-to-grid trick to get a real button in the inspector. Ended up removing it though, see the caution note below.
 - **C# event cleanup:** Added `LevelLoadStarted -= FreeLevel` in `FreeLevel()`. GDScript cleans up signal connections automatically on node free, C# doesn't.
 - **`async void` for frame delays:** Originally used `async void _Ready()` with `await ToSignal(GetTree(), ProcessFrame)` to delay `LevelLoadFinished`. Bad practice, so moved to a private `async Task` method called with `_ =` discard from `_Ready()`.
+
+> [!CAUTION]
+> Avoid tool scripts in C# if you can help it. They repeatedly disconnect export links and remove themselves from nodes, and recovering them is a pain even with git. Not worth it. 
 
 ### Episode 15
 - **`JSON`:** Used C# built in file writing instead of the Godot version
 - **`LoadNewLevel`:** Await works differently for C# than Godot. In C# it waits until the whole method finishes, and we have to await on `LoadNewLevel` because it has awaits inside of it, so it has to be async up the chain as far as we can go. I got around this by injecting a lambda method to happen during `FadeIn()` and `FadeOut()`.
-- **Tools & Rider:** These two don't always play nicely together. Rider triggers an autosave function constantly that I'm very fond of. The issue is this can cause problems where tool scripts unlink from their scenes. No more tool script.
 - **Slime:** The slime's death animation had some lingering issues, a shadow and hurtbox that stuck around. I added keyframes to stop the hurtbox from monitoring and turned the shadow invisible, both set to trigger when we make the slime invisible.
-- **Bug:** Next episode commit I found a bug where the mouse wasn't working on the menu, most likely from this episodes work. Bump up the layer on the CanvasLayer node for the Pause Menu, and that should sort it out. Fixed in next episode's commit. 
-- **Minor Refactoring**
+- **Bug:** Found a bug in the next episode where mouse input stopped working on the menu, probably from this episode's work. Fixed by bumping up the CanvasLayer layer on the Pause Menu node.
 
 ### Episode 16
 - **Font:** Added a custom font to better match the look of Michael's UI.
 - **Pause Menu wiring:** No `@onready` renaming needed in the Pause Menu control if you've been following the export-for-onready pattern. They'll stay wired!
 - **Bug fix - PauseMenu CanvasLayer layer:** Another CanvasLayer was rendering on top of the pause menu and eating mouse input, making buttons unresponsive to the mouse (keyboard/gamepad still worked). Fixed by setting the PauseMenu CanvasLayer `layer` to `10`. I missed it earlier as I've been mainly using a gamepad.
-- **Singleton `Instance` moved to `_EnterTree`:** In Godot with C#, autoloads don't give you a typed static reference automatically, so we use an `Instance = this` pattern to access singletons from anywhere in the project. The reason I moved them out of `_Ready` is that I learned `_Ready` runs bottom-up (children first, parents after), so a child could try to access `Instance` before the parent has set it. `_EnterTree` runs top-down, so `Instance` is always set before any child needs it.
+- **Singleton `Instance` moved to `_EnterTree`:** C# autoloads don't give you a typed static reference automatically, so I use an `Instance = this` pattern. I moved it out of `_Ready` because `_Ready` runs bottom-up (children first), so a child could try to access `Instance` before the parent sets it. `_EnterTree` runs top-down, so it's always ready.
 
 ### Episode 17
-- **No `@tool` on ItemPickup:** I did attempt to get the tool script working for the editor texture preview, but ran into a casting issue where the tool script runs before our `[GlobalClass]` resource gets cast to `ItemData`, throwing a bunch of errors. I've stepped back from tool scripts for now since they've been a bit finicky. If you find a fix, let me know!
+- **No `@tool` on ItemPickup:** Tried getting the tool script working for the editor texture preview, but hit a casting issue where it runs before `[GlobalClass]` resources get resolved. See the caution note in Episode 14.
 - **Inventory updates in place:** I wanted to see if I could update inventory slots in place rather than clearing and rebuilding them on every change, so I strayed from the tutorial here. Slot nodes are created once in `_Ready` and their data is swapped out in `UpdateInventory`. One thing to watch out for: if you have any `InventorySlotUI` nodes saved as children under the `GridContainer` in `PauseMenu.tscn`, delete them or they'll double up at runtime.
 
-> #### Post episode 17 commits: Bug Fixes and Rename Refactor for Better Clarity
->- **Bugs**: I noticed several bugs the day after my episode 17 commit and fixed them. 
->  - **Camera Not Respecting Bounds on Transition**: Moved the `UpdateBounds()` method and listeners to _EnterTree as it's called every time we enter. Issue was UpdateBounds was not firing in _Ready();
->  - **UI Focus For Gamepad**: UI focus was not being grabbed for gamepads on starting pause menu. 
->  - **Unable to exit UI on Gamepad**: Now listening for `ui_cancel`
->
->- **Renaming:** I was having trouble following what I did when looking back through the code, so I changed some names to make it easier like `SlotData.cs` to `ItemStack.cs`. It made it easier for me to follow the logic. 
->- **Comments:** Went through and added missing XML comments
+### Post-Episode 17 (Bug Fixes + Cleanup)
+- **Camera bounds on transition:** `UpdateBounds()` wasn't firing in `_Ready()`, moved it to `_EnterTree` which runs every time you enter the scene.
+- **Gamepad UI focus:** Focus wasn't being grabbed when opening the pause menu on gamepad.
+- **Gamepad UI exit:** Added `ui_cancel` listener so you can actually close the menu.
+- **Renaming:** Renamed some things that were confusing me, like `SlotData.cs` to `ItemStack.cs`.
+- **XML comments:** Filled in missing doc comments.
 
 ### Episode 18
 - **DTO:** I took a slightly different approach than the tutorial. Created a Data Transfer Object to be the intermediary between Godot's arrays and a C# list, then I used Linq to transfer back and forth, and kept all save logic to the save manager. If you're new to C# you get to really see how powerful Linq can be here!
@@ -152,166 +153,3 @@ All existing functionality is unchanged. No scene wiring was affected.
 - **Resources:** Moved the item resources (gem.tres, apple.tres, etc.) to a resource folder, trying to keep things tidy. 
 - **ItemSpawn:** Renamed ItemPickup to ItemSpawn. Seemed more on the nose about what it's actually doing. 
 
----
-## Editor Wiring
-
-Because node references use `[Export]` rather than hardcoded `GetNode` paths, you need to assign them in the Godot editor. Open each scene and drag the listed nodes into the corresponding Inspector slots.
-
-### Episodes 6-8
-
-#### `player.tscn` - Attack state node (`StateMachine > Attack`)
-| Property                | Node to assign                                |
-|-------------------------|-----------------------------------------------|
-| Player Animation Player | `AnimationPlayer`                             |
-| Attack Animation Player | `Sprite2D/AttackEffectSprite/AnimationPlayer` |
-| Audio Stream Player 2D  | `Audio/AudioStreamPlayer2D`                   |
-| Hurt Box                | `Interactions/HurtBox`                        |
-
-#### `player.tscn` - Interactions node (`Interactions`)
-| Property | Node to assign       |
-|----------|----------------------|
-| Player   | `Player` (root node) |
-
-#### `Plant.tscn`
-| Property | Node to assign |
-|----------|----------------|
-| Hit Box  | `HitBox`       |
-
----
-
-### Episode 9-10
-
-#### `player.tscn` - PlayerCharacter node (root)
-| Property         | Node to assign    |
-|------------------|-------------------|
-| Animation Player | `AnimationPlayer` |
-| Sprite 2D        | `Sprite2D`        |
-| State Machine    | `StateMachine`    |
-
-#### `player.tscn` - Attack state node (`StateMachine > Attack`)
-| Property                | Node to assign                                |
-|-------------------------|-----------------------------------------------|
-| Player Animation Player | `AnimationPlayer`                             |
-| Attack Animation Player | `Sprite2D/AttackEffectSprite/AnimationPlayer` |
-| Audio Stream Player 2D  | `Audio/AudioStreamPlayer2D`                   |
-| Hurt Box                | `Interactions/HurtBox`                        |
-
-#### `player.tscn` - Interactions node (`Interactions`)
-| Property         | Node to assign                |
-|------------------|-------------------------------|
-| Player Character | `PlayerCharacter` (root node) |
-
-#### `Slime.tscn` - Slime node (root)
-| Property         | Node to assign    |
-|------------------|-------------------|
-| Animation Player | `AnimationPlayer` |
-| Sprite 2D        | `Sprite2D`        |
-| State Machine    | `StateMachine`    |
-| Hit Box          | `HitBox`          |
-
-#### `Slime.tscn` - Idle state node (`StateMachine > Idle`)
-| Property   | Node to assign      |
-|------------|---------------------|
-| Next State | `StateMachine/Move` |
-
-#### `Slime.tscn` - Move state node (`StateMachine > Move`)
-| Property   | Node to assign      |
-|------------|---------------------|
-| Next State | `StateMachine/Idle` |
-
-#### `Slime.tscn` - Stun state node (`StateMachine > Stun`)
-| Property   | Node to assign      |
-|------------|---------------------|
-| Next State | `StateMachine/Idle` |
-
-#### `Plant.tscn`
-| Property | Node to assign |
-|----------|----------------|
-| Hit Box  | `HitBox`       |
-
----
-
-### Episode 11+
-
-Scene moved from `Player/player.tscn` to `PlayerCharacter/player.tscn`. Root node renamed from `PlayerCharacter` to `Player`.
-
-#### `PlayerCharacter/player.tscn` - Player node (root)
-| Property                 | Node to assign          |
-|--------------------------|-------------------------|
-| Animation Player         | `AnimationPlayer`       |
-| Sprite 2D                | `Sprite2D`              |
-| State Machine            | `StateMachine`          |
-| Effect Animation Player  | `EffectAnimationPlayer` |
-| Hit Box                  | `HitBox`                |
-
-#### `PlayerCharacter/player.tscn` - Attack state node (`StateMachine > Attack`)
-| Property                | Node to assign                                |
-|-------------------------|-----------------------------------------------|
-| Player Animation Player | `AnimationPlayer`                             |
-| Attack Animation Player | `Sprite2D/AttackEffectSprite/AnimationPlayer` |
-| Audio Stream Player 2D  | `Audio/AudioStreamPlayer2D`                   |
-| Hurt Box                | `Sprite2D/HurtBox`                            |
-
-#### `PlayerCharacter/player.tscn` - Stun state node (`StateMachine > Stun`)
-| Property   | Node to assign      |
-|------------|---------------------|
-| Idle State | `StateMachine/Idle` |
-
-#### `PlayerCharacter/player.tscn` - Interactions node (`Interactions`)
-| Property | Node to assign       |
-|----------|----------------------|
-| Player   | `Player` (root node) |
-
-#### `Slime.tscn` - unchanged from Episode 9-10
-
-#### `Plant.tscn` - unchanged from Episode 9-10
-
-#### `GUI/PlayerHud/PlayerHud.tscn` - PlayerHud node (root)
-| Property         | Node to assign            |
-|------------------|---------------------------|
-| H Flow Container | `Control/HFlowContainer`  |
-
-#### `GUI/PlayerHud/HeartGui.tscn` - HeartGui node (root)
-| Property | Node to assign |
-|----------|----------------|
-| Sprite   | `Sprite2D`     |
-
-#### `GUI/SceneTransition/SceneTransition.tscn` - SceneTransition node (root)
-| Property         | Node to assign            |
-|------------------|---------------------------|
-| Animation Player | `Control/AnimationPlayer` |
-
-#### `Levels/LevelTransition.tscn` - LevelTransition node (root)
-| Property               | Value / Node to assign                                           |
-|------------------------|------------------------------------------------------------------|
-| Collision Shape        | `CollisionShape2D`                                               |
-| Side                   | Set to the side of the screen this transition is on (enum)       |
-| Target Transition Area | Name of the `LevelTransition` node to spawn at in the next level |
-
-#### `GUI/PauseMenu/PauseMenu.tscn` - PauseMenu node (root)
-| Property            | Node to assign                      |
-|---------------------|-------------------------------------|
-| Audio Stream Player | `Control/AudioStreamPlayer`         |
-| Item Description    | `Control/ItemDescription`           |
-| Load Button         | `Control/HBoxContainer/LoadButton`  |
-| Save Button         | `Control/HBoxContainer/SaveButton`  |
-
-#### `GUI/PauseMenu/PauseMenu.tscn` - GridContainer node (`Control/PanelContainer/GridContainer`)
-| Property       | Resource to assign                              |
-|----------------|-------------------------------------------------|
-| Inventory Data | `PlayerInventory.tres` (drag from FileSystem)   |
-| Inventory Slot | `InventorySlot.tscn` (drag from FileSystem)     |
-
-#### `GUI/PauseMenu/Inventory/InventorySlot.tscn` - InventorySlot node (root)
-| Property     | Node to assign |
-|--------------|----------------|
-| Label        | `Label`        |
-| Texture Rect | `TextureRect`  |
-
-#### `Items/ItemPickup/ItemPickup.tscn` - ItemPickup node (root)
-| Property            | Value / Node to assign                       |
-|---------------------|----------------------------------------------|
-| Area                | `Area2D`                                     |
-| Audio Stream Player | `AudioStreamPlayer2D`                        |
-| Item Data           | Drag the item's `.tres` resource             |
-| Sprite              | `Sprite2D`                                   |
