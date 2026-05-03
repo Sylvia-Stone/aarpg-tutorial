@@ -250,7 +250,7 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_apopc"]
-radius = 20.0
+radius = 25.98
 
 [sub_resource type="Animation" id="Animation_00tjw"]
 resource_name = "AttackDown"
@@ -274,10 +274,10 @@ tracks/1/path = NodePath("Sprite2D/HurtBox:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.0001),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, 36), Vector2(0, 36)]
+"values": [Vector2(1, 11)]
 }
 
 [sub_resource type="Animation" id="Animation_x3vf3"]
@@ -305,7 +305,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(8, 17)]
+"values": [Vector2(4, -7)]
 }
 
 [sub_resource type="Animation" id="Animation_apopc"]
@@ -333,7 +333,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(2, 8)]
+"values": [Vector2(2, -2)]
 }
 
 [sub_resource type="Animation" id="Animation_4ntmi"]
@@ -637,7 +637,6 @@ position = Vector2(0, 36)
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/HurtBox" unique_id=448114596]
-position = Vector2(0, -17)
 shape = SubResource("CircleShape2D_apopc")
 debug_color = Color(0.94509804, 0.15686275, 0.05490196, 0.41960785)
 
@@ -653,13 +652,13 @@ script = ExtResource("7_banas")
 [node name="Walk" type="Node" parent="StateMachine" unique_id=1889189729]
 script = ExtResource("8_eys32")
 
-[node name="Attack" type="Node" parent="StateMachine" unique_id=1546077289 node_paths=PackedStringArray("PlayerAnimationPlayer", "AttackAnimationPlayer", "AudioStreamPlayer2D", "HurtBox")]
+[node name="Attack" type="Node" parent="StateMachine" unique_id=1546077289 node_paths=PackedStringArray("AttackAnimationPlayer", "AudioStreamPlayer2D", "HurtBox", "PlayerAnimationPlayer")]
 script = ExtResource("9_770pj")
-AttackSound = ExtResource("10_qkknh")
-PlayerAnimationPlayer = NodePath("../../AnimationPlayer")
 AttackAnimationPlayer = NodePath("../../Sprite2D/AttackEffectSprite/AnimationPlayer")
+AttackSound = ExtResource("10_qkknh")
 AudioStreamPlayer2D = NodePath("../../Audio/AudioStreamPlayer2D")
 HurtBox = NodePath("../../Sprite2D/HurtBox")
+PlayerAnimationPlayer = NodePath("../../AnimationPlayer")
 
 [node name="Stun" type="Node" parent="StateMachine" unique_id=2096252747 node_paths=PackedStringArray("IdleState")]
 script = ExtResource("11_rogma")
@@ -679,6 +678,7 @@ script = ExtResource("13_tg81x")
 Player = NodePath("..")
 
 [node name="HitBox" parent="." unique_id=2072311586 instance=ExtResource("14_h6ke7")]
+visible = false
 position = Vector2(0, -9)
 collision_layer = 258
 
