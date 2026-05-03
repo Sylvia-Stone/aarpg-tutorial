@@ -1,4 +1,4 @@
-[gd_resource type="Resource" format=3 uid="uid://c5pk21v0ahj4b"]
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://c5pk21v0ahj4b"]
 
 [ext_resource type="Script" uid="uid://ctlotpwr385w3" path="res://Items/ItemEffect/ItemEffect.cs" id="1_jyddo"]
 [ext_resource type="Script" uid="uid://7r36phdctb8r" path="res://Items/Scripts/ItemData.cs" id="2_06x63"]

@@ -1,14 +1,12 @@
 using AarpgTutorial.Common;
 using AarpgTutorial.Common.Constants;
 using AarpgTutorial.Common.Enums;
+using AarpgTutorial.Common.Managers;
 using Godot;
 
 namespace AarpgTutorial.PlayerCharacter.States;
 
-/// <summary>
-/// Player movement state. Moves in the player's input direction at <see cref="MoveSpeed"/>
-/// and updates the facing animation when the cardinal direction changes.
-/// </summary>
+/// <summary>Player movement state. Moves the player and updates the facing animation as direction changes.</summary>
 public partial class Move : PlayerState
 {
     #region Exports
@@ -26,15 +24,12 @@ public partial class Move : PlayerState
         Player.UpdateAnimation(StateType.Walk);
     }
 
-    /// <summary>
-    /// Applies velocity from player input. Transitions to <see cref="Attack"/> on attack input,
-    /// or back to <see cref="Idle"/> when movement stops. Re-plays the walk animation if the
-    /// facing direction changes mid-movement.
-    /// </summary>
+    /// <summary>Applies velocity and handles input. Transitions to Attack or Idle, fires InteractPressed on interact, and re-plays walk if facing changes.</summary>
     public override PlayerState? Process(double delta)
     {
         if (Input.IsActionJustPressed(InputActions.Attack)) return StateMachine.GetState<Attack>();
         if (Player.Direction == Vector2.Zero) return StateMachine.GetState<Idle>();
+        if (Input.IsActionJustPressed(InputActions.Interact)) PlayerManager.Instance.RaisePlayerInteracted();
 
         Player.Velocity = Player.Direction * MoveSpeed;
 

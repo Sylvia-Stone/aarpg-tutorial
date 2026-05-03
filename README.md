@@ -159,3 +159,6 @@ No behavior changes, just cleanup.
 #### Post-Episode 19 Bug Fix
 - **Item consume count not updating in UI:** The data was right but the inventory screen wouldn't refresh until you closed and reopened it. `ItemStack.SetQuantity` was only calling `EmitChanged()` when quantity hit zero which we didn't need anymore. Remove `if (_quantity <= 0)` from that method
 
+### Episode 20
+- **Inventory items not removing after loading a save:** `ConnectSlots()` was never being called after loading inventory from a save file. Items picked up during a session had their `Changed` event properly wired up through `AddItem`, but anything restored from disk was missing the subscription entirely. Consuming those items fired `EmitChanged()` into the void and nothing happened. Fixed by calling `ConnectSlots()` in `SaveManager.Load()` right after the slots are set.
+- **Inventory count still not updating for mid-stack decrements:** Turned out yesterday's fix was only half of it. `ItemStack.SetQuantity` was updated to always emit `Changed`, but `InventoryData.OnSlotChanged` was only calling `EmitChanged()` when it found a depleted slot to clear. So 3→2 and 2→1 decrements still fired nothing and the label stayed stale. Moved `EmitChanged()` outside the `if` block so it always propagates.

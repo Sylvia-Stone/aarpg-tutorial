@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b4jlorpeo06mt"]
 
-[ext_resource type="Script" uid="uid://c0e8ewrn85hqx" path="res://Items/ItemSpawn/ItemPickup.cs" id="1_gswor"]
+[ext_resource type="Script" uid="uid://c0e8ewrn85hqx" path="res://Items/ItemSpawn/ItemSpawn.cs" id="1_gswor"]
 [ext_resource type="Texture2D" uid="uid://dvsfemp7i4c4f" path="res://Enemies/Slime/Shadow.png" id="2_lbr00"]
 [ext_resource type="Texture2D" uid="uid://qaq7eu6payxh" path="res://Items/Sprites/items.png" id="3_ccvo6"]
 [ext_resource type="AudioStream" uid="uid://bwxxsxv73wac8" path="res://Items/ItemSpawn/ItemSpawn.wav" id="4_7v1ao"]

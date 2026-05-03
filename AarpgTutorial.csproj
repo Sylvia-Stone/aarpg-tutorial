@@ -17,6 +17,6 @@
     <EmbeddedResource Remove="Levels\Area01\**" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Common\Models\" />
+    <Folder Include="Interactables\TreasureChest\" />
   </ItemGroup>
 </Project>

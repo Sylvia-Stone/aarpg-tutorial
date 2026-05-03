@@ -4,18 +4,22 @@ using Godot;
 
 namespace AarpgTutorial.Common.Managers;
 
-/// <summary>
-/// Singleton that holds a reference to the active <see cref="PlayerCharacter.Scripts.Player"/>,
-/// so other systems (enemies, UI) can locate the player without scene-tree traversal.
-/// </summary>
+/// <summary>Singleton that hands out the active player reference to anything that needs it.</summary>
 public partial class PlayerManager : Node
 {
+	#region Signals
+
+	[Signal]
+	public delegate void InteractPressedEventHandler();
+
+	#endregion
+
 	#region Fields
 
+	public InventoryData InventoryData = GD.Load<InventoryData>("res://GUI/PauseMenu/Inventory/PlayerInventory.tres");
 	public bool IsPlayerSpawned;
 	public Player Player = null!;
 	public PackedScene PlayerScene = GD.Load<PackedScene>("res://PlayerCharacter/Player.tscn");
-	public InventoryData InventoryData = GD.Load<InventoryData>("res://GUI/PauseMenu/Inventory/PlayerInventory.tres");
 
 	#endregion
 
@@ -47,6 +51,9 @@ public partial class PlayerManager : Node
 	{
 		node.RemoveChild(Player);
 	}
+
+	/// <summary>Fires the InteractPressed signal. Godot requires this indirection because signals can only be emitted from within the class that declares them.</summary>
+	public void RaisePlayerInteracted() => EmitSignalInteractPressed();
 
 	/// <summary>Sets the player's current and max health, then forces a HUD refresh.</summary>
 	/// <param name="health">The health value to restore.</param>

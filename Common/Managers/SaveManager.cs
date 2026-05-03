@@ -14,7 +14,7 @@ using Godot.Collections;
 
 namespace AarpgTutorial.Common.Managers;
 
-/// <summary>Singleton that serializes and deserializes game state to and from disk.</summary>
+/// <summary>Singleton manager for saving and loading game state.</summary>
 public partial class SaveManager : Node
 {
 	#region Signals
@@ -51,7 +51,7 @@ public partial class SaveManager : Node
 
 	#region Public Methods
 
-	/// <summary>Loads game state from disk and restores the saved level, player position, and health.</summary>
+	/// <summary>Reads the save file and restores the level, player position, health, and inventory.</summary>
 	public async Task Load()
 	{
 		if (!File.Exists(_savePath))
@@ -65,7 +65,7 @@ public partial class SaveManager : Node
 
 		saveData?.Player?.WarnIfNull("Player data could not be loaded");
 		if (saveData?.Player is null) return;
-		
+
 		_saveData = saveData;
 
 		var saveDataPlayer = _saveData.Player;
@@ -81,13 +81,14 @@ public partial class SaveManager : Node
 					Item = dto.ItemPath is not null ? ResourceLoader.Load<ItemData>(dto.ItemPath) : null,
 					Quantity = dto.Quantity
 				}));
+			PlayerManager.Instance.InventoryData.ConnectSlots();
 			PauseMenu.Instance.HidePauseMenu();
 		});
 
 		EmitSignalGameLoaded();
 	}
 
-	/// <summary>Writes current game state to disk.</summary>
+	/// <summary>Writes current game state to the save file.</summary>
 	public void Save()
 	{
 		UpdateScenePath();
@@ -101,6 +102,7 @@ public partial class SaveManager : Node
 
 	#region Private Methods
 
+	/// <summary>Snapshots the current inventory into the save data.</summary>
 	private void UpdateInventory()
 	{
 		_saveData.InventorySlots = PlayerManager.Instance.InventoryData.Slots
@@ -108,7 +110,7 @@ public partial class SaveManager : Node
 			.ToList();
 	}
 
-	/// <summary>Reads the current player's health and position and stores them in <see cref="_saveData"/>.</summary>
+	/// <summary>Grabs the player's current health and position and writes it to the save data.</summary>
 	private void UpdatePlayerData()
 	{
 		var player = PlayerManager.Instance.Player;
@@ -120,7 +122,7 @@ public partial class SaveManager : Node
 		_saveData.Player.Y = player.GlobalPosition.Y;
 	}
 
-	/// <summary>Finds the active <see cref="Level"/> in the scene tree and stores its file path in <see cref="_saveData"/>.</summary>
+	/// <summary>Finds the active level in the scene tree and saves its path.</summary>
 	private void UpdateScenePath()
 	{
 		string path = string.Empty;
