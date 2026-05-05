@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://cxkfyr8robgsa"]
 
-[ext_resource type="Script" uid="uid://dm0j2k8spd575" path="res://Levels/Level.cs" id="1_o00ia"]
+[ext_resource type="Script" uid="uid://dm0j2k8spd575" path="res://Levels/Scripts/Level.cs" id="1_o00ia"]
 [ext_resource type="PackedScene" uid="uid://dayc1renm0p51" path="res://Tile Maps/Grass01.tscn" id="2_wt17y"]
 [ext_resource type="PackedScene" uid="uid://b7ydxo1sfksqj" path="res://Props/Plants/Plant.tscn" id="3_m8u5f"]
 [ext_resource type="PackedScene" uid="uid://ch1orp2e3g5vn" path="res://Enemies/Slime/Slime.tscn" id="4_is3ju"]
@@ -27,7 +27,6 @@ position = Vector2(207, 301)
 
 [node name="Slime" parent="." unique_id=1706781310 instance=ExtResource("4_is3ju")]
 position = Vector2(303, 52)
-CurrentHealth = null
 
 [node name="PlayerSpawn" parent="." unique_id=947788596 instance=ExtResource("4_o00ia")]
 position = Vector2(305, 171)
