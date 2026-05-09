@@ -164,4 +164,7 @@ No behavior changes, just cleanup.
 - **Inventory count still not updating for mid-stack decrements:** Turned out yesterday's fix was only half of it. `ItemStack.SetQuantity` was updated to always emit `Changed`, but `InventoryData.OnSlotChanged` was only calling `EmitChanged()` when it found a depleted slot to clear. So 3→2 and 2→1 decrements still fired nothing and the label stayed stale. Moved `EmitChanged()` outside the `if` block so it always propagates.
 
 #### Post-Episode 20 File Tree Organization
-- **Organization**: Going through the file tree it was starting to get a bit disorganized, since we've been sort of doing a domain pattern style to the folder names, I reorganized to solidify that structure. Like moving managers from /Common/Managers/PlayerManager.cs to their respective domain: /PlayerCharacter/PlayerManager.cs.
+- **Organization:** Going through the file tree it was starting to get a bit disorganized, since we've been sort of doing a domain pattern style to the folder names, I reorganized to solidify that structure. Like moving managers from /Common/Managers/PlayerManager.cs to their respective domain: /PlayerCharacter/PlayerManager.cs.
+
+### Episode 21
+- **Naming:** I kept the structure from the tutorial but found the naming hard to follow, so changed the naming to make more sense to me. Also placed Persistence.cs in /Save as it's a save mechanism

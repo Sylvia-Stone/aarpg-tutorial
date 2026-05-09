@@ -1,7 +1,7 @@
 namespace AarpgTutorial.Interactables.Enums;
 
 /// <summary>Animation states for interactable objects.</summary>
-public enum AnimationType
+public enum Animation
 {
     Closed,
     Open,

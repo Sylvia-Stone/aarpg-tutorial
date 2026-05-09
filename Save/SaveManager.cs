@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -9,11 +10,9 @@ using AarpgTutorial.Items.Scripts;
 using AarpgTutorial.Levels;
 using AarpgTutorial.Levels.Scripts;
 using AarpgTutorial.PlayerCharacter.Managers;
-using AarpgTutorial.Save.Models;
+using AarpgTutorial.Save.Data;
 using Godot;
 using Godot.Collections;
-
-
 
 namespace AarpgTutorial.Save;
 
@@ -54,6 +53,22 @@ public partial class SaveManager : Node
 
 	#region Public Methods
 
+	/// <summary>Adds <paramref name="id"/> to the persistence list if not already tracked.</summary>
+	/// <param name="id">The unique persistence ID to add.</param>
+	public void AddPersistenceId(string id)
+	{
+		if (!CheckPersistenceId(id)) _saveData.Persistence?.Add(id);
+	}
+
+	/// <summary>Checks whether <paramref name="id"/> is in the persistence list. Initializes the list if null.</summary>
+	/// <param name="id">The unique persistence ID to check.</param>
+	/// <returns><c>true</c> if the ID is tracked; otherwise <c>false</c>.</returns>
+	public bool CheckPersistenceId(string id)
+	{
+		_saveData.Persistence ??= new List<string>();
+		return _saveData.Persistence.Contains(id);
+	}
+	
 	/// <summary>Reads the save file and restores the level, player position, health, and inventory.</summary>
 	public async Task Load()
 	{
@@ -104,7 +119,7 @@ public partial class SaveManager : Node
 	#endregion
 
 	#region Private Methods
-
+	
 	/// <summary>Snapshots the current inventory into the save data.</summary>
 	private void UpdateInventory()
 	{

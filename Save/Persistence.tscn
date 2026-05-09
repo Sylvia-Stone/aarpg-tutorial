@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d3vbmparxluu2"]
+
+[ext_resource type="Script" uid="uid://cfre7lg8qqmlk" path="res://Save/Persistence.cs" id="1_ec2hf"]
+
+[node name="PersistentDataUtility" type="Node" unique_id=1160054442]
+script = ExtResource("1_ec2hf")

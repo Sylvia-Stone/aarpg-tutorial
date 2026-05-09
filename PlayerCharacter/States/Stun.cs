@@ -3,7 +3,6 @@ using AarpgTutorial.Common.Enums;
 using AarpgTutorial.Common.Utilities;
 using AarpgTutorial.PlayerCharacter.Scripts;
 using Godot;
-using Animation = AarpgTutorial.Common.Enums.Animation;
 
 namespace AarpgTutorial.PlayerCharacter.States;
 

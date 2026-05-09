@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using AarpgTutorial.Common.Enums;
 using AarpgTutorial.Common.Utilities;
 using Godot;
 using Animation = AarpgTutorial.Common.Enums.Animation;
