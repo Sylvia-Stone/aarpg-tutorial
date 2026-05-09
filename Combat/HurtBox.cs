@@ -1,10 +1,10 @@
 using Godot;
-using HitBoxArea2D = AarpgTutorial.Common.HitBox.HitBox;
+using HitBoxArea2D = AarpgTutorial.Combat.HitBox;
 
-namespace AarpgTutorial.Common.HurtBox;
+namespace AarpgTutorial.Combat;
 
 /// <summary>
-/// Deals damage to overlapping <see cref="HitBox.HitBox"/> nodes.
+/// Deals damage to overlapping <see cref="AarpgTutorial.Combat.HitBox"/> nodes.
 /// Attach to attack hitboxes, projectiles, or environmental hazards.
 /// </summary>
 public partial class HurtBox : Area2D
@@ -28,13 +28,13 @@ public partial class HurtBox : Area2D
     #region Private Methods
 
     /// <summary>
-    /// Passes damage to any <see cref="HitBox.HitBox"/> that entered this area,
+    /// Passes damage to any <see cref="AarpgTutorial.Combat.HitBox"/> that entered this area,
     /// guarded against self-hits by comparing scene-tree owners.
     /// </summary>
     private void OnAreaEntered(Area2D area)
     {
         //Fix for slime hurting itself on startup
-        if (area is HitBox.HitBox hitBox && hitBox.GetOwner<Node>() != GetOwner<Node>())
+        if (area is HitBoxArea2D hitBox && hitBox.GetOwner<Node>() != GetOwner<Node>())
         {
             hitBox.TakeDamage(this);
         }

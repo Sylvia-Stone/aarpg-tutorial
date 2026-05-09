@@ -1,7 +1,5 @@
-using AarpgTutorial.Common;
 using Godot;
-using LevelManager = AarpgTutorial.Common.Managers.LevelManager;
-using PlayerManager = AarpgTutorial.Common.Managers.PlayerManager;
+using PlayerManager = AarpgTutorial.PlayerCharacter.Managers.PlayerManager;
 
 namespace AarpgTutorial.Levels.Scripts;
 

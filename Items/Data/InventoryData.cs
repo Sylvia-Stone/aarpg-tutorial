@@ -1,7 +1,7 @@
+using System.Linq;
 using AarpgTutorial.Items.Scripts;
 using Godot;
 using Godot.Collections;
-using System.Linq;
 
 namespace AarpgTutorial.GUI.PauseMenu.Inventory.Scripts;
 

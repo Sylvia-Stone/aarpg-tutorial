@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using AarpgTutorial.Common.Enums;
-using AarpgTutorial.Common.States;
 using AarpgTutorial.Common.Utilities;
 using Godot;
 
@@ -96,12 +95,12 @@ public abstract partial class Actor : CharacterBody2D
     }
 
     /// <summary>
-    /// Plays the animation for <paramref name="stateType"/> in the current facing direction,
-    /// using the combined key format <c>"{StateType}{AnimationDirection}"</c>.
+    /// Plays the animation for <paramref name="state"/> in the current facing direction,
+    /// using the combined key format <c>"{State}{AnimationDirection}"</c>.
     /// </summary>
-    public void UpdateAnimation(StateType stateType)
+    public void UpdateAnimation(State state)
     {
-        AnimationPlayer.Play($"{stateType}{GetAnimDirection()}");
+        AnimationPlayer.Play($"{state}{GetAnimDirection()}");
     }
 
     #endregion

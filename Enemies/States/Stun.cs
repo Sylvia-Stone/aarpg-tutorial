@@ -1,6 +1,5 @@
-using AarpgTutorial.Common;
+using AarpgTutorial.Combat;
 using AarpgTutorial.Common.Enums;
-using AarpgTutorial.Common.HurtBox;
 using AarpgTutorial.Enemies.Scripts;
 using Godot;
 
@@ -15,7 +14,7 @@ public partial class Stun : EnemyState
     #region Exports
 
     [Export]
-    public StateType AnimationStateType = StateType.Stun;
+    public State AnimationState = State.Stun;
 
     [Export]
     public double DecelerateSpeed = 10.0;
@@ -53,7 +52,7 @@ public partial class Stun : EnemyState
         Enemy.SetDirection(_direction);
         Enemy.Velocity = _direction * -(float)KnockBackSpeed;
 
-        Enemy.UpdateAnimation(AnimationStateType);
+        Enemy.UpdateAnimation(AnimationState);
         Enemy.AnimationPlayer.AnimationFinished += OnAnimationFinished;
     }
 

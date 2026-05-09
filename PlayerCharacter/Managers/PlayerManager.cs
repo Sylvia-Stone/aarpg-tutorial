@@ -2,7 +2,7 @@ using AarpgTutorial.GUI.PauseMenu.Inventory.Scripts;
 using AarpgTutorial.PlayerCharacter.Scripts;
 using Godot;
 
-namespace AarpgTutorial.Common.Managers;
+namespace AarpgTutorial.PlayerCharacter.Managers;
 
 /// <summary>Singleton that hands out the active player reference to anything that needs it.</summary>
 public partial class PlayerManager : Node

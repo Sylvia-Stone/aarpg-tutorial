@@ -1,10 +1,9 @@
+using AarpgTutorial.Combat;
 using AarpgTutorial.Common;
-using AarpgTutorial.Common.HitBox;
-using AarpgTutorial.Common.HurtBox;
 using AarpgTutorial.Common.Utilities;
 using AarpgTutorial.Enemies.States;
 using Godot;
-using PlayerManager = AarpgTutorial.Common.Managers.PlayerManager;
+using PlayerManager = AarpgTutorial.PlayerCharacter.Managers.PlayerManager;
 
 namespace AarpgTutorial.Enemies.Scripts;
 

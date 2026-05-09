@@ -13,7 +13,7 @@ public partial class Idle : EnemyState
     #region Exports
 
     [Export]
-    public StateType AnimationStateType = StateType.Idle;
+    public State AnimationState = State.Idle;
 
     [Export]
     public EnemyState? NextState;
@@ -46,7 +46,7 @@ public partial class Idle : EnemyState
     {
         Enemy.Velocity = Vector2.Zero;
         _timer = GD.RandRange(StateDurationMin, StateDurationMax);
-        Enemy.UpdateAnimation(AnimationStateType);
+        Enemy.UpdateAnimation(AnimationState);
     }
 
     /// <summary>

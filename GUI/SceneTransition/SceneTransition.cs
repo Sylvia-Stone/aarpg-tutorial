@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using AarpgTutorial.Common.Enums;
 using AarpgTutorial.Common.Utilities;
 using Godot;
+using Animation = AarpgTutorial.Common.Enums.Animation;
 
 namespace AarpgTutorial.GUI.SceneTransition;
 
@@ -40,7 +41,7 @@ public partial class SceneTransition : CanvasLayer
     /// <summary>Fades the screen in by playing the FadeIn animation and awaiting completion.</summary>
     public async Task<bool> FadeIn()
     {
-        AnimationPlayer.Play(nameof(AnimationType.FadeIn));
+        AnimationPlayer.Play(nameof(Animation.FadeIn));
         await ToSignal(AnimationPlayer, "animation_finished");
         return true;
     }
@@ -48,7 +49,7 @@ public partial class SceneTransition : CanvasLayer
     /// <summary>Fades the screen out by playing the FadeOut animation and awaiting completion.</summary>
     public async Task<bool> FadeOut()
     {
-        AnimationPlayer.Play(nameof(AnimationType.FadeOut));
+        AnimationPlayer.Play(nameof(Animation.FadeOut));
         await ToSignal(AnimationPlayer, "animation_finished");
         return true;
     }

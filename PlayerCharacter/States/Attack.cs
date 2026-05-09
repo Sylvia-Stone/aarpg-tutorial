@@ -55,8 +55,8 @@ public partial class Attack : PlayerState
     /// </summary>
     public override void Enter()
     {
-        Player.UpdateAnimation(StateType.Attack);
-        AttackAnimationPlayer.Play($"{StateType.Attack}{Player.GetAnimDirection()}");
+        Player.UpdateAnimation(State.Attack);
+        AttackAnimationPlayer.Play($"{State.Attack}{Player.GetAnimDirection()}");
         PlayerAnimationPlayer.AnimationFinished += EndAttack;
 
         AudioStreamPlayer2D.Stream = AttackSound;

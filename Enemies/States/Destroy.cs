@@ -1,5 +1,5 @@
+using AarpgTutorial.Combat;
 using AarpgTutorial.Common.Enums;
-using AarpgTutorial.Common.HurtBox;
 using AarpgTutorial.Common.Utilities;
 using AarpgTutorial.Enemies.Scripts;
 using AarpgTutorial.Items.ItemSpawn;
@@ -18,7 +18,7 @@ public partial class Destroy : EnemyState
     #region Exports
 
     [Export]
-    public StateType AnimationStateType = StateType.Destroy;
+    public State AnimationState = State.Destroy;
 
     [Export]
     public double DecelerateSpeed = 10.0;
@@ -62,7 +62,7 @@ public partial class Destroy : EnemyState
         Enemy.SetDirection(_direction);
         Enemy.Velocity = _direction * -(float)KnockBackSpeed;
 
-        Enemy.UpdateAnimation(AnimationStateType);
+        Enemy.UpdateAnimation(AnimationState);
         Enemy.AnimationPlayer.AnimationFinished += OnAnimationFinished;
         DisableHurtBox();
         DropItems();

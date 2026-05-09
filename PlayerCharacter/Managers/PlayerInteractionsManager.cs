@@ -1,7 +1,8 @@
 using AarpgTutorial.Common.Utilities;
+using AarpgTutorial.PlayerCharacter.Scripts;
 using Godot;
 
-namespace AarpgTutorial.PlayerCharacter.Scripts;
+namespace AarpgTutorial.PlayerCharacter.Managers;
 
 /// <summary>
 /// Rotates the player's interaction area (attacks, pickups, etc.) to match the

@@ -1,8 +1,7 @@
 using System;
+using AarpgTutorial.Combat;
 using AarpgTutorial.Common;
 using AarpgTutorial.Common.Constants;
-using AarpgTutorial.Common.HitBox;
-using AarpgTutorial.Common.HurtBox;
 using AarpgTutorial.Common.Utilities;
 using AarpgTutorial.GUI.PlayerHud;
 using AarpgTutorial.PlayerCharacter.States;

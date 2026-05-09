@@ -1,12 +1,11 @@
 using System.Threading.Tasks;
 using AarpgTutorial.Common;
-using AarpgTutorial.Common.Managers;
 using AarpgTutorial.Common.Utilities;
 using AarpgTutorial.Items.Scripts;
 using AarpgTutorial.PlayerCharacter.Scripts;
 using Godot;
 using Godot.Collections;
-using DropData = AarpgTutorial.Items.Scripts.DropData;
+using PlayerManager = AarpgTutorial.PlayerCharacter.Managers.PlayerManager;
 
 namespace AarpgTutorial.Items.ItemSpawn;
 

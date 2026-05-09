@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://dx26bk0uj0b1d"]
 
-[ext_resource type="Script" uid="uid://7r36phdctb8r" path="res://Items/Scripts/ItemData.cs" id="1_58i72"]
+[ext_resource type="Script" uid="uid://7r36phdctb8r" path="res://Items/Data/ItemData.cs" id="1_58i72"]
 [ext_resource type="Script" uid="uid://casa8p5xg1igo" path="res://Items/ItemEffect/Heal.cs" id="1_b44cu"]
 [ext_resource type="Script" uid="uid://ctlotpwr385w3" path="res://Items/ItemEffect/ItemEffect.cs" id="1_mwgub"]
 [ext_resource type="AudioStream" uid="uid://b2r1ce3jrjty4" path="res://Items/ItemEffect/hp-up.wav" id="1_nhhcn"]

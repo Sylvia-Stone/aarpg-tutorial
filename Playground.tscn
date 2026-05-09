@@ -1,10 +1,10 @@
 [gd_scene format=4 uid="uid://cxkfyr8robgsa"]
 
 [ext_resource type="Script" uid="uid://dm0j2k8spd575" path="res://Levels/Scripts/Level.cs" id="1_o00ia"]
-[ext_resource type="PackedScene" uid="uid://dayc1renm0p51" path="res://Tile Maps/Grass01.tscn" id="2_wt17y"]
+[ext_resource type="PackedScene" uid="uid://dayc1renm0p51" path="res://Levels/Tile Maps/Grass01.tscn" id="2_wt17y"]
 [ext_resource type="PackedScene" uid="uid://b7ydxo1sfksqj" path="res://Props/Plants/Plant.tscn" id="3_m8u5f"]
 [ext_resource type="PackedScene" uid="uid://ch1orp2e3g5vn" path="res://Enemies/Slime/Slime.tscn" id="4_is3ju"]
-[ext_resource type="PackedScene" uid="uid://nj2gis82o4le" path="res://Levels/PlayerSpawn.tscn" id="4_o00ia"]
+[ext_resource type="PackedScene" uid="uid://nj2gis82o4le" path="res://PlayerCharacter/Spawn/PlayerSpawn.tscn" id="4_o00ia"]
 
 [node name="Playground" type="Node2D" unique_id=1989041949]
 y_sort_enabled = true

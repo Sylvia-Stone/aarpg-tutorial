@@ -1,8 +1,9 @@
+using AarpgTutorial.Combat;
 using AarpgTutorial.Common.Enums;
-using AarpgTutorial.Common.HurtBox;
 using AarpgTutorial.Common.Utilities;
 using AarpgTutorial.PlayerCharacter.Scripts;
 using Godot;
+using Animation = AarpgTutorial.Common.Enums.Animation;
 
 namespace AarpgTutorial.PlayerCharacter.States;
 
@@ -15,7 +16,7 @@ public partial class Stun : PlayerState
     #region Exports
 
     [Export]
-    public StateType AnimationStateType = StateType.Stun;
+    public State AnimationState = State.Stun;
 
     [Export]
     public double DecelerateSpeed = 10.0;
@@ -58,9 +59,9 @@ public partial class Stun : PlayerState
         Player.Velocity = _direction * (float)KnockBackSpeed * -1;
         Player.SetDirection(_direction);
 
-        Player.UpdateAnimation(AnimationStateType);
+        Player.UpdateAnimation(AnimationState);
         Player.MakeInvulnerable(InvulnerableDuration);
-        Player.EffectAnimationPlayer.Play(nameof(AnimationType.Damaged));
+        Player.EffectAnimationPlayer.Play(nameof(AnimationEffect.Damaged));
     }
 
     /// <summary>

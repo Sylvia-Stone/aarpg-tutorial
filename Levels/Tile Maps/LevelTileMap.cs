@@ -1,9 +1,7 @@
 using AarpgTutorial.Common;
-using AarpgTutorial.Common.Managers;
 using Godot;
-using LevelManager = AarpgTutorial.Common.Managers.LevelManager;
 
-namespace AarpgTutorial.Tile_Maps;
+namespace AarpgTutorial.Levels.Tile_Maps;
 
 /// <summary>
 /// Tile map that publishes its world-space bounds to <see cref="LevelManager"/> on ready,
@@ -32,10 +30,10 @@ public partial class LevelTileMap : TileMapLayer
 		var end = GetUsedRect().End * RenderingQuadrantSize;
 		return new Bounds
 		{
-			Left   = (int)position.X,
-			Top    = (int)position.Y,
-			Right  = (int)end.X,
-			Bottom = (int)end.Y
+			Left   = position.X,
+			Top    = position.Y,
+			Right  = end.X,
+			Bottom = end.Y
 		};
 	}
 

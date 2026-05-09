@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -7,12 +6,16 @@ using AarpgTutorial.Common.Utilities;
 using AarpgTutorial.GUI.PauseMenu;
 using AarpgTutorial.GUI.PauseMenu.Inventory.Scripts;
 using AarpgTutorial.Items.Scripts;
+using AarpgTutorial.Levels;
 using AarpgTutorial.Levels.Scripts;
+using AarpgTutorial.PlayerCharacter.Managers;
 using AarpgTutorial.Save.Models;
 using Godot;
 using Godot.Collections;
 
-namespace AarpgTutorial.Common.Managers;
+
+
+namespace AarpgTutorial.Save;
 
 /// <summary>Singleton manager for saving and loading game state.</summary>
 public partial class SaveManager : Node
@@ -60,7 +63,7 @@ public partial class SaveManager : Node
 			return;
 		}
 
-		var json = File.ReadAllText(_savePath);
+		var json = await File.ReadAllTextAsync(_savePath);
 		var saveData = JsonSerializer.Deserialize<SaveData>(json).WarnIfNull("Save file could not be deserialized");
 
 		saveData?.Player?.WarnIfNull("Player data could not be loaded");

@@ -1,4 +1,5 @@
 using Godot;
+using PlayerManager = AarpgTutorial.PlayerCharacter.Managers.PlayerManager;
 
 namespace AarpgTutorial.Common;
 
@@ -11,10 +12,10 @@ public partial class PlayerSpawn : Node2D
 	{
 		Visible = false;
 
-		if (!Managers.PlayerManager.Instance.IsPlayerSpawned)
+		if (!PlayerManager.Instance.IsPlayerSpawned)
 		{
-			Managers.PlayerManager.Instance.SetPlayerPosition(GlobalPosition);
-			Managers.PlayerManager.Instance.IsPlayerSpawned = true;
+			PlayerManager.Instance.SetPlayerPosition(GlobalPosition);
+			PlayerManager.Instance.IsPlayerSpawned = true;
 		}
 	}
 

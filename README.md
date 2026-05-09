@@ -162,3 +162,6 @@ No behavior changes, just cleanup.
 ### Episode 20
 - **Inventory items not removing after loading a save:** `ConnectSlots()` was never being called after loading inventory from a save file. Items picked up during a session had their `Changed` event properly wired up through `AddItem`, but anything restored from disk was missing the subscription entirely. Consuming those items fired `EmitChanged()` into the void and nothing happened. Fixed by calling `ConnectSlots()` in `SaveManager.Load()` right after the slots are set.
 - **Inventory count still not updating for mid-stack decrements:** Turned out yesterday's fix was only half of it. `ItemStack.SetQuantity` was updated to always emit `Changed`, but `InventoryData.OnSlotChanged` was only calling `EmitChanged()` when it found a depleted slot to clear. So 3→2 and 2→1 decrements still fired nothing and the label stayed stale. Moved `EmitChanged()` outside the `if` block so it always propagates.
+
+#### Post-Episode 20 File Tree Organization
+- **Organization**: Going through the file tree it was starting to get a bit disorganized, since we've been sort of doing a domain pattern style to the folder names, I reorganized to solidify that structure. Like moving managers from /Common/Managers/PlayerManager.cs to their respective domain: /PlayerCharacter/PlayerManager.cs.

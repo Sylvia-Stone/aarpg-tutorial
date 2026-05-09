@@ -1,9 +1,8 @@
-using System;
-using AarpgTutorial.Common.Managers;
 using AarpgTutorial.Common.Utilities;
-using AarpgTutorial.Interactables.Constants;
+using AarpgTutorial.Interactables.Enums;
 using AarpgTutorial.Items.Scripts;
 using Godot;
+using PlayerManager = AarpgTutorial.PlayerCharacter.Managers.PlayerManager;
 
 namespace AarpgTutorial.Interactables.TreasureChest;
 
@@ -82,7 +81,7 @@ public partial class TreasureChest : Node2D
     {
         if (_isOpen) return;
         _isOpen = true;
-        AnimationPlayer.Play(AnimationType.Open);
+        AnimationPlayer.Play(AnimationType.Open.ToString());
         //The error handling in the tutorial is not needed due to the custom .Require() extension method. See _Ready();
         PlayerManager.Instance.InventoryData.AddItem(ItemData, Quantity);
     }

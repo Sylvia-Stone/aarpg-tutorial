@@ -1,5 +1,4 @@
-using AarpgTutorial.Common.HitBox;
-using AarpgTutorial.Common.HurtBox;
+using AarpgTutorial.Combat;
 using AarpgTutorial.Common.Utilities;
 using Godot;
 

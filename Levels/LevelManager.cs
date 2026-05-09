@@ -1,9 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using AarpgTutorial.Common;
 using AarpgTutorial.GUI.SceneTransition;
 using Godot;
 
-namespace AarpgTutorial.Common.Managers;
+namespace AarpgTutorial.Levels;
 
 /// <summary>
 /// Singleton that manages level-wide state. Currently tracks the active tile map bounds
@@ -61,7 +62,7 @@ public partial class LevelManager : Node
 
 	/// <summary>
 	/// Updates <see cref="CurrentTileMapBounds"/> and broadcasts the new value
-	/// via <see cref="LevelManager.TileMapBoundsChanged"/> so subscribers can react.
+	/// via <see cref="Common.Managers.LevelManager.TileMapBoundsChanged"/> so subscribers can react.
 	/// </summary>
 	public void ChangeTileMapBounds(Bounds bounds)
 	{
@@ -98,7 +99,7 @@ public partial class LevelManager : Node
 
 	#region Private Methods
 
-	/// <summary>Waits one frame then emits <see cref="EmitSignalLevelLoadFinished"/> so scene nodes have time to subscribe first.</summary>
+	/// <summary>Waits one frame then emits <see cref="Common.Managers.LevelManager.EmitSignalLevelLoadFinished"/> so scene nodes have time to subscribe first.</summary>
 	private async Task EmitLoadFinishedAsync()
 	{
 		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
