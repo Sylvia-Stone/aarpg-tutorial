@@ -5,14 +5,14 @@ namespace AarpgTutorial.PlayerCharacter.States;
 
 /// <summary>
 /// Abstract base for all player states. Provides typed access to the owning
-/// <see cref="Scripts.Player"/> and <see cref="PlayerStateMachine"/> via computed properties
+/// <see cref="PlayerCharacter.Player"/> and <see cref="PlayerStateMachine"/> via computed properties
 /// so concrete states never need to cache or cast them manually.
 /// </summary>
-public abstract partial class PlayerState : State<Scripts.Player>
+public abstract partial class PlayerState : State<Player>
 {
     #region Accessors
 
-    protected Scripts.Player Player => StateMachine.Actor;
+    protected Player Player => StateMachine.Actor;
     protected PlayerStateMachine StateMachine => GetParent<PlayerStateMachine>();
 
     #endregion

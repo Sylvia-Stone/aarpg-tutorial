@@ -1,7 +1,8 @@
 using AarpgTutorial.Common.Utilities;
+using AarpgTutorial.GUI.PauseMenu.Inventory.Scripts;
 using Godot;
 
-namespace AarpgTutorial.GUI.PauseMenu.Inventory.Scripts;
+namespace AarpgTutorial.GUI.PauseMenu.Inventory;
 
 /// <summary>A single inventory slot button that displays an item's icon and stack quantity.</summary>
 public partial class ItemSlotButton : Button

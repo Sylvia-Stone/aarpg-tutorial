@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://byd43vc1kaj8b"
-path="res://.godot/imported/Grass-01.png-24b9e6da6eb73b3128097b8f6984a511.ctex"
+uid="uid://dnuxrmu5mdg3x"
+path="res://.godot/imported/dungeon_entrance.png-3a41f9bcbb257274e25be365fad17f0e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Levels/Tile Maps/Sprites/Grass-01.png"
-dest_files=["res://.godot/imported/Grass-01.png-24b9e6da6eb73b3128097b8f6984a511.ctex"]
+source_file="res://Tile Maps/Sprites/dungeon_entrance.png"
+dest_files=["res://.godot/imported/dungeon_entrance.png-3a41f9bcbb257274e25be365fad17f0e.ctex"]
 
 [params]
 

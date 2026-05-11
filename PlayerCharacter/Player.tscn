@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bkvd1rkqkbtxl"]
 
-[ext_resource type="Script" uid="uid://bispomyjubrj3" path="res://PlayerCharacter/Scripts/Player.cs" id="1_qkknh"]
+[ext_resource type="Script" uid="uid://bispomyjubrj3" path="res://PlayerCharacter/Player.cs" id="1_qkknh"]
 [ext_resource type="Texture2D" uid="uid://d0d5jv15f8soe" path="res://PlayerCharacter/Sprites/PlayerSprite02.png" id="2_qkknh"]
 [ext_resource type="Texture2D" uid="uid://4tix1tle1x6w" path="res://PlayerCharacter/Sprites/AttackSprite01.png" id="3_irusf"]
 [ext_resource type="Texture2D" uid="uid://dlm6s0qc7kstp" path="res://PlayerCharacter/Sprites/Shadow.png" id="4_banas"]
@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://bxsq3ro5lj7eg" path="res://PlayerCharacter/States/Attack.cs" id="9_770pj"]
 [ext_resource type="AudioStream" uid="uid://bfk6sy116k48x" path="res://PlayerCharacter/Audio/SwordSwoosh.wav" id="10_qkknh"]
 [ext_resource type="Script" uid="uid://bwb2b2h38dcxk" path="res://PlayerCharacter/States/Stun.cs" id="11_rogma"]
-[ext_resource type="Script" uid="uid://cp21vdbfpkkt4" path="res://PlayerCharacter/Scripts/PlayerCamera.cs" id="12_62ndh"]
+[ext_resource type="Script" uid="uid://cp21vdbfpkkt4" path="res://PlayerCharacter/PlayerCamera.cs" id="12_62ndh"]
 [ext_resource type="Script" uid="uid://dg6rjvbigb0md" path="res://PlayerCharacter/Managers/PlayerInteractionsManager.cs" id="13_tg81x"]
 [ext_resource type="PackedScene" uid="uid://ch8cpf77ummte" path="res://Combat/HitBox.tscn" id="14_h6ke7"]
 [ext_resource type="AudioStream" uid="uid://djej5yjarrhct" path="res://PlayerCharacter/Audio/hit_player.wav" id="15_qkknh"]

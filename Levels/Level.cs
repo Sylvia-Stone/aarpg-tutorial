@@ -1,7 +1,7 @@
+using AarpgTutorial.PlayerCharacter.Managers;
 using Godot;
-using PlayerManager = AarpgTutorial.PlayerCharacter.Managers.PlayerManager;
 
-namespace AarpgTutorial.Levels.Scripts;
+namespace AarpgTutorial.Levels;
 
 /// <summary>Represents an individual level scene. Manages player parenting and tears itself down on level load.</summary>
 public partial class Level : Node2D

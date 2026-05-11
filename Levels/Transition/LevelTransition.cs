@@ -1,8 +1,8 @@
 using System;
 using AarpgTutorial.Common.Constants;
 using AarpgTutorial.Common.Utilities;
+using AarpgTutorial.PlayerCharacter.Managers;
 using Godot;
-using PlayerManager = AarpgTutorial.PlayerCharacter.Managers.PlayerManager;
 
 namespace AarpgTutorial.Levels.Scripts;
 

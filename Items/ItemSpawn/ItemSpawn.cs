@@ -5,6 +5,7 @@ using AarpgTutorial.Items.Scripts;
 using AarpgTutorial.PlayerCharacter.Scripts;
 using Godot;
 using Godot.Collections;
+using Player = AarpgTutorial.PlayerCharacter.Player;
 using PlayerManager = AarpgTutorial.PlayerCharacter.Managers.PlayerManager;
 
 namespace AarpgTutorial.Items.ItemSpawn;

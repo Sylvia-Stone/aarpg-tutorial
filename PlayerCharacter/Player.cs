@@ -7,7 +7,7 @@ using AarpgTutorial.GUI.PlayerHud;
 using AarpgTutorial.PlayerCharacter.States;
 using Godot;
 
-namespace AarpgTutorial.PlayerCharacter.Scripts;
+namespace AarpgTutorial.PlayerCharacter;
 
 /// <summary>
 /// The player character. Reads directional input, manages health and invulnerability,
@@ -110,7 +110,7 @@ public partial class Player : Actor
     /// <summary>
     /// Called when the player's HitBox receives damage from a HurtBox.
     /// Skipped entirely if the player is invulnerable.
-    /// Applies damage, emits <see cref="PlayerDamaged"/>, then resets health to max if the player has died.
+    /// Applies damage, emits <see cref="Scripts.Player.PlayerDamaged"/>, then resets health to max if the player has died.
     /// </summary>
     /// <param name="hurtBox">The HurtBox that dealt the damage. Damage value is read from <see cref="HurtBox.Damage"/>.</param>
     private void OnTakeDamage(HurtBox hurtBox)

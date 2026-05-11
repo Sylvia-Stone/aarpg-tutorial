@@ -7,7 +7,7 @@ namespace AarpgTutorial.PlayerCharacter.States;
 /// Player-specific state machine. Adds <c>_UnhandledInput</c> routing so states can
 /// respond to input immediately rather than waiting for the next process tick.
 /// </summary>
-public partial class PlayerStateMachine : StateMachine<Scripts.Player, PlayerState>
+public partial class PlayerStateMachine : StateMachine<Player, PlayerState>
 {
     #region Lifecycle Methods
 

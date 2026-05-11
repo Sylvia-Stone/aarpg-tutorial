@@ -1,8 +1,9 @@
 using System.Linq;
 using AarpgTutorial.Common.Utilities;
+using AarpgTutorial.GUI.PauseMenu.Inventory.Scripts;
 using Godot;
 
-namespace AarpgTutorial.GUI.PauseMenu.Inventory.Scripts;
+namespace AarpgTutorial.GUI.PauseMenu.Inventory;
 
 /// <summary>GridContainer that spawns and syncs inventory slot buttons to match the current <see cref="InventoryData"/>.</summary>
 public partial class InventoryUI : Control

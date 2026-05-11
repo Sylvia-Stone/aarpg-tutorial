@@ -2,6 +2,7 @@ using AarpgTutorial.Combat;
 using AarpgTutorial.Common;
 using AarpgTutorial.Common.Utilities;
 using AarpgTutorial.Enemies.States;
+using AarpgTutorial.PlayerCharacter;
 using Godot;
 using PlayerManager = AarpgTutorial.PlayerCharacter.Managers.PlayerManager;
 
@@ -38,7 +39,7 @@ public partial class Enemy : Actor
 
     #region Fields
 
-    public PlayerCharacter.Scripts.Player Player = null!;
+    public Player Player = null!;
 
     #endregion
 

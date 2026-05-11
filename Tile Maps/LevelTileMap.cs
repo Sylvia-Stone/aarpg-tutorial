@@ -1,7 +1,8 @@
 using AarpgTutorial.Common;
+using AarpgTutorial.Levels;
 using Godot;
 
-namespace AarpgTutorial.Levels.Tile_Maps;
+namespace AarpgTutorial.Tile_Maps;
 
 /// <summary>
 /// Tile map that publishes its world-space bounds to <see cref="LevelManager"/> on ready,

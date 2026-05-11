@@ -8,7 +8,6 @@ using AarpgTutorial.GUI.PauseMenu;
 using AarpgTutorial.GUI.PauseMenu.Inventory.Scripts;
 using AarpgTutorial.Items.Scripts;
 using AarpgTutorial.Levels;
-using AarpgTutorial.Levels.Scripts;
 using AarpgTutorial.PlayerCharacter.Managers;
 using AarpgTutorial.Save.Data;
 using Godot;
