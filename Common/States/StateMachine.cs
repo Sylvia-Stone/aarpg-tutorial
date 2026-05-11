@@ -15,7 +15,6 @@ public abstract partial class StateMachine<TActor, TState> : Node
 {
     #region Fields
 
-    protected TState? CurrentState;
     protected TState? PreviousState;
     protected readonly List<TState> States = [];
 
@@ -24,6 +23,7 @@ public abstract partial class StateMachine<TActor, TState> : Node
     #region Properties
 
     public TActor Actor { get; private set; } = null!;
+    public TState? CurrentState;
 
     #endregion
 

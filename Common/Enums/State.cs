@@ -4,6 +4,7 @@ namespace AarpgTutorial.Common.Enums;
 public enum State
 {
     Attack,
+    Chase,
     Destroy,
     Idle,
     Stun,

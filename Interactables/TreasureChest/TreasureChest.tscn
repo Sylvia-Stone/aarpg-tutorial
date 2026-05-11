@@ -197,13 +197,13 @@ size = Vector2(30, 11)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s28rp"]
 size = Vector2(34, 15)
 
-[node name="TreasureChest" type="Node2D" unique_id=1535812714 node_paths=PackedStringArray("AnimationPlayer", "InteractArea", "Label", "ItemSprite", "Persistence")]
+[node name="TreasureChest" type="Node2D" unique_id=1535812714 node_paths=PackedStringArray("AnimationPlayer", "InteractArea", "ItemSprite", "Label", "Persistence")]
 process_mode = 3
 script = ExtResource("1_1io2g")
 AnimationPlayer = NodePath("AnimationPlayer")
 InteractArea = NodePath("Area2D")
-Label = NodePath("ItemSprite/Label")
 ItemSprite = NodePath("ItemSprite")
+Label = NodePath("ItemSprite/Label")
 Persistence = NodePath("Persistence")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1125486981]

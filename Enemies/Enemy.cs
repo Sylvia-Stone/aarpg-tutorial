@@ -33,7 +33,7 @@ public partial class Enemy : Actor
 
     [Export]
     public EnemyStateMachine StateMachine = null!;
-
+    
     #endregion
 
     #region Fields

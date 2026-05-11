@@ -29,20 +29,10 @@ public partial class PlayerInteractionsManager : Node2D
 
     #region Private Methods
 
-    /// <summary>
-    /// Rotates the interaction area to face the player's current cardinal direction,
-    /// so hit detection stays aligned with the player's facing angle.
-    /// </summary>
+    /// <summary>Rotates the interaction area to match the player's current cardinal facing direction.</summary>
     private void UpdateDirection(Vector2 newDirection)
     {
-        RotationDegrees = newDirection switch
-        {
-            var direction when direction == Vector2.Down => 0,
-            var direction when direction == Vector2.Up => 180,
-            var direction when direction == Vector2.Left => 90,
-            var direction when direction == Vector2.Right => -90,
-            _ => 0
-        };
+        RotationDegrees = newDirection.ToRotationDegrees();
     }
 
     #endregion

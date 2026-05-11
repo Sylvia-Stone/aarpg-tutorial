@@ -28,7 +28,7 @@ public partial class Destroy : EnemyState
 
     [Export]
     public double KnockBackSpeed = 200.0;
-    
+
     [ExportCategory("Item Drops")]
     [Export]
     public Array<DropData?> ItemDrops = new();
@@ -48,7 +48,16 @@ public partial class Destroy : EnemyState
     {
         ItemPickupScene.Require();
     }
-    
+
+    /// <summary>
+    /// Subscribes to <see cref="Enemy.EnemyDestroyed"/> so this state can intercept
+    /// the kill event and queue itself regardless of the currently active state.
+    /// </summary>
+    public override void Init(Enemy enemy)
+    {
+        enemy.EnemyDestroyed += OnEnemyDestroyed;
+    }
+
     /// <summary>
     /// Marks the enemy invulnerable, applies knockback away from the damage source,
     /// and starts the destroy animation.
@@ -68,51 +77,40 @@ public partial class Destroy : EnemyState
         DropItems();
     }
 
-    /// <summary>
-    /// Subscribes to <see cref="Enemy.EnemyDestroyed"/> so this state can intercept
-    /// the kill event and queue itself regardless of the currently active state.
-    /// </summary>
-    public override void Init(Enemy enemy)
-    {
-        enemy.EnemyDestroyed += OnEnemyDestroyed;
-    }
-
-    /// <summary>
-    /// Decelerates the knockback velocity each frame. This state has no exit transition;
-    /// the enemy is removed at the end of the animation.
-    /// </summary>
+    /// <summary>Decelerates the knockback velocity each frame. The enemy is removed at the end of the animation.</summary>
     public override EnemyState? Process(double delta)
     {
         Enemy.Velocity -= Enemy.Velocity * (float)DecelerateSpeed * (float)delta;
         return null;
     }
 
+    /// <summary>Unsubscribes from <see cref="Enemy.EnemyDestroyed"/> when the state node is removed.</summary>
+    public override void _ExitTree()
+    {
+        Enemy.EnemyDestroyed -= OnEnemyDestroyed;
+    }
+
     #endregion
 
     #region Private Methods
 
-    /// <summary>
-    /// Disables <see cref="HurtBox"/> if present and sets monitoring to false
-    /// </summary>
+    /// <summary>Disables the HurtBox monitoring if one is present on this state node.</summary>
     private void DisableHurtBox()
     {
         var hurtBox = GetNodeOrNull<HurtBox>("HurtBox");
         hurtBox?.Monitoring = false;
     }
 
+    /// <summary>Spawns item drops at the enemy's position.</summary>
     private void DropItems() => ItemSpawn.Drop(ItemDrops, ItemPickupScene, Enemy);
-    
-    /// <summary>
-    /// Called when the destroy animation finishes. Removes the enemy from the scene.
-    /// </summary>
+
+    /// <summary>Removes the enemy from the scene once the destroy animation completes.</summary>
     private void OnAnimationFinished(StringName animation)
     {
         Enemy.QueueFree();
     }
 
-    /// <summary>
-    /// Stores the kill-shot position for knock-back direction, then transitions into this state.
-    /// </summary>
+    /// <summary>Stores the kill-shot position for knock-back direction, then transitions into this state.</summary>
     private void OnEnemyDestroyed(HurtBox hurtBox)
     {
         _damagePosition = hurtBox.GlobalPosition;

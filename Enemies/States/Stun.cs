@@ -11,6 +11,13 @@ namespace AarpgTutorial.Enemies.States;
 /// </summary>
 public partial class Stun : EnemyState
 {
+    #region Signals
+
+    [Signal]
+    public delegate void StunFinishedEventHandler();
+
+    #endregion
+
     #region Exports
 
     [Export]
@@ -39,6 +46,15 @@ public partial class Stun : EnemyState
     #region Lifecycle Methods
 
     /// <summary>
+    /// Subscribes to <see cref="Enemy.EnemyDamaged"/> so this state can intercept
+    /// damage events and queue itself regardless of the currently active state.
+    /// </summary>
+    public override void Init(Enemy enemy)
+    {
+        enemy.EnemyDamaged += OnEnemyDamaged;
+    }
+
+    /// <summary>
     /// Applies knockback away from the stored damage position, marks the enemy invulnerable,
     /// and plays the stun animation.
     /// </summary>
@@ -56,9 +72,7 @@ public partial class Stun : EnemyState
         Enemy.AnimationPlayer.AnimationFinished += OnAnimationFinished;
     }
 
-    /// <summary>
-    /// Restores vulnerability and unsubscribes from the animation finished signal.
-    /// </summary>
+    /// <summary>Restores vulnerability and unsubscribes from the animation finished signal.</summary>
     public override void Exit()
     {
         Enemy.IsInvulnerable = false;
@@ -66,43 +80,45 @@ public partial class Stun : EnemyState
     }
 
     /// <summary>
-    /// Subscribes to <see cref="Enemy.EnemyDamaged"/> so this state can intercept
-    /// damage events and queue itself regardless of the currently active state.
-    /// </summary>
-    public override void Init(Enemy enemy)
-    {
-        enemy.EnemyDamaged += OnEnemyDamaged;
-    }
-
-    /// <summary>
     /// Decelerates the knockback velocity each frame.
-    /// Transitions to <c>_nextState</c> once the stun animation has finished.
+    /// Emits <see cref="StunFinished"/> and transitions to <see cref="NextState"/> once the animation completes.
     /// </summary>
     public override EnemyState? Process(double delta)
     {
-        if (_animationFinished) return NextState;
+        if (_animationFinished)
+        {
+            EmitSignalStunFinished();
+            return NextState;
+        }
+
         Enemy.Velocity -= Enemy.Velocity * (float)DecelerateSpeed * (float)delta;
         return null;
+    }
+
+    public override void _ExitTree()
+    {
+        Enemy.EnemyDamaged -= OnEnemyDamaged;
     }
 
     #endregion
 
     #region Private Methods
 
-    /// <summary>
-    /// Flags the animation as complete so <see cref="Process"/> can transition out next tick.
-    /// </summary>
+    /// <summary>Flags the animation as complete so <see cref="Process"/> can transition out next tick.</summary>
     private void OnAnimationFinished(StringName animation)
     {
         _animationFinished = true;
     }
 
     /// <summary>
-    /// Stores the damage source position for knock-back direction, then transitions into this state.
+    /// Stores the damage source position for knock-back direction, captures the active
+    /// state as the return target, then transitions into this state.
     /// </summary>
     private void OnEnemyDamaged(HurtBox hurtBox)
     {
         _damagePosition = hurtBox.GlobalPosition;
+        if (StateMachine.CurrentState is not Stun)
+            NextState = StateMachine.CurrentState;
         StateMachine.ChangeState(this);
     }
 

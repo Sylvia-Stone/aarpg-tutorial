@@ -168,3 +168,10 @@ No behavior changes, just cleanup.
 
 ### Episode 21
 - **Naming:** I kept the structure from the tutorial but found the naming hard to follow, so changed the naming to make more sense to me. Also placed Persistence.cs in /Save as it's a save mechanism
+
+### Episode 22
+- **Domain ownership:** It felt wrong having `Chase.cs` own Goblin's vision and attack areas, so I pulled them into `IHasVision` and `IHasAttack` interfaces on Goblin instead. Slime gets its own empty `Slime : Enemy` class too, partly for domain clarity and partly because C# requires scene script
+  names to match exactly (case sensitive). [Docs](https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_basics.html#current-gotchas-and-known-issues)
+- **`Vector2` extension:** Added `ToRotationDegrees()` on `Vector2` since the direction to rotation conversion kept coming up.
+- **Bonus + Bugfixes:** Goblin now chases after getting hit even if the player wasn't in view, using a `StunFinished` signal. Also fixed Destroy not cleaning up properly when Chase interrupted it.
+ 

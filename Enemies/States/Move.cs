@@ -17,7 +17,7 @@ public partial class Move : EnemyState
     public State AnimationState = State.Walk;
 
     [Export]
-    public double WanderSpeed = 20.0;
+    public double Speed = 20.0;
 
     [ExportCategory("AI")]
     [Export]
@@ -55,7 +55,7 @@ public partial class Move : EnemyState
     {
         _timer = GD.RandRange(StateCyclesMin, StateCyclesMax) * StateAnimationDuration;
         _direction = Actor.CardinalDirections[GD.Randi() % Actor.CardinalDirections.Length];
-        Enemy.Velocity = _direction * (float)WanderSpeed;
+        Enemy.Velocity = _direction * (float)Speed;
         Enemy.SetDirection(_direction);
         Enemy.UpdateAnimation(AnimationState);
     }
