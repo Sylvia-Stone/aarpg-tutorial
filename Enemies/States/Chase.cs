@@ -1,13 +1,9 @@
-using System;
 using System.Linq;
-using AarpgTutorial.Combat;
-using AarpgTutorial.Common;
 using AarpgTutorial.Common.Enums;
 using AarpgTutorial.Common.Utilities;
 using AarpgTutorial.Enemies.Interfaces;
 using AarpgTutorial.Enemies.Scripts;
 using AarpgTutorial.PlayerCharacter.Managers;
-using AarpgTutorial.PlayerCharacter.Scripts;
 using Godot;
 
 namespace AarpgTutorial.Enemies.States;

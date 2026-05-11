@@ -1,5 +1,4 @@
 using AarpgTutorial.Common.Utilities;
-using AarpgTutorial.PlayerCharacter.Scripts;
 using Godot;
 
 namespace AarpgTutorial.PlayerCharacter.Managers;

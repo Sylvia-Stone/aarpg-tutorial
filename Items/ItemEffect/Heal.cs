@@ -1,6 +1,6 @@
 using AarpgTutorial.GUI.PauseMenu;
+using AarpgTutorial.PlayerCharacter.Managers;
 using Godot;
-using PlayerManager = AarpgTutorial.PlayerCharacter.Managers.PlayerManager;
 
 namespace AarpgTutorial.Items.ItemEffect;
 

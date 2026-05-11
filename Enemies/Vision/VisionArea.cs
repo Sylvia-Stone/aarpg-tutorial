@@ -1,7 +1,6 @@
 using AarpgTutorial.Common.Utilities;
-using AarpgTutorial.PlayerCharacter.Scripts;
+using AarpgTutorial.PlayerCharacter;
 using Godot;
-using Player = AarpgTutorial.PlayerCharacter.Player;
 
 namespace AarpgTutorial.Enemies.Scripts;
 

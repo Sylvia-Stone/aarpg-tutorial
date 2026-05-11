@@ -1,5 +1,4 @@
 using AarpgTutorial.GUI.PauseMenu.Inventory.Scripts;
-using AarpgTutorial.PlayerCharacter.Scripts;
 using Godot;
 
 namespace AarpgTutorial.PlayerCharacter.Managers;

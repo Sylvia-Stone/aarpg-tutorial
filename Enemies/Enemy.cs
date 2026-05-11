@@ -3,8 +3,8 @@ using AarpgTutorial.Common;
 using AarpgTutorial.Common.Utilities;
 using AarpgTutorial.Enemies.States;
 using AarpgTutorial.PlayerCharacter;
+using AarpgTutorial.PlayerCharacter.Managers;
 using Godot;
-using PlayerManager = AarpgTutorial.PlayerCharacter.Managers.PlayerManager;
 
 namespace AarpgTutorial.Enemies.Scripts;
 

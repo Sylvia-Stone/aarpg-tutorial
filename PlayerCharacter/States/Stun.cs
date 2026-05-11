@@ -1,7 +1,6 @@
 using AarpgTutorial.Combat;
 using AarpgTutorial.Common.Enums;
 using AarpgTutorial.Common.Utilities;
-using AarpgTutorial.PlayerCharacter.Scripts;
 using Godot;
 
 namespace AarpgTutorial.PlayerCharacter.States;

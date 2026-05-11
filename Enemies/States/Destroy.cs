@@ -3,9 +3,9 @@ using AarpgTutorial.Common.Enums;
 using AarpgTutorial.Common.Utilities;
 using AarpgTutorial.Enemies.Scripts;
 using AarpgTutorial.Items.ItemSpawn;
+using AarpgTutorial.Items.Scripts;
 using Godot;
 using Godot.Collections;
-using DropData = AarpgTutorial.Items.Scripts.DropData;
 
 namespace AarpgTutorial.Enemies.States;
 

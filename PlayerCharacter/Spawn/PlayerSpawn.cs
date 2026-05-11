@@ -1,5 +1,5 @@
+using AarpgTutorial.PlayerCharacter.Managers;
 using Godot;
-using PlayerManager = AarpgTutorial.PlayerCharacter.Managers.PlayerManager;
 
 namespace AarpgTutorial.Common;
 
